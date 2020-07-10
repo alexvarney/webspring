@@ -4,7 +4,7 @@ import { useHistory, useLocation } from "react-router-dom";
 
 import LockScreen from "./lock-screen";
 import UnlockScreen from "./unlock-screen";
-import { motion, useAnimation } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 import { StateContext, ActionTypes } from "../../hooks/useApplicationState";
 
@@ -33,15 +33,17 @@ export default function LockScreenIndex({ ...rest }) {
       exit={{ scale: 0, opacity: 0 }}
       key="motion-wrapper"
     >
-      {appState === "LOCKSCREEN.UNLOCK" && (
-        <UnlockScreen
-          onSuccess={() => {
-            console.log("unlocked");
-            dispatch({ type: ActionTypes.unlocked });
-            dispatch({ type: ActionTypes.setState, payload: "HOME" });
-          }}
-        />
-      )}
+      <AnimatePresence>
+        {appState === "LOCKSCREEN.UNLOCK" && (
+          <UnlockScreen
+            onSuccess={() => {
+              console.log("unlocked");
+              dispatch({ type: ActionTypes.unlocked });
+              dispatch({ type: ActionTypes.setState, payload: "HOME" });
+            }}
+          />
+        )}
+      </AnimatePresence>
 
       <LockScreen
         onSwipeUp={() => {

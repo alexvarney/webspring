@@ -116,6 +116,9 @@ const variants = {
   },
   hidden: {
     opacity: 0,
+    transition: {
+      delay: 0.3,
+    },
   },
 };
 

@@ -1,28 +1,38 @@
 import React from "react";
 import styled from "styled-components";
 import { StateContext, ActionTypes } from "../../hooks/useApplicationState";
+import PhoneRouter from "../phone-router";
+import LocationRouter from "../location-router";
 
 const PageContainer = styled.div`
   display: grid;
-  justify-content: center;
-  align-content: center;
-  min-height: 100vh;
-  grid-template-columns: auto;
+  grid-template-columns: minmax(275px, 35%) 1fr;
+  grid-template-rows: auto 1fr;
+  height: 100vh;
+  background-color: #fee140;
+  background-image: linear-gradient(90deg, #fee140 0%, #fa709a 100%);
+`;
+
+const DeviceOuterContainer = styled.div`
+  overflow: hidden;
+  align-self: center;
+  justify-self: center;
+
+  width: 95%;
+  max-width: 375px;
+  min-height: 300px;
+  height: 80vh;
+  max-height: 750px;
+  display: flex;
+  flex-direction: column;
+  border: 16px solid #000;
+  border-radius: 5px;
 `;
 
 const DeviceContainer = styled.div`
-  min-height: 300px;
-  height: 80vh;
-  max-height: 600px;
+  flex-grow: 1;
+  width: 100%;
 
-  min-width: calc(300px / 1.9);
-  width: calc(80vh / 1.7);
-  max-width: calc(600px / 1.7);
-  border: 16px solid #000;
-
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
-  box-sizing: content-box;
   background-color: #2e2e2e;
   overflow: hidden;
 
@@ -44,11 +54,10 @@ const HomeButtonContainer = styled.div`
 
   background-color: #000;
 
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;
   display: flex;
   justify-content: center;
-  padding-bottom: 10px;
+  padding: 16px 0 0 0;
+  grid-column: 1;
 `;
 
 const HomeButton = styled.button`
@@ -82,6 +91,23 @@ const HomeButton = styled.button`
   }
 `;
 
+const Header = styled.div`
+  padding: 16px 8px;
+  color: #fff;
+  background: rgba(75, 75, 75);
+  grid-column: span 2;
+  align-self: start;
+  display: flex;
+  align-items: center;
+`;
+
+const RightPanel = styled.div`
+  width: 100%;
+  height: 100%;
+  background-color: rgba(100, 100, 100, 0.5);
+  padding: 8px;
+`;
+
 function App({ children }) {
   const {
     state: { appState },
@@ -101,10 +127,18 @@ function App({ children }) {
 
   return (
     <PageContainer>
-      <DeviceContainer>{children}</DeviceContainer>
-      <HomeButtonContainer>
-        <HomeButton onClick={goHome} />
-      </HomeButtonContainer>
+      <Header>Mappedin Escape Room</Header>
+      <DeviceOuterContainer>
+        <DeviceContainer>
+          <PhoneRouter />
+        </DeviceContainer>
+        <HomeButtonContainer>
+          <HomeButton onClick={goHome} />
+        </HomeButtonContainer>
+      </DeviceOuterContainer>
+      <RightPanel>
+        <LocationRouter />
+      </RightPanel>
     </PageContainer>
   );
 }

@@ -68,14 +68,19 @@ const DotsContainer = styled(motion.div)`
 
 const PasscodeInputWrapper = styled.div`
   display: grid;
-  margin: 0 10%;
+  margin: 0 15%;
 
   grid-template-columns: auto auto auto;
   grid-auto-rows: 1fr;
   grid-row-gap: 5%;
   grid-column-gap: 10%;
 
-  @media (max-height: 650px) {
+  @media (max-height: 600px) {
+    margin: 0 33%;
+  }
+
+  @media (max-height: 750px) {
+    margin: 0 25%;
   }
 
   & > button {

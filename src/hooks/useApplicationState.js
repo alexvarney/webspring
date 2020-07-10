@@ -5,7 +5,7 @@ export const ActionTypes = {
   setState: "SET_STATE",
 };
 
-//States: ['MAP', 'LOCKSCREEN', 'LOCKSCREEN.UNLOCK', 'HOME']
+//States: ['MAP', 'LOCKSCREEN', 'LOCKSCREEN.UNLOCK', 'HOME', 'PLAYER']
 
 export const StateContext = React.createContext();
 

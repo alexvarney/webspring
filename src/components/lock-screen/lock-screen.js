@@ -65,7 +65,8 @@ const NotificationContainer = styled.div`
   margin-top: 32px;
 `;
 
-const NotificationWrapper = styled.div`
+const NotificationWrapper = styled.a`
+  display: block;
   background-color: rgba(0, 0, 0, 0.45);
   backdrop-filter: blur(2px);
   border-radius: 5px;
@@ -76,6 +77,13 @@ const NotificationWrapper = styled.div`
     margin-top: 8px;
   }
   font-size: 12px;
+
+  :link,
+  :visited,
+  :active {
+    color: unset;
+    text-decoration: none;
+  }
 `;
 
 const NotificationHeader = styled.div`
@@ -100,9 +108,9 @@ const NotificationText = styled.p`
   font-weight: 300;
 `;
 
-const Notification = ({ name, time, text }) => {
+const Notification = ({ name, time, text, href }) => {
   return (
-    <NotificationWrapper>
+    <NotificationWrapper href={href} target="_blank">
       <NotificationHeader>
         <FaPiedPiperSquare /> <p>{name}</p>{" "}
         <NotificationHeaderTimestamp>{time}</NotificationHeaderTimestamp>
@@ -143,14 +151,10 @@ export default function LockScreen({ onSwipeUp = () => 0 }) {
           <DateDisplay>Monday, July 6</DateDisplay>
           <NotificationContainer>
             <Notification
-              name="Example app"
+              name="519-555-0123"
               time="1m ago"
-              text="This is an example notification"
-            />
-            <Notification
-              name="Another App"
-              time="1h ago"
-              text="This is an example of a notification with a longer text descrption. Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, dolorum?"
+              text="Hello... is anyone there? Mappedin is under attack! We have clients around the world 🌏 depending on us! ('🦘'+'🐼'). The encrypted plan is on this device, we need to find the decryption key and save the day! Click here for a hint."
+              href="https://mappedin.com"
             />
           </NotificationContainer>
         </InnerContainer>

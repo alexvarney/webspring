@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { motion, useAnimation } from "framer-motion";
-
+import { StateContext, ActionTypes } from "../../hooks/useApplicationState";
 import StatusBar from "../ui/statusbar";
 import { IoMdLock, IoMdUnlock } from "react-icons/io";
 import { FaRegCircle, FaCircle } from "react-icons/fa";
@@ -14,6 +14,7 @@ const Wrapper = styled(motion.div)`
   z-index: 1;
   color: #fff;
   opacity: 0;
+  position: relative;
 `;
 
 export const LockStatusContainer = styled.div`
@@ -47,7 +48,7 @@ const LockSmallText = styled(LockBigText)`
 
 const DotsContainer = styled(motion.div)`
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
 
   width: 66%;
   height: 16px;
@@ -110,6 +111,16 @@ const PasscodeInputWrapper = styled.div`
   }
 `;
 
+const CancelButton = styled.button`
+  color: #fff;
+  position: absolute;
+  bottom: 24px;
+  right: 24px;
+  background-color: transparent;
+  outline: none;
+  border: none;
+`;
+
 const variants = {
   visible: {
     opacity: 1,
@@ -124,10 +135,12 @@ const variants = {
 
 export default function Component({
   onSuccess = () => null,
-  passcode = "00000",
+  passcode = "7738",
 }) {
   const [inputValue, setInputValue] = useState("");
   const [isUnlocked, setIsUnlocked] = useState(false);
+
+  const { dispatch } = React.useContext(StateContext);
 
   const handlePasscodeInput = (event, char) => {
     event.stopPropagation();
@@ -135,7 +148,7 @@ export default function Component({
     console.log("called");
 
     setInputValue((prevVal) => {
-      if (prevVal.length < 5) {
+      if (prevVal.length < passcode.length) {
         const newValue = prevVal + char.toString();
         return newValue;
       } else {
@@ -148,7 +161,7 @@ export default function Component({
 
   useEffect(() => {
     console.log(inputValue);
-    if (inputValue.length === 5) {
+    if (inputValue.length === passcode.length) {
       if (inputValue === passcode) {
         setIsUnlocked(true);
         dotAnimation.start({
@@ -190,7 +203,6 @@ export default function Component({
         <div>{inputValue.length >= 2 ? <FaCircle /> : <FaRegCircle />}</div>
         <div>{inputValue.length >= 3 ? <FaCircle /> : <FaRegCircle />}</div>
         <div>{inputValue.length >= 4 ? <FaCircle /> : <FaRegCircle />}</div>
-        <div>{inputValue.length >= 5 ? <FaCircle /> : <FaRegCircle />}</div>
       </DotsContainer>
       <PasscodeInputWrapper>
         <div
@@ -210,6 +222,13 @@ export default function Component({
           </button>
         ))}
       </PasscodeInputWrapper>
+      <CancelButton
+        onClick={() => {
+          dispatch({ type: ActionTypes.setState, payload: "LOCKSCREEN" });
+        }}
+      >
+        Cancel
+      </CancelButton>
     </Wrapper>
   );
 }

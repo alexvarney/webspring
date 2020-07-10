@@ -12,7 +12,7 @@ export const StateContext = React.createContext();
 const useApplicationState = () => {
   const initialState = {
     unlocked: false,
-    appState: "LOCKSCREEN",
+    appState: "LOCKSCREEN.UNLOCK",
   };
 
   const reducer = (state, action) => {

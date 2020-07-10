@@ -4,27 +4,7 @@ import { IoMdLock, IoMdUnlock } from "react-icons/io";
 import { FaPiedPiperSquare } from "react-icons/fa";
 import { motion } from "framer-motion";
 
-const Container = styled(motion.div)`
-  min-height: 300px;
-  height: 80vh;
-  max-height: 600px;
-
-  min-width: calc(300px / 2.165);
-  width: calc(80vh / 2.165);
-  max-width: calc(600px / 2.165);
-  border: 16px solid #000;
-
-  border-radius: 5px;
-  box-sizing: content-box;
-  background-color: #2e2e2e;
-  overflow: hidden;
-
-  & > * {
-    width: 100%;
-    height: 100%;
-    box-sizing: border-box;
-  }
-`;
+import StatusBar from "../ui/statusbar";
 
 const ScreenContainer = styled(motion.div)`
   background: linear-gradient(0deg, #d53369 0%, #daae51 100%);
@@ -47,14 +27,6 @@ const ScreenContainer = styled(motion.div)`
     border: 2px solid white;
     border-radius: 2px;
   }
-`;
-
-const StatusBar = styled.div`
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-
-  font-size: 12px;
 `;
 
 const Clock = styled.p`
@@ -136,41 +108,47 @@ const Notification = ({ name, time, text }) => {
   );
 };
 
-export default function LockScreen(props) {
+export default function LockScreen({ onSwipeUp = () => 0 }) {
   const constraintsRef = React.useRef(null);
 
+  const dragHandler = (event, info) => {
+    if (info.point.y < -30) {
+      onSwipeUp();
+    }
+  };
+
   return (
-    <Container>
-      <motion.div ref={constraintsRef}>
-        <ScreenContainer
-          drag="y"
-          dragConstraints={constraintsRef}
-          dragElastic={0.15}
-          onDrag={(event, info) => console.log(info.point.x, info.point.y)}
-        >
-          <StatusBar>
-            <p>webspring</p>
-            <p>10:34</p>
-          </StatusBar>
-          <LockStatusContainer>
-            <IoMdLock /> <p>Swipe up to unlock</p>
-          </LockStatusContainer>
-          <Clock>10:34</Clock>
-          <DateDisplay>Monday, July 6</DateDisplay>
-          <NotificationContainer>
-            <Notification
-              name="Example app"
-              time="1m ago"
-              text="This is an example notification"
-            />
-            <Notification
-              name="Another App"
-              time="1h ago"
-              text="This is an example of a notification with a longer text descrption. Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, dolorum?"
-            />
-          </NotificationContainer>
-        </ScreenContainer>
-      </motion.div>
-    </Container>
+    <motion.div
+      ref={constraintsRef}
+      exit={{ opacity: 0 }}
+      initial={{ opacity: 1 }}
+      animate={{ opacity: 1 }}
+    >
+      <ScreenContainer
+        drag="y"
+        dragConstraints={constraintsRef}
+        dragElastic={0.15}
+        onDrag={dragHandler}
+      >
+        <StatusBar />
+        <LockStatusContainer>
+          <IoMdLock /> <p>Swipe up to unlock</p>
+        </LockStatusContainer>
+        <Clock>10:34</Clock>
+        <DateDisplay>Monday, July 6</DateDisplay>
+        <NotificationContainer>
+          <Notification
+            name="Example app"
+            time="1m ago"
+            text="This is an example notification"
+          />
+          <Notification
+            name="Another App"
+            time="1h ago"
+            text="This is an example of a notification with a longer text descrption. Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, dolorum?"
+          />
+        </NotificationContainer>
+      </ScreenContainer>
+    </motion.div>
   );
 }

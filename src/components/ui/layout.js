@@ -1,8 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import useApplicationState, { StateContext } from "./hooks/useApplicationState";
-import Routes from "./components/routes";
-import Layout from "./components/ui/layout";
+import { StateContext, ActionTypes } from "../../hooks/useApplicationState";
 
 const PageContainer = styled.div`
   display: grid;
@@ -84,15 +82,23 @@ const HomeButton = styled.button`
   }
 `;
 
-function App() {
-  const applicationState = useApplicationState();
+function App({ children }) {
+  const {
+    state: { appState },
+    dispatch,
+  } = React.useContext(StateContext);
 
   return (
-    <StateContext.Provider value={applicationState}>
-      <Layout>
-        <Routes />
-      </Layout>
-    </StateContext.Provider>
+    <PageContainer>
+      <DeviceContainer>{children}</DeviceContainer>
+      <HomeButtonContainer>
+        <HomeButton
+          onClick={() =>
+            dispatch({ type: ActionTypes.setState, payload: "HOME" })
+          }
+        />
+      </HomeButtonContainer>
+    </PageContainer>
   );
 }
 

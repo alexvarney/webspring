@@ -46,6 +46,11 @@ export default function HomeScreen(props) {
           appState="LOCKSCREEN"
           label="Lock Device"
         />
+        <AppIcon
+          src="https://a.slack-edge.com/80588/marketing/img/meta/slack_hash_256.png"
+          appState="SLACK"
+          label="Slack"
+        />
       </AppGrid>
     </Container>
   );

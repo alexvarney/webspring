@@ -1,11 +1,26 @@
 import React from "react";
 import styled from "styled-components";
-const Container = styled.div`
+import StatusBar from "./ui/statusbar";
+const Container = styled.a`
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  background-color: rgb(237, 237, 237);
+  & > img {
+    max-width: 100%;
+    object-fit: contain;
+  }
+`;
+const StyledStatusBar = styled(StatusBar)`
+  position: absolute;
+  top: 0;
 `;
 export default function SlackView(props) {
   return (
-    <Container>
-    	<img src={process.env.PUBLIC_URL + '/office/sphinx.png'}/>
+    <Container target="_blank" href="slack://team=T024SHDN6">
+      <StyledStatusBar />
+      <img src={process.env.PUBLIC_URL + "/office/sphinx.png"} />
     </Container>
   );
 }

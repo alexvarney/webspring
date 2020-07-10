@@ -7,7 +7,7 @@ const Container = styled.div`
   flex-direction: column;
   max-width: 100%;
   align-items: center;
-
+  position: relative;
   max-width: 100%;
   min-height: 0;
   overflow: hidden;
@@ -27,9 +27,21 @@ const Container = styled.div`
     font-size: 12px;
     margin-top: 10%;
   }
+
+  & > .badge {
+    position: absolute;
+    top: 0;
+    right: 15%;
+    color: #FFF;
+    background-color: red;
+    border-radius: 50%;
+    padding: 4px 5px;
+    border: 2px solid #FFF;
+    font-size: 8px;
+  }
 `;
 
-export default function AppIcon({ src, appState, label }) {
+export default function AppIcon({ src, appState, label, notificationNumber }) {
   const { dispatch } = React.useContext(StateContext);
 
   return (
@@ -40,6 +52,7 @@ export default function AppIcon({ src, appState, label }) {
     >
       <img src={src} />
       <p>{label}</p>
+      { notificationNumber &&  <div className="badge">{notificationNumber}</div> }
     </Container>
   );
 }

@@ -50,6 +50,7 @@ export default function HomeScreen(props) {
           src="https://a.slack-edge.com/80588/marketing/img/meta/slack_hash_256.png"
           appState="SLACK"
           label="Slack"
+          notificationNumber="1"
         />
       </AppGrid>
     </Container>

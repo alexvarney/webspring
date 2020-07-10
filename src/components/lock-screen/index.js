@@ -21,9 +21,10 @@ const MotionWrapper = styled(motion.div)`
 `;
 
 export default function LockScreenIndex({ ...rest }) {
-  const { state, dispatch } = useContext(StateContext);
-
-  const [showUnlockScreen, setShowUnlockScreen] = useState(false);
+  const {
+    state: { appState },
+    dispatch,
+  } = useContext(StateContext);
 
   return (
     <MotionWrapper
@@ -32,7 +33,7 @@ export default function LockScreenIndex({ ...rest }) {
       exit={{ scale: 0, opacity: 0 }}
       key="motion-wrapper"
     >
-      {showUnlockScreen && (
+      {appState === "LOCKSCREEN.UNLOCK" && (
         <UnlockScreen
           onSuccess={() => {
             console.log("unlocked");
@@ -42,7 +43,14 @@ export default function LockScreenIndex({ ...rest }) {
         />
       )}
 
-      <LockScreen onSwipeUp={() => setShowUnlockScreen(true)} />
+      <LockScreen
+        onSwipeUp={() => {
+          dispatch({
+            type: ActionTypes.setState,
+            payload: "LOCKSCREEN.UNLOCK",
+          });
+        }}
+      />
     </MotionWrapper>
   );
 }

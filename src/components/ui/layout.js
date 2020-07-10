@@ -88,15 +88,22 @@ function App({ children }) {
     dispatch,
   } = React.useContext(StateContext);
 
+  const goHome = () => {
+    const destination =
+      appState === "LOCKSCREEN"
+        ? "LOCKSCREEN.UNLOCK"
+        : appState === "LOCKSCREEN.UNLOCK"
+        ? "LOCKSCREEN"
+        : "HOME";
+
+    dispatch({ type: ActionTypes.setState, payload: destination });
+  };
+
   return (
     <PageContainer>
       <DeviceContainer>{children}</DeviceContainer>
       <HomeButtonContainer>
-        <HomeButton
-          onClick={() =>
-            dispatch({ type: ActionTypes.setState, payload: "HOME" })
-          }
-        />
+        <HomeButton onClick={goHome} />
       </HomeButtonContainer>
     </PageContainer>
   );

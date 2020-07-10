@@ -5,14 +5,14 @@ export const ActionTypes = {
   setState: "SET_STATE",
 };
 
-//States: ['MAP', 'LOCKED', 'HOME']
+//States: ['MAP', 'LOCKSCREEN', 'LOCKSCREEN.UNLOCK', 'HOME']
 
 export const StateContext = React.createContext();
 
 const useApplicationState = () => {
   const initialState = {
-    unlocked: true,
-    appState: "LOCKED",
+    unlocked: false,
+    appState: "LOCKSCREEN",
   };
 
   const reducer = (state, action) => {

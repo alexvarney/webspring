@@ -43,7 +43,7 @@ export default function HomeScreen(props) {
         />
         <AppIcon
           src="http://placekitten.com/g/200/200"
-          appState="LOCKED"
+          appState="LOCKSCREEN"
           label="Lock Device"
         />
       </AppGrid>

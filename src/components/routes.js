@@ -22,7 +22,9 @@ export default function Routes() {
         {appState === "MAP" && <MapView key="map-view-outer" />}
       </AnimatePresence>
       <AnimatePresence>
-        {appState === "LOCKED" && <LockScreen key="lock-screen-outer" />}
+        {(appState === "LOCKSCREEN" || appState === "LOCKSCREEN.UNLOCK") && (
+          <LockScreen key="lock-screen-outer" />
+        )}
       </AnimatePresence>
     </>
   );

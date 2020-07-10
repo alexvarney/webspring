@@ -6,14 +6,12 @@ import { motion } from "framer-motion";
 
 import StatusBar from "../ui/statusbar";
 
-const ScreenContainer = styled(motion.div)`
+const OuterContainer = styled(motion.div)`
   background: linear-gradient(0deg, #d53369 0%, #daae51 100%);
   color: #fff;
 
   width: 100%;
   height: 100%;
-
-  padding: 8px;
 
   user-select: none;
 
@@ -27,6 +25,12 @@ const ScreenContainer = styled(motion.div)`
     border: 2px solid white;
     border-radius: 2px;
   }
+`;
+
+const InnerContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  padding: 8px;
 `;
 
 const Clock = styled.p`
@@ -124,31 +128,33 @@ export default function LockScreen({ onSwipeUp = () => 0 }) {
       initial={{ opacity: 1 }}
       animate={{ opacity: 1 }}
     >
-      <ScreenContainer
+      <OuterContainer
         drag="y"
         dragConstraints={constraintsRef}
         dragElastic={0.15}
         onDrag={dragHandler}
       >
         <StatusBar />
-        <LockStatusContainer>
-          <IoMdLock /> <p>Swipe up to unlock</p>
-        </LockStatusContainer>
-        <Clock>10:34</Clock>
-        <DateDisplay>Monday, July 6</DateDisplay>
-        <NotificationContainer>
-          <Notification
-            name="Example app"
-            time="1m ago"
-            text="This is an example notification"
-          />
-          <Notification
-            name="Another App"
-            time="1h ago"
-            text="This is an example of a notification with a longer text descrption. Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, dolorum?"
-          />
-        </NotificationContainer>
-      </ScreenContainer>
+        <InnerContainer>
+          <LockStatusContainer>
+            <IoMdLock /> <p>Swipe up to unlock</p>
+          </LockStatusContainer>
+          <Clock>10:34</Clock>
+          <DateDisplay>Monday, July 6</DateDisplay>
+          <NotificationContainer>
+            <Notification
+              name="Example app"
+              time="1m ago"
+              text="This is an example notification"
+            />
+            <Notification
+              name="Another App"
+              time="1h ago"
+              text="This is an example of a notification with a longer text descrption. Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, dolorum?"
+            />
+          </NotificationContainer>
+        </InnerContainer>
+      </OuterContainer>
     </motion.div>
   );
 }

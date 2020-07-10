@@ -15,9 +15,9 @@ const DeviceContainer = styled.div`
   height: 80vh;
   max-height: 600px;
 
-  min-width: calc(300px / 2.165);
-  width: calc(80vh / 2.165);
-  max-width: calc(600px / 2.165);
+  min-width: calc(300px / 1.9);
+  width: calc(80vh / 1.7);
+  max-width: calc(600px / 1.7);
   border: 16px solid #000;
 
   border-top-left-radius: 5px;

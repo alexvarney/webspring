@@ -12,7 +12,6 @@ const Wrapper = styled(motion.div)`
   background-color: rgba(127, 208, 248, 0.5);
   backdrop-filter: blur(8px) contrast(1.5) brightness(0.6);
   z-index: 1;
-  padding: 8px;
   color: #fff;
   opacity: 0;
 `;
@@ -29,6 +28,11 @@ export const LockStatusContainer = styled.div`
     margin: 0px 4px;
   }
   font-size: 32px;
+
+  @media (max-height: 650px) {
+    margin: 0px auto 8px auto;
+    max-width: 100%;
+  }
 `;
 
 const LockBigText = styled.p`
@@ -48,11 +52,16 @@ const DotsContainer = styled(motion.div)`
   width: 66%;
   height: 16px;
   margin: 0 auto 32px auto;
+  font-size: 14px;
 
   & > div {
     display: flex;
     justify-content: center;
-    font-size: 14px;
+  }
+
+  @media (max-height: 650px) {
+    font-size: 9px;
+    margin-bottom: 2.5vh;
   }
 `;
 
@@ -64,6 +73,9 @@ const PasscodeInputWrapper = styled.div`
   grid-auto-rows: 1fr;
   grid-row-gap: 5%;
   grid-column-gap: 10%;
+
+  @media (max-height: 650px) {
+  }
 
   & > button {
     background-color: transparent;

@@ -5,6 +5,8 @@ export const ActionTypes = {
   setState: "SET_STATE",
 };
 
+//States: ['MAP', 'LOCKED', 'HOME']
+
 export const StateContext = React.createContext();
 
 const useApplicationState = () => {

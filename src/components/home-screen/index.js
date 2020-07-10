@@ -7,7 +7,7 @@ import Layout from "../ui/layout";
 
 const Container = styled(motion.div)`
   height: 100%;
-  padding: 8px;
+
   color: #fff;
   background: rgb(50, 50, 50);
   display: flex;
@@ -19,7 +19,7 @@ const AppGrid = styled.div`
   flex: 0 1 100%;
   max-width: 100%;
 
-  margin-top: 16px;
+  padding: 16px 8px;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-auto-rows: min-content;

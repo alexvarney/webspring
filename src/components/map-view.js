@@ -3,15 +3,33 @@ import styled from "styled-components";
 import Mappedin from "@mappedin/mappedin-js/builds/mappedin";
 import { motion } from "framer-motion";
 import Transitions from "./ui/transitions";
+import StatusBar from "./ui/statusbar";
 
 const Wrapper = styled(motion.div)`
   width: 100%;
   height: 100%;
   background: #fff;
+  position: relative;
 
   z-index: 1;
   padding: 0px;
   color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+
+  & > *:nth-child(2) {
+    height: 99%;
+  }
+`;
+
+const StyledStatusBar = styled(StatusBar)`
+  position: absolute;
+  top: 0;
+  background-color: rgb(40, 40, 40);
+  border-bottom: 1px solid rgb(100, 100, 100);
+  box-shadow: 2px 0px 4px rgba(40, 40, 40, 0.75);
+  color: white;
 `;
 
 export default function MapView() {
@@ -27,8 +45,8 @@ export default function MapView() {
       onDataLoaded: () => console.log("data loaded"),
     },
     venue: {
-      clientId: "",
-      clientSecret: "",
+      clientId: "5f07615491b055001a68e9b6",
+      clientSecret: "WRWJ6CABIJOTEVJY9NdS9DrdqZMeDA98m3CZrUrZBJ03c91c",
       perspective: "Website", //pick the perspective you would like to load
       things: {
         //fetch some data
@@ -61,10 +79,11 @@ export default function MapView() {
       initial={{ scale: 0, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
       exit={{ scale: 0, opacity: 0 }}
-      style={{ height: "100%" }}
+      style={{ height: "100%", maxHeight: "100%", overflow: "Hidden" }}
       key="map-container"
     >
-      <div style={{ height: "100%", maxHeight: "100%" }} ref={wrapperRef} />
+      <StyledStatusBar />
+      <div style={{ height: "99%" }} ref={wrapperRef} />
     </Wrapper>
   );
 }

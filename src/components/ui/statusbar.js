@@ -6,13 +6,19 @@ const StatusBarWrapper = styled.div`
   justify-content: space-between;
   width: 100%;
   color: #fff;
+  background-color: transparent;
   font-size: 12px;
   user-select: none;
+  padding: 8px;
 `;
 
-const StatusBar = (props) => {
+const StatusBar = ({ textColor, backgroundColor, className }) => {
   return (
-    <StatusBarWrapper>
+    <StatusBarWrapper
+      className={className}
+      textColor={textColor}
+      backgroundColor={backgroundColor}
+    >
       <p>webspring</p>
       <p>10:34</p>
     </StatusBarWrapper>

@@ -37,6 +37,8 @@ export default function MapView() {
 
   const wrapperRef = React.useRef(null);
   const [mapView, setMapView] = React.useState(null);
+  const [shownPassword, setShownPassword] = React.useState("")
+  const [isSecurityCodeVisible, setIsSecurityCodeVisible] = React.useState(false)
 
   const options = {
     mapview: {
@@ -57,13 +59,31 @@ export default function MapView() {
     },
   };
 
+  var currentPosition = -1;
+  const order = {
+    "5b183b8b97e36622e200000b": 0, //ptolemy
+    "5b183b8b97e36622e2000013": 1, //mercator
+    "5b183b8b97e36622e2000008": 2, //davinci
+    "5b183b8b97e36622e2000014": 3, //tom
+    "5b183b8b97e36622e2000011": 4, //massey
+    "5b183b8b97e36622e2000012": 5 //ortelius
+  }
+
+  const hongOffice = "5b183b8b97e36622e2000010"
+
+  const pass = "034611"; //TODO hide this somehow
+
   React.useEffect(() => {
     Mappedin.initialize(options, wrapperRef.current).then((data) => {
       if (data?.mapview) {
         data.mapview.addInteractivePolygonsForAllLocations();
 
-        data.mapview.onPolygonClicked = (data) =>
-          console.log("polygon clicked", data);
+        data.mapview.onPolygonClicked = (polygonId) => {
+          var clickedPosition = order[polygonId];
+          currentPosition = (clickedPosition - currentPosition == 1) ? clickedPosition : -1
+          setShownPassword(pass.slice(0, currentPosition + 1))
+          setIsSecurityCodeVisible(polygonId == hongOffice)
+        }
 
         setMapView(data.mapview);
       }
@@ -73,6 +93,10 @@ export default function MapView() {
   React.useEffect(() => {
     console.log(mapView);
   }, [mapView]);
+
+  React.useEffect(() => {
+    console.log(shownPassword);
+  }, [shownPassword]);
 
   return (
     <Wrapper
@@ -84,6 +108,17 @@ export default function MapView() {
     >
       <StyledStatusBar />
       <div style={{ height: "99%" }} ref={wrapperRef} />
+
+      <h2 style={{color: "black", position: "absolute", top: "50px", width: "100%", "textAlign": "center"}}>
+        {(shownPassword.length == 6) && "First Code:"} {shownPassword}
+      </h2>
+
+      { isSecurityCodeVisible && 
+        <div style={{color: "black", position: "absolute", top: "50px", width: "300px", "textAlign": "center"}}>
+          <p>Enter Code: </p> <br/>
+          <input type="text" /> 
+        </div>
+      }
     </Wrapper>
   );
 }

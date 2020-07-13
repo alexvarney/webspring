@@ -18,7 +18,10 @@ const StyledStatusBar = styled(StatusBar)`
 `;
 export default function SlackView(props) {
   return (
-    <Container target="_blank" href="slack://team=T024SHDN6">
+    <Container
+      target="_blank"
+      href="slack://channel?hint=ask-bot-for-riddle&team=T024SHDN6&id=G75G7NB53"
+    >
       <StyledStatusBar />
       <img src={process.env.PUBLIC_URL + "/office/sphinx.png"} />
     </Container>

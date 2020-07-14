@@ -109,7 +109,15 @@ export default function MapScreen() {
         ""
       );
 
-      ReactDOM.render(<TestComponent message="test" />, marker.div);
+      ReactDOM.render(
+        <TestComponent
+          message="test"
+          onClose={() => {
+            sdkData.mapview.removeAllMarkers();
+          }}
+        />,
+        marker.div
+      );
     },
     [sdkData]
   );

@@ -10,12 +10,13 @@ const Container = styled.p`
   max-width: 60%;
 `;
 
-export default function TestMarker(props) {
+export default function TestMarker({ message, onClose }) {
   console.log(React.useContext(StateContext));
 
   return (
     <Container>
-      This is a React Component. Message prop is {props.message}!
+      <button onClick={onClose}>Close</button>
+      This is a React Component. Message prop is {message}!
     </Container>
   );
 }

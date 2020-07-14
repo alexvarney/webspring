@@ -1,4 +1,5 @@
 import React from "react";
+import ReactDOM from "react-dom";
 import styled from "styled-components";
 import Mappedin from "@mappedin/mappedin-js/builds/mappedin";
 import { motion } from "framer-motion";
@@ -6,6 +7,7 @@ import StatusBar from "../ui/statusbar";
 import Keys from "../../keys";
 import Spinner from "../ui/spinner";
 import MappedinMap from "./MappedinMapview";
+import TestComponent from "./TestComponent";
 
 const Wrapper = styled(motion.div)`
   width: 100%;
@@ -63,6 +65,8 @@ const InterfaceContainer = styled.div`
   padding: 4px;
   background-color: #1f4e6e;
   align-self: end;
+  display: flex;
+  align-items: center;
 `;
 
 export default function MapScreen() {
@@ -88,7 +92,7 @@ export default function MapScreen() {
         venue: ["slug", "name"],
         maps: ["name", "elevation", "shortName"],
       },
-      venue: "410-albert",
+      venue: "toronto-eaton-centre",
     },
   };
 
@@ -97,6 +101,15 @@ export default function MapScreen() {
       console.log(polygonId);
 
       sdkData.mapview.setPolygonColor(polygonId, 0xff0000);
+
+      const marker = sdkData.mapview.createMarker(
+        "<div>React stuff here?</div>",
+        sdkData.mapview.getPositionPolygon(polygonId),
+        selectedMap,
+        ""
+      );
+
+      ReactDOM.render(<TestComponent message="test" />, marker.div);
     },
     [sdkData]
   );
@@ -138,24 +151,24 @@ export default function MapScreen() {
           <Spinner />
         </LoadingScreen>
       )}
+
       <InterfaceContainer>
-        <InterfaceContainer>
-          <Row>
-            <p>Floor: </p>
-            <select
-              key={selectedMap}
-              value={selectedMap}
-              onChange={onLevelChange}
-            >
-              {levels?.map((level) => (
-                <option value={level.id} key={level.id}>
-                  {level.shortName}
-                </option>
-              ))}
-            </select>
-          </Row>
-        </InterfaceContainer>
+        <Row>
+          <p>Floor: </p>
+          <select
+            key={selectedMap}
+            value={selectedMap}
+            onChange={onLevelChange}
+          >
+            {levels?.map((level) => (
+              <option value={level.id} key={level.id}>
+                {level.shortName}
+              </option>
+            ))}
+          </select>
+        </Row>
       </InterfaceContainer>
+
       <MappedinMap
         selectedMap={selectedMap}
         options={options}

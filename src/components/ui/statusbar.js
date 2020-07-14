@@ -13,6 +13,21 @@ const StatusBarWrapper = styled.div`
 `;
 
 const StatusBar = ({ textColor, backgroundColor, className }) => {
+  const [time, setTime] = React.useState(
+    `${new Date().getHours()}:${new Date().getMinutes()}`
+  );
+
+  React.useEffect(() => {
+    setInterval(
+      () => {
+        const d = new Date();
+        setTime(`${d.getHours()}:${d.getMinutes()}`);
+      },
+      1000,
+      true
+    );
+  }, []);
+
   return (
     <StatusBarWrapper
       className={className}
@@ -20,7 +35,7 @@ const StatusBar = ({ textColor, backgroundColor, className }) => {
       backgroundColor={backgroundColor}
     >
       <p>webspring</p>
-      <p>10:34</p>
+      <p>{time}</p>
     </StatusBarWrapper>
   );
 };

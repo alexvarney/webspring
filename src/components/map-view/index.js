@@ -79,6 +79,44 @@ export default function MapScreen() {
   const [selectedLocation, setSelectedLocation] = React.useState(null);
   const [navigationNodes, setNavigationNodes] = React.useState([]);
 
+  const options = {
+    mapview: {
+      antialias: "AUTO", //auto apply antialiasing
+      mode: Mappedin.modes.TEST, //automatically test for 3d or 2d mode
+      onDataLoaded: () => console.log("data loaded"),
+      onFirstMapLoaded: () => {
+        setFullyLoaded(true);
+        console.log("fully loaded");
+      },
+    },
+    venue: {
+      ...Keys,
+      perspective: "Website", //pick the perspective you would like to load
+      things: {
+        //fetch some data
+        venue: ["slug", "name"],
+        maps: ["name", "elevation", "shortName"],
+      },
+      venue: "410-albert",
+    },
+  };
+
+  const levels = sdkData?.mapview?.venue?.maps.sort(
+    (a, b) => b.elevation - a.elevation
+  );
+
+  const locations = sdkData?.mapview.venue.locations.sort((a, b) =>
+    a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1
+  );
+
+  const loadingCallback = (data) => {
+    setSdkData(data);
+    setSelectedMap(data.mapview.currentMap);
+
+    data.mapview.addInteractivePolygonsForAllLocations();
+    data.mapview.labelAllLocations();
+  };
+
   const addNavigationNode = (node) => {
     const { mapview: mapView } = sdkData;
 
@@ -119,28 +157,6 @@ export default function MapScreen() {
     });
   };
 
-  const options = {
-    mapview: {
-      antialias: "AUTO", //auto apply antialiasing
-      mode: Mappedin.modes.TEST, //automatically test for 3d or 2d mode
-      onDataLoaded: () => console.log("data loaded"),
-      onFirstMapLoaded: () => {
-        setFullyLoaded(true);
-        console.log("fully loaded");
-      },
-    },
-    venue: {
-      ...Keys,
-      perspective: "Website", //pick the perspective you would like to load
-      things: {
-        //fetch some data
-        venue: ["slug", "name"],
-        maps: ["name", "elevation", "shortName"],
-      },
-      venue: "410-albert",
-    },
-  };
-
   const onPolygonClicked = React.useCallback(
     (polygonId) => {
       const location = sdkData.mapview.venue.locations.find((location) =>
@@ -174,29 +190,12 @@ export default function MapScreen() {
     [sdkData, selectedMap]
   );
 
-  const loadingCallback = (data) => {
-    setSdkData(data);
-    setSelectedMap(data.mapview.currentMap);
-
-    data.mapview.addInteractivePolygonsForAllLocations();
-    data.mapview.labelAllLocations();
-  };
-
   //Avoid a stale closure by wrapping the function assignment in a useEffect and callback function in useCallback
-
   React.useEffect(() => {
     if (sdkData && sdkData.mapview) {
       sdkData.mapview.onPolygonClicked = onPolygonClicked;
     }
   }, [sdkData, onPolygonClicked]);
-
-  const levels = sdkData?.mapview?.venue?.maps.sort(
-    (a, b) => b.elevation - a.elevation
-  );
-
-  const locations = sdkData?.mapview.venue.locations.sort((a, b) =>
-    a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1
-  );
 
   const onLevelChange = (e) => {
     setSelectedMap(e.target.value);

@@ -2,8 +2,8 @@ import React from "react";
 
 import LockScreen from "./lock-screen";
 import HomeScreen from "./home-screen";
-import MapView from "./map-view";
-import SlackView from "./slack-view"
+import MapView from "./map-view/";
+import SlackView from "./slack-view";
 import Player from "./player";
 import { AnimatePresence } from "framer-motion";
 import { StateContext } from "../hooks/useApplicationState";
@@ -31,7 +31,7 @@ export default function Routes() {
           <LockScreen key="lock-screen-outer" />
         )}
       </AnimatePresence>
-      {appState === "SLACK" && <SlackView/>}
+      {appState === "SLACK" && <SlackView />}
     </>
   );
 }

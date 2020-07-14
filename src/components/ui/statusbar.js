@@ -21,8 +21,6 @@ const StatusBar = ({ textColor, backgroundColor, className }) => {
     h = h < 10 ? `0${h}` : h;
     m = m < 10 ? `0${m}` : m;
 
-    console.log(m, m.toString().length);
-
     return `${h}:${m}`;
   };
 

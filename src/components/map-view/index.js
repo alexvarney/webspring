@@ -92,14 +92,14 @@ export default function MapScreen() {
         venue: ["slug", "name"],
         maps: ["name", "elevation", "shortName"],
       },
-      venue: "toronto-eaton-centre",
+      venue: "410-albert",
     },
   };
 
   const onPolygonClicked = React.useCallback(
     (polygonId) => {
-      console.log(polygonId);
-
+      console.log(polygonId, sdkData.mapview);
+      sdkData.mapview.removeAllMarkers();
       sdkData.mapview.setPolygonColor(polygonId, 0xff0000);
 
       const marker = sdkData.mapview.createMarker(
@@ -109,9 +109,15 @@ export default function MapScreen() {
         ""
       );
 
+      const location = sdkData.mapview.venue.locations.find((location) =>
+        location.polygons.some((polygon) => polygon.id === polygonId)
+      );
+
+      console.log(location);
+
       ReactDOM.render(
         <TestComponent
-          message="test"
+          message={location?.name}
           onClose={() => {
             sdkData.mapview.removeAllMarkers();
           }}

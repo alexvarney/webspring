@@ -43,7 +43,7 @@ const LoadingScreen = styled.div`
   justify-content: center;
   width: 100%;
   height: 100%;
-  background-color: #1f4e6e;
+  background-color: #bf4320;
   z-index: 100;
 `;
 
@@ -61,11 +61,14 @@ const InterfaceContainer = styled.div`
   height: 10%;
   max-height: 10%;
   width: 100%;
+  max-width: 100%;
+  overflow: hidden;
   z-index: 10;
   padding: 4px;
   background-color: #1f4e6e;
   align-self: end;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
 `;
 
@@ -73,6 +76,48 @@ export default function MapScreen() {
   const [isFullyLoaded, setFullyLoaded] = React.useState(false);
   const [selectedMap, setSelectedMap] = React.useState(null);
   const [sdkData, setSdkData] = React.useState(null);
+  const [selectedLocation, setSelectedLocation] = React.useState(null);
+  const [navigationNodes, setNavigationNodes] = React.useState([]);
+
+  const addNavigationNode = (node) => {
+    const { mapview: mapView } = sdkData;
+
+    setNavigationNodes((prevVal) => {
+      if (prevVal[0]) {
+        prevVal[0].directionsTo(
+          node,
+          { accessible: false, directionsProvider: "offline" },
+          function (error, directions) {
+            if (error || directions.path.length == 0) {
+              // Some kind of network error, or those two points aren't connected, or are invalid
+              return;
+            }
+
+            mapView.clearAllPolygonColors();
+
+            if (node?.polygons) {
+              mapView.setPolygonColor(node.polygons[0], 0xbf4320);
+            }
+
+            if (prevVal[0].polygons) {
+              mapView.setPolygonColor(prevVal[0].polygons[0], 0xbf4320);
+            }
+            mapView.removeAllPaths();
+            mapView.drawPath(directions.path);
+            mapView.focusOnPath(
+              directions.path,
+              [node, prevVal[0]],
+              true,
+              2000
+            );
+          }
+        );
+
+        return [node, prevVal[0]];
+      }
+      return [node];
+    });
+  };
 
   const options = {
     mapview: {
@@ -98,9 +143,14 @@ export default function MapScreen() {
 
   const onPolygonClicked = React.useCallback(
     (polygonId) => {
-      console.log(polygonId, sdkData.mapview);
+      const location = sdkData.mapview.venue.locations.find((location) =>
+        location.polygons.some((polygon) => polygon.id === polygonId)
+      );
+
+      console.log(location);
+
       sdkData.mapview.removeAllMarkers();
-      sdkData.mapview.setPolygonColor(polygonId, 0xff0000);
+      sdkData.mapview.setPolygonColor(polygonId, 0xbf4320);
 
       const marker = sdkData.mapview.createMarker(
         "<div>React stuff here?</div>",
@@ -108,12 +158,6 @@ export default function MapScreen() {
         selectedMap,
         ""
       );
-
-      const location = sdkData.mapview.venue.locations.find((location) =>
-        location.polygons.some((polygon) => polygon.id === polygonId)
-      );
-
-      console.log(location);
 
       ReactDOM.render(
         <TestComponent
@@ -124,8 +168,10 @@ export default function MapScreen() {
         />,
         marker.div
       );
+
+      addNavigationNode(location);
     },
-    [sdkData]
+    [sdkData, selectedMap]
   );
 
   const loadingCallback = (data) => {
@@ -148,8 +194,36 @@ export default function MapScreen() {
     (a, b) => b.elevation - a.elevation
   );
 
+  const locations = sdkData?.mapview.venue.locations.sort((a, b) =>
+    a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1
+  );
+
   const onLevelChange = (e) => {
     setSelectedMap(e.target.value);
+  };
+
+  const onLocationChange = (e) => {
+    const polygon = sdkData.mapview.venue.locations.find(
+      (location) => location.id === e.target.value
+    ).polygons[0];
+
+    if (polygon) {
+      setNavigationNodes([polygon]);
+      sdkData.mapview.removeAllPaths();
+      sdkData.mapview.clearAllPolygonColors();
+      sdkData.mapview.setPolygonColor(polygon, 0xbf4320);
+
+      if (polygon.map !== selectedMap) {
+        setSelectedMap(polygon.map);
+        setTimeout(() => {
+          sdkData.mapview.focusOnPolygon(polygon);
+        }, 100);
+      } else {
+        sdkData.mapview.focusOnPolygon(polygon);
+      }
+    }
+
+    setSelectedLocation(e.target.value);
   };
 
   return (
@@ -177,6 +251,20 @@ export default function MapScreen() {
             {levels?.map((level) => (
               <option value={level.id} key={level.id}>
                 {level.shortName}
+              </option>
+            ))}
+          </select>
+        </Row>
+        <Row>
+          <p>Location: </p>
+          <select
+            key={selectedLocation || ""}
+            value={selectedLocation || ""}
+            onChange={onLocationChange}
+          >
+            {locations?.map((location) => (
+              <option value={location.id} key={location.id}>
+                {location.name}
               </option>
             ))}
           </select>

@@ -13,15 +13,25 @@ const StatusBarWrapper = styled.div`
 `;
 
 const StatusBar = ({ textColor, backgroundColor, className }) => {
-  const [time, setTime] = React.useState(
-    `${new Date().getHours()}:${new Date().getMinutes()}`
-  );
+  const getTime = () => {
+    const d = new Date();
+    let h = d.getHours();
+    let m = d.getMinutes();
+
+    h = h < 10 ? `0${h}` : h;
+    m = m < 10 ? `0${m}` : m;
+
+    console.log(m, m.toString().length);
+
+    return `${h}:${m}`;
+  };
+
+  const [time, setTime] = React.useState(getTime());
 
   React.useEffect(() => {
     setInterval(
       () => {
-        const d = new Date();
-        setTime(`${d.getHours()}:${d.getMinutes()}`);
+        setTime(getTime());
       },
       1000,
       true

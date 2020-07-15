@@ -106,6 +106,8 @@ const RightPanel = styled.div`
   height: 100%;
   background-color: rgba(100, 100, 100, 0.5);
   padding: 8px;
+  display: grid;
+  place-items: center;
 `;
 
 function App({ children }) {

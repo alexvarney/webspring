@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import Mappedin from "@mappedin/mappedin-js/builds/mappedin";
 import { motion } from "framer-motion";
@@ -8,6 +9,7 @@ import Keys from "../../keys";
 import Spinner from "../ui/spinner";
 import MappedinMap from "./MappedinMapview";
 import LockMarker from "./LockMarker";
+import LocationRedirectMarker from "./LocationRedirectMarker";
 
 const Wrapper = styled(motion.div)`
   width: 100%;
@@ -118,6 +120,7 @@ export default function MapScreen() {
   const [sdkData, setSdkData] = React.useState(null);
   const [selectedLocation, setSelectedLocation] = React.useState(null);
   const [navigationNodes, setNavigationNodes] = React.useState([]);
+  const history = useHistory();
 
   const [sequentialLocations, setSequentialLocations] = useSequentialSelections(
     SelectionOrder
@@ -215,7 +218,7 @@ export default function MapScreen() {
       sdkData.mapview.removeAllMarkers();
       sdkData.mapview.clearAllPolygonColors();
       sdkData.mapview.setPolygonColor(polygonId, 0xbf4320);
-
+      setSelectedLocation(location.id);
       setSequentialLocations(location.id);
 
       // addNavigationNode(location);
@@ -223,6 +226,41 @@ export default function MapScreen() {
     [sdkData, selectedMap]
   );
 
+  //Respond to update of selected location
+  React.useEffect(() => {
+    console.log(selectedLocation);
+
+    if (sdkData && sdkData.mapview && selectedLocation) {
+      const polygon = sdkData.mapview.venue.locations.find(
+        (location) => location.id === selectedLocation
+      ).polygons[0];
+
+      switch (selectedLocation) {
+        case "5b1a817c97e366793c000080":
+          //Da Vinci
+
+          const marker = sdkData.mapview.createMarker(
+            "<div>Marker</div>",
+            sdkData.mapview.getPositionPolygon(polygon),
+            selectedMap,
+            ""
+          );
+
+          ReactDOM.render(
+            <LocationRedirectMarker
+              text="Hello DaVinci"
+              onActivate={() => {
+                history.push("/2");
+                sdkData.mapview.removeAllMarkers();
+              }}
+            />,
+            marker.div
+          );
+      }
+    }
+  }, [selectedLocation, sdkData]);
+
+  //Respond to update of sequential locations
   React.useEffect(() => {
     if (sdkData && sequentialLocations.length > 0) {
       sequentialLocations.forEach((locationID) => {
@@ -263,7 +301,7 @@ export default function MapScreen() {
         );
       }
     }
-  }, [sequentialLocations, sdkData]);
+  }, [sequentialLocations, sdkData, selectedMap]);
 
   //Avoid a stale closure by wrapping the function assignment in a useEffect and callback function in useCallback
   React.useEffect(() => {

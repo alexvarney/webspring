@@ -7,7 +7,7 @@ import StatusBar from "../ui/statusbar";
 import Keys from "../../keys";
 import Spinner from "../ui/spinner";
 import MappedinMap from "./MappedinMapview";
-import TestComponent from "./TestComponent";
+import LockMarker from "./LockMarker";
 
 const Wrapper = styled(motion.div)`
   width: 100%;
@@ -72,12 +72,60 @@ const InterfaceContainer = styled.div`
   align-items: center;
 `;
 
+const SelectionOrder = [
+  "5b196e3b97e366793c000007",
+  "5b1a811d97e366793c00007d",
+  "5b1a821c97e366793c000084",
+  "5b1a81f097e366793c000082",
+  "5b1a81db97e366793c000081",
+];
+
+const OfficePasscode = "034611";
+const HongweiOfficeID = "5b196e3b97e366793c000007";
+
+const useSequentialSelections = (order) => {
+  /*
+    Hook for validating a sequence of polygon clicks in a certain desired order.
+    Returns an array containing the valid sequence of IDs that have been selected.
+    Any attempt to add an ID that is not the next sequential ID in the provided order 
+    prop will result in the list of selected IDs being cleared.
+
+    order: a list of Location IDs
+  */
+
+  const [selectedLocations, setSelectedLocations] = React.useState([]);
+
+  const handlePolygonClick = (polygonID) => {
+    setSelectedLocations((prevLocations) => {
+      const index = prevLocations.length;
+
+      if (order[index] === polygonID) {
+        return [...prevLocations, polygonID];
+      } else if (polygonID === order[0]) {
+        return [polygonID];
+      }
+
+      return [];
+    });
+  };
+
+  React.useEffect(() => {
+    console.log(selectedLocations);
+  }, [selectedLocations]);
+
+  return [selectedLocations, handlePolygonClick];
+};
+
 export default function MapScreen() {
   const [isFullyLoaded, setFullyLoaded] = React.useState(false);
   const [selectedMap, setSelectedMap] = React.useState(null);
   const [sdkData, setSdkData] = React.useState(null);
   const [selectedLocation, setSelectedLocation] = React.useState(null);
   const [navigationNodes, setNavigationNodes] = React.useState([]);
+
+  const [sequentialLocations, setSequentialLocations] = useSequentialSelections(
+    SelectionOrder
+  );
 
   const options = {
     mapview: {
@@ -105,9 +153,9 @@ export default function MapScreen() {
     (a, b) => b.elevation - a.elevation
   );
 
-  const locations = sdkData?.mapview.venue.locations.sort((a, b) =>
-    a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1
-  );
+  const locations = sdkData?.mapview.venue.locations
+    .filter((item) => item.polygons && item.polygons.length > 0)
+    .sort((a, b) => (a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1));
 
   const loadingCallback = (data) => {
     setSdkData(data);
@@ -135,11 +183,16 @@ export default function MapScreen() {
 
             if (node?.polygons) {
               mapView.setPolygonColor(node.polygons[0], 0xbf4320);
+            } else {
+              mapView.setPolygonColor(node, 0xbf4320);
             }
 
             if (prevVal[0].polygons) {
               mapView.setPolygonColor(prevVal[0].polygons[0], 0xbf4320);
+            } else {
+              mapView.setPolygonColor(prevVal[0], 0xbf4320);
             }
+
             mapView.removeAllPaths();
             mapView.drawPath(directions.path);
             mapView.focusOnPath(
@@ -166,9 +219,12 @@ export default function MapScreen() {
       console.log(location);
 
       sdkData.mapview.removeAllMarkers();
+      sdkData.mapview.clearAllPolygonColors();
       sdkData.mapview.setPolygonColor(polygonId, 0xbf4320);
 
-      const marker = sdkData.mapview.createMarker(
+      setSequentialLocations(location.id);
+
+      /*const marker = sdkData.mapview.createMarker(
         "<div>React stuff here?</div>",
         sdkData.mapview.getPositionPolygon(polygonId),
         selectedMap,
@@ -176,7 +232,7 @@ export default function MapScreen() {
       );
 
       ReactDOM.render(
-        <TestComponent
+        <LockMarker
           message={location?.name}
           onClose={() => {
             sdkData.mapview.removeAllMarkers();
@@ -185,10 +241,52 @@ export default function MapScreen() {
         marker.div
       );
 
-      addNavigationNode(location);
+      addNavigationNode(location); */
     },
     [sdkData, selectedMap]
   );
+
+  React.useEffect(() => {
+    if (sdkData && sequentialLocations.length > 0) {
+      sequentialLocations.forEach((locationID) => {
+        const polygon = sdkData.mapview.venue.locations.find(
+          (location) => location.id === locationID
+        ).polygons[0];
+
+        if (polygon) {
+          sdkData.mapview.setPolygonColor(polygon, 0xbf4320);
+        }
+      });
+
+      if (sequentialLocations.length === SelectionOrder.length) {
+        const officePolygon = sdkData.mapview.venue.locations.find(
+          (location) => location.id === HongweiOfficeID
+        ).polygons[0];
+
+        const marker = sdkData.mapview.createMarker(
+          "<div>Marker</div>",
+          sdkData.mapview.getPositionPolygon(officePolygon),
+          selectedMap,
+          ""
+        );
+
+        ReactDOM.render(
+          <LockMarker
+            passcode={OfficePasscode}
+            onClose={() => {
+              sdkData.mapview.removeAllMarkers();
+            }}
+            onSuccess={() => {
+              sdkData.mapview.removeAllMarkers();
+              sdkData.mapview.clearAllPolygonColors();
+              alert("code success");
+            }}
+          />,
+          marker.div
+        );
+      }
+    }
+  }, [sequentialLocations, sdkData]);
 
   //Avoid a stale closure by wrapping the function assignment in a useEffect and callback function in useCallback
   React.useEffect(() => {
@@ -207,7 +305,7 @@ export default function MapScreen() {
     ).polygons[0];
 
     if (polygon) {
-      setNavigationNodes([polygon]);
+      //setNavigationNodes([polygon]);
       sdkData.mapview.removeAllPaths();
       sdkData.mapview.clearAllPolygonColors();
       sdkData.mapview.setPolygonColor(polygon, 0xbf4320);

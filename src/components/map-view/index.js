@@ -109,10 +109,6 @@ const useSequentialSelections = (order) => {
     });
   };
 
-  React.useEffect(() => {
-    console.log(selectedLocations);
-  }, [selectedLocations]);
-
   return [selectedLocations, handlePolygonClick];
 };
 
@@ -131,7 +127,7 @@ export default function MapScreen() {
     mapview: {
       antialias: "AUTO", //auto apply antialiasing
       mode: Mappedin.modes.TEST, //automatically test for 3d or 2d mode
-      onDataLoaded: () => console.log("data loaded"),
+      onDataLoaded: () => console.log("Data loaded"),
       onFirstMapLoaded: () => {
         setFullyLoaded(true);
         console.log("fully loaded");
@@ -216,32 +212,13 @@ export default function MapScreen() {
         location.polygons.some((polygon) => polygon.id === polygonId)
       );
 
-      console.log(location);
-
       sdkData.mapview.removeAllMarkers();
       sdkData.mapview.clearAllPolygonColors();
       sdkData.mapview.setPolygonColor(polygonId, 0xbf4320);
 
       setSequentialLocations(location.id);
 
-      /*const marker = sdkData.mapview.createMarker(
-        "<div>React stuff here?</div>",
-        sdkData.mapview.getPositionPolygon(polygonId),
-        selectedMap,
-        ""
-      );
-
-      ReactDOM.render(
-        <LockMarker
-          message={location?.name}
-          onClose={() => {
-            sdkData.mapview.removeAllMarkers();
-          }}
-        />,
-        marker.div
-      );
-
-      addNavigationNode(location); */
+      // addNavigationNode(location);
     },
     [sdkData, selectedMap]
   );

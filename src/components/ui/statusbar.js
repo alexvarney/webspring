@@ -27,13 +27,15 @@ const StatusBar = ({ textColor, backgroundColor, className }) => {
   const [time, setTime] = React.useState(getTime());
 
   React.useEffect(() => {
-    setInterval(
+    const interval = setInterval(
       () => {
         setTime(getTime());
       },
       1000,
       true
     );
+
+    return () => clearInterval(interval);
   }, []);
 
   return (

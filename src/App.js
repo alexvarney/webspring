@@ -1,5 +1,5 @@
 import React from "react";
-import styled from "styled-components";
+import { BrowserRouter } from "react-router-dom";
 import useApplicationState, { StateContext } from "./hooks/useApplicationState";
 import Layout from "./components/ui/layout";
 
@@ -8,7 +8,9 @@ function App() {
 
   return (
     <StateContext.Provider value={applicationState}>
-      <Layout />
+      <BrowserRouter>
+        <Layout />
+      </BrowserRouter>
     </StateContext.Provider>
   );
 }

@@ -57,6 +57,7 @@ export const useMarkerManager = (
       }
   */
 
+  const [allMarkers, setAllMarkers] = React.useState(markers);
   const [openLocation, setOpenLocation] = React.useState(null);
   const [activeMarkers, setActiveMarkers] = React.useState({});
 
@@ -71,6 +72,24 @@ export const useMarkerManager = (
   const resetMarkers = () => {
     setOpenLocation(null);
     setActiveMarkers({});
+  };
+
+  const addMarker = (marker) => {
+    setAllMarkers([...allMarkers, marker]);
+  };
+
+  const deleteMarker = (key) => {
+    const marker = Object.values(activeMarkers).find(
+      (item) => item.key === key
+    );
+
+    setAllMarkers((prevState) => {
+      return prevState.filter((item) => item.key !== key);
+    });
+
+    removeMarker(marker);
+
+    console.log(allMarkers);
   };
 
   const createMarker = React.useCallback(
@@ -119,15 +138,15 @@ export const useMarkerManager = (
 
   //Determine which markers to show and hide
   React.useEffect(() => {
-    if (fullyLoaded && mapview && selectedMap && markers) {
+    if (fullyLoaded && mapview && selectedMap && allMarkers) {
       if (openLocation) {
-        markers.forEach((details) => {
+        allMarkers.forEach((details) => {
           if (details.key !== openLocation) {
             removeMarker(activeMarkers[details.key]);
           }
         });
       } else {
-        markers.forEach((details) => {
+        allMarkers.forEach((details) => {
           if (!activeMarkers[details.key]) {
             createMarker(details);
           }
@@ -137,7 +156,7 @@ export const useMarkerManager = (
   }, [
     mapview,
     selectedMap,
-    markers,
+    allMarkers,
     fullyLoaded,
     openLocation,
     createMarker,
@@ -145,5 +164,5 @@ export const useMarkerManager = (
     activeMarkers,
   ]);
 
-  return { resetMarkers };
+  return { resetMarkers, addMarker, deleteMarker };
 };

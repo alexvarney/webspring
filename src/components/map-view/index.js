@@ -68,9 +68,10 @@ export default function MapScreen() {
   const [sdkData, setSdkData] = React.useState(null);
   const [selectedLocation, setSelectedLocation] = React.useState(null);
   const [navigationNodes, setNavigationNodes] = React.useState([]);
+
   const history = useHistory();
 
-  const { resetMarkers } = useMarkerManager(
+  const { resetMarkers, addMarker, deleteMarker } = useMarkerManager(
     sdkData?.mapview,
     selectedMap,
     markers,
@@ -187,23 +188,21 @@ export default function MapScreen() {
         case "5b1a817c97e366793c000080":
           //Da Vinci
 
-          const marker = sdkData.mapview.createMarker(
-            "<div>Marker</div>",
-            sdkData.mapview.getPositionPolygon(polygon),
-            selectedMap,
-            ""
-          );
-
-          ReactDOM.render(
+          const markerComponent = (
             <Markers.LocationRedirectMarker
               text="Hello DaVinci"
               onActivate={() => {
                 history.push("/2");
-                sdkData.mapview.removeAllMarkers();
+                deleteMarker("da-vinci-marker");
               }}
-            />,
-            marker.div
+            />
           );
+
+          addMarker({
+            key: "da-vinci-marker",
+            location: "5b1a817c97e366793c000080",
+            component: markerComponent,
+          });
       }
     }
   }, [selectedLocation, sdkData]);
@@ -242,6 +241,7 @@ export default function MapScreen() {
             }}
             onSuccess={() => {
               sdkData.mapview.removeAllMarkers();
+              resetMarkers();
               sdkData.mapview.clearAllPolygonColors();
               alert("code success");
             }}

@@ -68,6 +68,11 @@ export const useMarkerManager = (
     setOpenLocation(id);
   };
 
+  const resetMarkers = () => {
+    setOpenLocation(null);
+    setActiveMarkers({});
+  };
+
   const createMarker = React.useCallback(
     (markerData) => {
       let polygon =
@@ -139,4 +144,6 @@ export const useMarkerManager = (
     removeMarker,
     activeMarkers,
   ]);
+
+  return { resetMarkers };
 };

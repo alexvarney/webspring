@@ -70,7 +70,7 @@ export default function MapScreen() {
   const [navigationNodes, setNavigationNodes] = React.useState([]);
   const history = useHistory();
 
-  const markerManager = useMarkerManager(
+  const { resetMarkers } = useMarkerManager(
     sdkData?.mapview,
     selectedMap,
     markers,
@@ -168,7 +168,6 @@ export default function MapScreen() {
     (polygonId) => {
       const location = getLocationForPolygon(polygonId, sdkData.mapview);
 
-      sdkData.mapview.removeAllMarkers();
       sdkData.mapview.clearAllPolygonColors();
       sdkData.mapview.setPolygonColor(polygonId, 0xbf4320);
       setSelectedLocation(location.id);
@@ -238,6 +237,8 @@ export default function MapScreen() {
             passcode={OfficePasscode}
             onClose={() => {
               sdkData.mapview.removeAllMarkers();
+              resetMarkers();
+              sdkData.mapview.clearAllPolygonColors();
             }}
             onSuccess={() => {
               sdkData.mapview.removeAllMarkers();

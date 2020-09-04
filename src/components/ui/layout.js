@@ -18,6 +18,8 @@ const DeviceOuterContainer = styled.div`
   align-self: center;
   justify-self: center;
 
+  visibility: ${(props) => (props.hidden ? "hidden" : "visible")};
+
   width: 95%;
   max-width: 375px;
   min-height: 300px;
@@ -130,7 +132,7 @@ function App({ children }) {
   return (
     <PageContainer>
       <Header>Mappedin Escape Room</Header>
-      <DeviceOuterContainer>
+      <DeviceOuterContainer hidden={appState === "HIDDEN"}>
         <DeviceContainer>
           <PhoneRouter />
         </DeviceContainer>

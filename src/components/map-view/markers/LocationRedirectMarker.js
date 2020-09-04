@@ -1,12 +1,20 @@
 import React from "react";
 import styled from "styled-components";
+import { FaMapMarkerAlt, FaTemperatureLow } from "react-icons/fa";
 
-const Container = styled.div`
-  background-color: #fff;
-  padding: 4px;
-  border: 1px solid lightgrey;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.35);
-  color: #000;
+const MarkerContainer = styled.div`
+  color: #ba2106;
+  position: relative;
+
+  & > * {
+    transform: translateY(-50%);
+  }
+  & > *:first-child {
+    font-size: 28px;
+    cursor: context-menu;
+    text-shadow: 1px 4px 8px rgba(0, 0, 0, 0.35);
+    z-index: 0;
+  }
 `;
 
 export default function LocationRedirectMarker({
@@ -14,9 +22,8 @@ export default function LocationRedirectMarker({
   onActivate = (x) => x,
 }) {
   return (
-    <Container>
-      <p>{text}</p>
-      <button onClick={onActivate}>Go!</button>
-    </Container>
+    <MarkerContainer>
+      <FaMapMarkerAlt onClick={onActivate} />
+    </MarkerContainer>
   );
 }

@@ -33,31 +33,11 @@ const SelectionOrder = [
   "5b1a81db97e366793c000081",
 ];
 
-const MarkerLocations = [
-  "5b198c5f97e366793c00004f",
-  "5b1a81db97e366793c000081",
-  "5b1a814f97e366793c00007f",
-  "5b1a820697e366793c000083",
-  "5b1a7fd897e366793c000079",
-];
+//5f529bb1b20a327b7a000001 values wall
+//5f529c43b20a327b7a00000d pet wall
+//5b1a84ed97e366793c000091 server room
+//5b196e3b97e366793c000007 hongwei's office
 
-const markers = [
-  {
-    key: "demo-marker",
-    location: "5b198c5f97e366793c00004f",
-    component: <Markers.PinMarker />,
-  },
-  {
-    key: "demo-marker-2",
-    location: "5b1a81f097e366793c000082",
-    component: <Markers.PinMarker />,
-  },
-  {
-    key: "demo-marker-3",
-    location: "5e41c9df2a268677540008d1",
-    component: <Markers.PinMarker />,
-  },
-];
 
 const OfficePasscode = "034611";
 const HongweiOfficeID = "5b196e3b97e366793c000007";
@@ -70,6 +50,30 @@ export default function MapScreen() {
   const [navigationNodes, setNavigationNodes] = React.useState([]);
 
   const history = useHistory();
+
+
+  const markers = [
+    // {
+    //   key: "values-wall",
+    //   location: "5f529bb1b20a327b7a000001",
+    //   component: <Markers.LocationRedirectMarker onActivate={() => { history.push("values_wall")}} />,
+    // },
+    // {
+    //   key: "pet-wall",
+    //   location: "5f529c43b20a327b7a00000d",
+    //   component: <Markers.LocationRedirectMarker onActivate={() => { history.push("pet_wall")}} />,
+    // },
+    // {
+    //   key: "server-room",
+    //   location: "5b1a84ed97e366793c000091",
+    //   component: <Markers.LocationRedirectMarker onActivate={() => { history.push("server_room")}} />,
+    // },
+    {
+      key: "hongwei-office",
+      location: "5b196e3b97e366793c000007",
+      component: <Markers.LocationRedirectMarker onActivate={() => { history.push("hongwei_office")}} />,
+    },
+  ];
 
   const { resetMarkers, addMarker, deleteMarker } = useMarkerManager(
     sdkData?.mapview,

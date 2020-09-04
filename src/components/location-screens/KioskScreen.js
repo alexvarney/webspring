@@ -25,6 +25,7 @@ export default function KioskScreen() {
     if (costInput == "6" && dataInput == "55") {
       setTimeout(() => {
         dispatch({ type: "SET_STATE", payload: "LOCKSCREEN" });
+        history.push("/outside_office")
       }, 150);
     }
   }, [costInput, dataInput]);

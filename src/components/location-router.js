@@ -1,12 +1,13 @@
 import React from "react";
 import { Route, Switch, Link } from "react-router-dom";
 import ExampleLocation from "./location-screens/example";
+import KioskScreen from "./location-screens/KioskScreen";
 
 export default function LocationRouter() {
   return (
     <Switch>
       <Route exact path="/">
-        <ExampleLocation />
+        <KioskScreen />
       </Route>
       <Route exact path="/2">
         You are at the 2nd path

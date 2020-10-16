@@ -13,7 +13,7 @@ const Container = styled.div`
 `;
 
 const Clickable = styled.div`
-  border: 1px solid red;
+
   position: absolute;
   left: ${(props) => props.x[0]}%;
   width: ${(props) => props.x[1] - props.x[0]}%;

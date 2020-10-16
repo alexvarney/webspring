@@ -12,7 +12,7 @@ export const StateContext = React.createContext();
 const useApplicationState = () => {
   const initialState = {
     unlocked: false,
-    appState: "HOME",
+    appState: "HIDDEN",
   };
 
   const reducer = (state, action) => {

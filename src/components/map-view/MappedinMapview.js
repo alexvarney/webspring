@@ -16,6 +16,7 @@ export default function MapManager({
       .then((data) => {
         onLoad(data);
         setSdkData(data);
+        console.log(data);
       })
       .catch((error) => console.error(error));
   }, []);

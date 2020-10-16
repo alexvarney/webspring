@@ -68,11 +68,11 @@ export default function MapScreen() {
     //   location: "5b1a84ed97e366793c000091",
     //   component: <Markers.LocationRedirectMarker onActivate={() => { history.push("server_room")}} />,
     // },
-    {
-      key: "hongwei-office",
-      location: "5b196e3b97e366793c000007",
-      component: <Markers.LocationRedirectMarker onActivate={() => { history.push("hongwei_office")}} />,
-    },
+    // {
+    //   key: "hongwei-office",
+    //   location: "5b196e3b97e366793c000007",
+    //   component: <Markers.LocationRedirectMarker onActivate={() => { history.push("hongwei_office")}} />,
+    // },
   ];
 
   const { resetMarkers, addMarker, deleteMarker } = useMarkerManager(
@@ -101,6 +101,7 @@ export default function MapScreen() {
       perspective: "Website", //pick the perspective you would like to load
       things: {
         //fetch some data
+        locations: ['name', 'type', 'description', 'icon', 'logo'],
         venue: ["slug", "name"],
         maps: ["name", "elevation", "shortName"],
       },
@@ -120,8 +121,10 @@ export default function MapScreen() {
     setSdkData(data);
     setSelectedMap(data.mapview.currentMap);
 
-    data.mapview.addInteractivePolygonsForAllLocations();
-    data.mapview.labelAllLocations();
+    setTimeout(() => {
+      data.mapview.addInteractivePolygonsForAllLocations();
+      data.mapview.labelAllLocations();
+    }, 1000);
   };
 
   const addNavigationNode = (node) => {
@@ -171,10 +174,12 @@ export default function MapScreen() {
 
   const onPolygonClicked = React.useCallback(
     (polygonId) => {
+      console.log('here')
       const location = getLocationForPolygon(polygonId, sdkData.mapview);
 
       sdkData.mapview.clearAllPolygonColors();
       sdkData.mapview.setPolygonColor(polygonId, 0xbf4320);
+      console.log(sdkData.mapview.venue.locations)
       setSelectedLocation(location.id);
       setSequentialLocations(location.id);
     },
@@ -269,20 +274,21 @@ export default function MapScreen() {
 
   const onLocationChange = (e) => {
     const polygon = getPolygonForLocation(e.target.value, sdkData.mapview);
-
+    console.log(polygon.id)
     if (polygon) {
       //setNavigationNodes([polygon]);
       sdkData.mapview.removeAllPaths();
       sdkData.mapview.clearAllPolygonColors();
-      sdkData.mapview.setPolygonColor(polygon, 0xbf4320);
 
       if (polygon.map !== selectedMap) {
         setSelectedMap(polygon.map);
         setTimeout(() => {
-          sdkData.mapview.focusOnPolygon(polygon);
+          sdkData.mapview.setPolygonColor(polygon.id, 0xbf4320);
+          sdkData.mapview.focusOnPolygon(polygon.id);
         }, 100);
       } else {
-        sdkData.mapview.focusOnPolygon(polygon);
+        sdkData.mapview.setPolygonColor(polygon.id, 0xbf4320);
+        sdkData.mapview.focusOnPolygon(polygon.id);
       }
     }
 
@@ -304,34 +310,7 @@ export default function MapScreen() {
       )}
 
       <InterfaceContainer>
-        <Row>
-          <p>Floor: </p>
-          <select
-            key={selectedMap}
-            value={selectedMap}
-            onChange={onLevelChange}
-          >
-            {levels?.map((level) => (
-              <option value={level.id} key={level.id}>
-                {level.shortName}
-              </option>
-            ))}
-          </select>
-        </Row>
-        <Row>
-          <p>Location: </p>
-          <select
-            key={selectedLocation || ""}
-            value={selectedLocation || ""}
-            onChange={onLocationChange}
-          >
-            {locations?.map((location) => (
-              <option value={location.id} key={location.id}>
-                {location.name}
-              </option>
-            ))}
-          </select>
-        </Row>
+        Click the rooms for more information
       </InterfaceContainer>
 
       <MappedinMap

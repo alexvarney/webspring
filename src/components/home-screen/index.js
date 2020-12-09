@@ -3,13 +3,15 @@ import styled from "styled-components";
 import StatusBar from "../ui/statusbar";
 import AppIcon from "./app-icon";
 import { motion } from "framer-motion";
-import Layout from "../ui/layout";
 
 const Container = styled(motion.div)`
   height: 100%;
+  background: url("/icons/tindawg_legend_dark.png");
+  background-size: cover;
+  background-position: center;
 
   color: #fff;
-  background: rgb(50, 50, 50);
+
   display: flex;
   flex-direction: column;
   z-index: 10;
@@ -47,7 +49,7 @@ export default function HomeScreen(props) {
           label="Lock Device"
         />
         <AppIcon
-          src="https://a.slack-edge.com/80588/marketing/img/meta/slack_hash_256.png"
+          src="/icons/slack_icon.png"
           appState="SLACK"
           label="Slack"
           notificationNumber="1"
@@ -57,6 +59,11 @@ export default function HomeScreen(props) {
           appState="PLAYER"
           label="YouTube"
           notificationNumber="2"
+        />
+        <AppIcon
+          src={"/icons/tindawg.png"}
+          appState="TINDAWG"
+          label="Tindawg"
         />
       </AppGrid>
     </Container>

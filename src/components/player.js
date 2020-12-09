@@ -2,8 +2,9 @@ import React from "react";
 import styled from "styled-components";
 import ReactPlayer from "react-player/youtube";
 import { motion } from "framer-motion";
+import StateContainer from "./ui/state-container";
 
-const Container = styled.div`
+const Container = styled(StateContainer)`
   background-color: #fff;
 `;
 

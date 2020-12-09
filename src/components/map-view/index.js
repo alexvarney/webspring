@@ -287,12 +287,7 @@ export default function MapScreen() {
   };
 
   return (
-    <Wrapper
-      initial={{ scale: 0, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
-      exit={{ scale: 0, opacity: 0 }}
-      key="map-container"
-    >
+    <Wrapper key="map-container">
       <StyledStatusBar />
       {!isFullyLoaded && (
         <LoadingScreen>

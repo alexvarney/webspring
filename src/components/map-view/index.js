@@ -26,18 +26,15 @@ import {
 } from "./index.style";
 
 const SelectionOrder = [
-  "5b196e3b97e366793c000007",
-  "5b1a811d97e366793c00007d",
-  "5b1a821c97e366793c000084",
-  "5b1a81f097e366793c000082",
-  "5b1a81db97e366793c000081",
+  "5f529bb1b20a327b7a000001",
+  "5b1a84ed97e366793c000091",
+  //"5f529c43b20a327b7a00000d",
 ];
 
 //5f529bb1b20a327b7a000001 values wall
 //5f529c43b20a327b7a00000d pet wall
 //5b1a84ed97e366793c000091 server room
 //5b196e3b97e366793c000007 hongwei's office
-
 
 const OfficePasscode = "034611";
 const HongweiOfficeID = "5b196e3b97e366793c000007";
@@ -51,27 +48,39 @@ export default function MapScreen() {
 
   const history = useHistory();
 
-
   const markers = [
-    // {
-    //   key: "values-wall",
-    //   location: "5f529bb1b20a327b7a000001",
-    //   component: <Markers.LocationRedirectMarker onActivate={() => { history.push("values_wall")}} />,
-    // },
-    // {
-    //   key: "pet-wall",
-    //   location: "5f529c43b20a327b7a00000d",
-    //   component: <Markers.LocationRedirectMarker onActivate={() => { history.push("pet_wall")}} />,
-    // },
-    // {
-    //   key: "server-room",
-    //   location: "5b1a84ed97e366793c000091",
-    //   component: <Markers.LocationRedirectMarker onActivate={() => { history.push("server_room")}} />,
-    // },
     {
-      key: "hongwei-office",
-      location: "5b196e3b97e366793c000007",
-      component: <Markers.LocationRedirectMarker onActivate={() => { history.push("hongwei_office")}} />,
+      key: "values-wall",
+      location: "5f529bb1b20a327b7a000001",
+      component: (
+        <Markers.LocationRedirectMarker
+          onActivate={() => {
+            history.push("values_wall");
+          }}
+        />
+      ),
+    },
+    {
+      key: "pet-wall",
+      location: "5f529c43b20a327b7a00000d",
+      component: (
+        <Markers.LocationRedirectMarker
+          onActivate={() => {
+            history.push("pet_wall");
+          }}
+        />
+      ),
+    },
+    {
+      key: "server-room",
+      location: "5b1a84ed97e366793c000091",
+      component: (
+        <Markers.LocationRedirectMarker
+          onActivate={() => {
+            history.push("server_room");
+          }}
+        />
+      ),
     },
   ];
 
@@ -180,8 +189,8 @@ export default function MapScreen() {
     },
     [sdkData, selectedMap]
   );
-
   //Respond to update of selected location
+
   React.useEffect(() => {
     console.log(selectedLocation);
 
@@ -223,35 +232,23 @@ export default function MapScreen() {
       });
 
       if (sequentialLocations.length === SelectionOrder.length) {
-        const officePolygon = getPolygonForLocation(
-          HongweiOfficeID,
-          sdkData.mapview
-        );
-
-        const marker = sdkData.mapview.createMarker(
-          "<div>Marker</div>",
-          sdkData.mapview.getPositionPolygon(officePolygon),
-          selectedMap,
-          ""
-        );
-
-        ReactDOM.render(
-          <Markers.LockMarker
-            passcode={OfficePasscode}
-            onClose={() => {
-              sdkData.mapview.removeAllMarkers();
-              resetMarkers();
-              sdkData.mapview.clearAllPolygonColors();
-            }}
-            onSuccess={() => {
-              sdkData.mapview.removeAllMarkers();
-              resetMarkers();
-              sdkData.mapview.clearAllPolygonColors();
-              alert("code success");
-            }}
-          />,
-          marker.div
-        );
+        addMarker({
+          key: "lock-marker",
+          location: HongweiOfficeID,
+          component: (
+            <Markers.LockMarker
+              passcode={OfficePasscode}
+              onCloseAction={() => {
+                deleteMarker("lock-marker");
+                resetMarkers();
+              }}
+              onSuccess={() => {
+                deleteMarker("lock-marker");
+                resetMarkers();
+              }}
+            />
+          ),
+        });
       }
     }
   }, [sequentialLocations, sdkData, selectedMap]);

@@ -30,7 +30,7 @@ const PasscodeInputWrapper = styled.div`
   }
 `;
 
-export default function LockMarker({ passcode, onClose, onSuccess }) {
+export default function LockMarker({ passcode, onCloseAction, onSuccess }) {
   const [inputVal, setInputVal] = React.useState("");
 
   const handlePasscodeInput = (e, char) => {
@@ -56,7 +56,7 @@ export default function LockMarker({ passcode, onClose, onSuccess }) {
 
   return (
     <Container>
-      <button onClick={onClose}>Close</button>
+      <button onClick={() => onCloseAction()}>Close</button>
       <IoMdLock />
       <PasscodeInputWrapper>
         <div

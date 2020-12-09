@@ -72,10 +72,11 @@ export const useMarkerManager = (
   const resetMarkers = () => {
     setOpenLocation(null);
     setActiveMarkers({});
+    mapview.removeAllMarkers();
   };
 
   const addMarker = (marker) => {
-    setAllMarkers([...allMarkers, marker]);
+    setAllMarkers((prevVal) => [...prevVal, marker]);
   };
 
   const deleteMarker = (key) => {
@@ -87,20 +88,29 @@ export const useMarkerManager = (
       return prevState.filter((item) => item.key !== key);
     });
 
-    removeMarker(marker);
+    if (marker && marker?.markerData) {
+      removeMarker(marker);
+    }
 
     console.log(allMarkers);
   };
 
   const createMarker = React.useCallback(
     (markerData) => {
+      if (activeMarkers[markerData.key]) {
+        throw "marker key already exists";
+      }
+
       let polygon =
         markerData.polygon ??
         getPolygonForLocation(markerData.location, mapview);
 
+      const position = mapview.getPositionPolygon(polygon) ??
+        mapview.getPositionNode(polygon) ?? { x: 0, y: 0, z: 0 };
+
       const marker = mapview.createMarker(
         "<div>Marker</div>",
-        mapview.getPositionPolygon(polygon),
+        position,
         selectedMap,
         ""
       );
@@ -122,7 +132,7 @@ export const useMarkerManager = (
 
       ReactDOM.render(clonedElement, marker.div);
     },
-    [mapview, selectedMap]
+    [mapview, selectedMap, setActiveMarkers, activeMarkers]
   );
 
   const removeMarker = React.useCallback(
@@ -133,7 +143,7 @@ export const useMarkerManager = (
         return prevState;
       });
     },
-    [mapview, setActiveMarkers]
+    [mapview, setActiveMarkers, resetMarkers]
   );
 
   //Determine which markers to show and hide

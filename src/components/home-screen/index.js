@@ -14,7 +14,6 @@ const Container = styled(motion.div)`
 
   display: flex;
   flex-direction: column;
-  z-index: 10;
 `;
 
 const AppGrid = styled.div`
@@ -33,8 +32,12 @@ export default function HomeScreen(props) {
     <Container
       key="home-screen"
       initial={{ scale: 1, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1, delay: 0.3 }}
-      exit={{ scale: 1, opacity: 0, delay: 0.3 }}
+      animate={{
+        scale: 1,
+        opacity: 1,
+        transition: { duration: 0.3, delay: 0.1 },
+      }}
+      exit={{ scale: 1, opacity: 0, transition: { delay: 0.2, duration: 0.5 } }}
     >
       <StatusBar />
       <AppGrid>

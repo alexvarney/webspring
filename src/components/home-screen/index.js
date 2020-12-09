@@ -52,6 +52,12 @@ export default function HomeScreen(props) {
           label="Slack"
           notificationNumber="1"
         />
+        <AppIcon
+          src="http://placekitten.com/g/200/200"
+          appState="PLAYER"
+          label="YouTube"
+          notificationNumber="2"
+        />
       </AppGrid>
     </Container>
   );

@@ -19,6 +19,7 @@ const Clickable = styled.div`
   width: ${(props) => props.x[1] - props.x[0]}%;
   top: ${(props) => props.y[0]}%;
   height: ${(props) => props.y[1] - props.y[0]}%;
+  transform: rotate(${(props) => props.rotation ?? 0}deg);
 `;
 
 const ControlsMenu = styled.div`

@@ -44,7 +44,7 @@ const StatusBar = ({ textColor, backgroundColor, className }) => {
       textColor={textColor}
       backgroundColor={backgroundColor}
     >
-      <p>webspring</p>
+      <p>mappedin</p>
       <p>{time}</p>
     </StatusBarWrapper>
   );

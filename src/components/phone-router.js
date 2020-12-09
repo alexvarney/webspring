@@ -7,6 +7,7 @@ import SlackView from "./slack-view";
 import Player from "./player";
 import { AnimatePresence } from "framer-motion";
 import { StateContext } from "../hooks/useApplicationState";
+import Tindawg from "./tindawg";
 
 export default function Routes() {
   const {
@@ -16,22 +17,20 @@ export default function Routes() {
   console.log(appState);
 
   return (
-    <>
-      <AnimatePresence>
-        {appState === "HOME" && <HomeScreen key="home-screen-outer" />}
-      </AnimatePresence>
-      <AnimatePresence>
-        {appState === "PLAYER" && <Player key="youtube-view-outer" />}
-      </AnimatePresence>
-      <AnimatePresence>
-        {appState === "MAP" && <MapView key="map-view-outer" />}
-      </AnimatePresence>
-      <AnimatePresence>
-        {(appState === "LOCKSCREEN" || appState === "LOCKSCREEN.UNLOCK") && (
-          <LockScreen key="lock-screen-outer" />
-        )}
-      </AnimatePresence>
+    <AnimatePresence>
+      {appState === "TINDAWG" && <Tindawg key="tindawg-view-outer" />}
+
+      {appState === "PLAYER" && <Player key="youtube-view-outer" />}
+
+      {appState === "MAP" && <MapView key="map-view-outer" />}
+
+      {(appState === "LOCKSCREEN" || appState === "LOCKSCREEN.UNLOCK") && (
+        <LockScreen key="lock-screen-outer" />
+      )}
+
       {appState === "SLACK" && <SlackView />}
-    </>
+
+      {appState === "HOME" && <HomeScreen key="home-screen-outer" />}
+    </AnimatePresence>
   );
 }

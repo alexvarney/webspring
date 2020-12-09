@@ -1,8 +1,9 @@
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import StatusBar from "../ui/statusbar";
+import StateContainer from "../ui/state-container";
 
-export const Wrapper = styled(motion.div)`
+export const Wrapper = styled(StateContainer)`
   width: 100%;
   height: 100%;
   max-height: 100%;

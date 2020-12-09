@@ -1,7 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 import StatusBar from "./ui/statusbar";
-const Container = styled.a`
+import StateContainer from "./ui/state-container";
+
+const Container = styled(StateContainer)`
   position: relative;
   display: flex;
   flex-wrap: wrap;
@@ -19,11 +21,14 @@ const StyledStatusBar = styled(StatusBar)`
 export default function SlackView(props) {
   return (
     <Container
-      target="_blank"
-      href="slack://channel?hint=ask-bot-for-riddle&team=T024SHDN6&id=G75G7NB53"
+      onClick={() =>
+        window.open(
+          "slack://channel?hint=ask-bot-for-riddle&team=T024SHDN6&id=G75G7NB53"
+        )
+      }
     >
       <StyledStatusBar />
-      <img src={process.env.PUBLIC_URL + "/office/sphinx.png"} />
+      <img src="/office/sphinx.png" />
     </Container>
   );
 }

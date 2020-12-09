@@ -33,8 +33,8 @@ export default function HomeScreen(props) {
     <Container
       key="home-screen"
       initial={{ scale: 1, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
-      exit={{ scale: 0, opacity: 0 }}
+      animate={{ scale: 1, opacity: 1, delay: 0.3 }}
+      exit={{ scale: 1, opacity: 0, delay: 0.3 }}
     >
       <StatusBar />
       <AppGrid>

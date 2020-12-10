@@ -1,8 +1,20 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+
+const fadeIn = keyframes`
+  0%{
+    opacity:0;
+    //transform: rotate(0deg);
+  }
+
+  100% {
+    opacity:1;
+    //transform: rotate(360deg);
+  }
+`;
 
 const Container = styled.div`
-  width: 50vw;
+  width: 100%;
   height: 50vw;
   background-color: aqua;
   box-shadow: 0px 3px 12px rgba(0, 0, 0, 0.3);
@@ -10,6 +22,7 @@ const Container = styled.div`
   background-repeat: no-repeat;
   background-size: cover;
   position: relative;
+  animation: ${(props) => (props.animationPlay ? fadeIn : "")} ease 10s;
 `;
 
 const Clickable = styled.div`
@@ -43,9 +56,14 @@ const ControlsMenu = styled.div`
   }
 `;
 
-export default function InteractiveImage({ src, areas, children }) {
+export default function InteractiveImage({
+  src,
+  areas,
+  children,
+  animationPlay,
+}) {
   return (
-    <Container backgroundSrc={src}>
+    <Container backgroundSrc={src} animationPlay>
       {areas && areas.map((area) => <Clickable {...area} />)}
       {children && <ControlsMenu>{children}</ControlsMenu>}
     </Container>

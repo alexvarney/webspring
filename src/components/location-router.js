@@ -3,7 +3,7 @@ import { Route, Switch, Link } from "react-router-dom";
 import ExampleLocation from "./location-screens/example";
 import KioskScreen from "./location-screens/KioskScreen";
 import ValuesWall from "./location-screens/ValuesWall";
-import PetWall from "./location-screens/PetWall";
+import PetWall, { PetWallAnswer } from "./location-screens/PetWall";
 import ServerRoom from "./location-screens/ServerRoom";
 import HongWeiOffice from "./location-screens/HongWeiOffice";
 import OutsideOffice from "./location-screens/OutsideOffice";
@@ -36,6 +36,9 @@ export default function LocationRouter() {
       </Route>
       <Route exact path="/pet_wall">
         <PetWall />
+      </Route>
+      <Route exact path="/pet_wall_answer">
+        <PetWallAnswer />
       </Route>
     </Switch>
   );

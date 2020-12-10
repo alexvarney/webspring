@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 
 const Container = styled.div`
   background-color: #fff;
+  overflow: scroll !important;
 `;
 
 const VideoContainer = styled.div`
@@ -36,9 +37,9 @@ const DummyContentContainer = styled.div`
 `;
 
 const Card = styled.div`
-  width: 75%;
+  width: 90%;
+  background-color:lightgrey;
   margin: 16px auto;
-  height: 100px;
   border-radius: 5px;
   padding: 5%;
 `;
@@ -47,10 +48,26 @@ const TextHint = styled(motion.p)`
   color: rgba(0, 0, 0, 0.65);
 `;
 
+const Author = styled.div`
+  font-weight: bold !important;
+`;
+
 const textHintVariants = {
   hidden: { opacity: 0 },
   visible: { opacity: 1 },
 };
+
+const comments = [
+{ text: "Ugh seriously", author: "ragefilledpriscilla"}, 
+{ text: "This is the internet’s theme song can we all agree", author: "hinityspurious"},
+{ text: "My professor sent us this link as the final exam key........", author: "antleeding"},
+{ text: "Jokes on you, I love this song.", author: "sluffenportkey"},
+{ text: "Who else clicked on this video because they genuinely like the song?", author: "proportionshine"},
+{ text: "Wait a minute, this is not the darude sandstorm song someone link me to.", author: "fallaciousorderly"},
+{ text: "How tf did this get in my recommended \n Did I just got rickrolled by Youtube", author: "elaborateboromir"},
+]
+
+var finalComment = {text: "The passcode is the initials of a book by Andrew S. Grove, it's so good that you should get 2 copies!", author: "realhumanbean"}
 
 export default function Component(props) {
   const [isHintVisible, setHintVisible] = React.useState(false);
@@ -61,6 +78,9 @@ export default function Component(props) {
         <ReactPlayer
           url="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
           playsinline
+          onEnded={()=>{
+            setHintVisible(true)
+          }}
           playing={false}
         />
       </VideoContainer>
@@ -69,25 +89,29 @@ export default function Component(props) {
         <h3>342,561,000 Views • 9 Years Ago</h3>
       </VideoDescriptionContainer>
       <DummyContentContainer>
-        <Card
+        {isHintVisible&&<Card
           style={{
             background: "linear-gradient(90deg, #e3ffe7 0%, #d9e7ff 100%)",
           }}
-          onClick={() => setHintVisible((prev) => !prev)}
         >
           <TextHint
-            initial="hidden"
-            animate={isHintVisible ? "visible" : "hidden"}
-            variants={textHintVariants}
-          >
-            This is some text
+            initial="visible"
+            variants={textHintVariants}>
+            {finalComment.text}
+             <Author>- {finalComment.author}</Author>
           </TextHint>
         </Card>
-        <Card
-          style={{
-            background: "linear-gradient(-90deg, #e3ffe7 0%, #d9e7ff 100%)",
-          }}
-        />
+        }
+        {
+
+          comments.map((c)=> (
+            <Card>
+              {c.text}
+               <Author>- {c.author}</Author>
+            </Card>
+          ))
+        }
+
       </DummyContentContainer>
     </Container>
   );

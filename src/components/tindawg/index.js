@@ -2,6 +2,7 @@ import React, { useMemo, useState } from "react";
 import styled from "styled-components";
 import StateContainer from "../ui/state-container";
 import TinderCard from "react-tinder-card";
+import { useSequentialSelections } from "../map-view/utils";
 
 const db = [
   {
@@ -32,7 +33,6 @@ const db = [
 
 const Container = styled(StateContainer)`
   background-color: #fff;
-  border: 1px solid red;
   display: flex;
   flex-direction: column;
 `;
@@ -82,6 +82,14 @@ export default function TindawgState() {
   const [characters, setCharacters] = useState([]);
   const [removedCharacters, setRemovedCharacters] = useState([]);
   const [lastDirection, setLastDirection] = useState();
+  const [sequence, addToSequence] = useSequentialSelections([
+    "left",
+    "right",
+    "left",
+    "left",
+    "right",
+    "right",
+  ]);
 
   React.useEffect(() => {
     setCharacters(db);
@@ -117,6 +125,8 @@ export default function TindawgState() {
 
   const swipe = React.useCallback(
     (dir) => {
+      addToSequence(dir);
+
       const cardsLeft = characters.filter(
         (person) => !removedCharacters.includes(person.name)
       );
@@ -130,6 +140,10 @@ export default function TindawgState() {
     },
     [characters, setRemovedCharacters, removedCharacters, db]
   );
+
+  React.useEffect(() => {
+    console.log(sequence);
+  }, [sequence]);
 
   return (
     <Container>

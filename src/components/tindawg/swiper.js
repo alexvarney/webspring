@@ -3,6 +3,7 @@ import TinderCard from "react-tinder-card";
 import { useSequentialSelections } from "../map-view/utils";
 import { ImCross } from "react-icons/im";
 import { IoHeartSharp } from "react-icons/io5";
+import { FaUndoAlt } from "react-icons/fa";
 import { IconContext } from "react-icons";
 import {
   CardContainer,
@@ -14,49 +15,58 @@ import {
 
 const db = [
   {
+    name: "Duke",
+    url: "/tindawg_pets/06_dog.jpg",
+  },
+  {
+    name: "Pupcake",
+    url: "/tindawg_pets/05_dog.jpg",
+  },
+  {
     name: "Sphinx",
-    url: "/office/sphinx.png",
+    url: "/tindawg_pets/04_cat.jpg",
   },
   {
-    name: "Bookcase",
-    url: "/office/bookcase.jpg",
-  },
-  {
-    name: "Doorway",
-    url: "/office/entrance.jpg",
-  },
-  {
-    name: "Map",
-    url: "/office/fantasy_map.jpg",
+    name: "Croissant",
+    url: "/tindawg_pets/03_cat.jpg",
   },
   {
     name: "Fido",
-    url: "/office/FidoDirectory.png",
+    url: "/tindawg_pets/02_dog.jpg",
   },
   {
-    name: "Greenwall",
-    url: "/office/greenwall.jpg",
+    name: "Biscuit",
+    url: "/tindawg_pets/01_cat.jpg",
   },
 ];
 
 const expectedSequence = ["left", "right", "left", "left", "right", "right"];
 
-export default function TindawgSwiper({ onSuccess, onEmpty }) {
+export default function TindawgSwiper({
+  onSuccess = () => null,
+  onEmpty = () => null,
+}) {
   const [characters, setCharacters] = useState([]);
   const [removedCharacters, setRemovedCharacters] = useState([]);
   const [lastDirection, setLastDirection] = useState();
   const [sequence, addToSequence] = useSequentialSelections(expectedSequence);
 
-  React.useEffect(() => {
+  const reset = () => {
+    addToSequence(null);
     setCharacters(db);
     setRemovedCharacters([]);
+  };
+
+  React.useEffect(() => {
+    reset();
   }, []);
 
   const childRefs = useMemo(
     () =>
-      Array(db.length)
-        .fill(0)
-        .map((i) => React.createRef()),
+      characters.reduce((acc, curr) => {
+        acc[curr.name] = React.createRef();
+        return acc;
+      }, {}),
     [characters]
   );
 
@@ -88,10 +98,12 @@ export default function TindawgSwiper({ onSuccess, onEmpty }) {
       );
       if (cardsLeft.length) {
         const toBeRemoved = cardsLeft[cardsLeft.length - 1].name; // Find the card object to be removed
-        const index = db.map((person) => person.name).indexOf(toBeRemoved); // Find the index of which to make the reference to
         setRemovedCharacters((prevState) => [...prevState, toBeRemoved]);
         // Make sure the next card gets removed next time if this card do not have time to exit the screen
-        childRefs[index].current.swipe(dir); // Swipe the card!
+
+        if (childRefs[toBeRemoved] && childRefs[toBeRemoved].current) {
+          childRefs[toBeRemoved].current.swipe(dir); // Swipe the card!
+        }
       }
     },
     [characters, setRemovedCharacters, removedCharacters, db]
@@ -108,7 +120,7 @@ export default function TindawgSwiper({ onSuccess, onEmpty }) {
       <CardContainer isEmpty={characters.length > 0}>
         {characters.map((character, index) => (
           <TinderCard
-            ref={childRefs[index]}
+            ref={childRefs[character.name]}
             className="swipe"
             key={character.name}
             onSwipe={(dir) => swiped(dir, character.name)}
@@ -129,6 +141,11 @@ export default function TindawgSwiper({ onSuccess, onEmpty }) {
         <IconContext.Provider value={{ color: "#F63654" }}>
           <ActionButton onClick={() => swipe("left")}>
             <ImCross />
+          </ActionButton>
+        </IconContext.Provider>
+        <IconContext.Provider value={{ color: "#F8B10D" }}>
+          <ActionButton onClick={() => reset()}>
+            <FaUndoAlt />
           </ActionButton>
         </IconContext.Provider>
         <IconContext.Provider value={{ color: "#30E5A5" }}>

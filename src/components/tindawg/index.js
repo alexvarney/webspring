@@ -17,13 +17,14 @@ const BannerImage = styled.img`
   padding: 10px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.125);
   background-color: #fff;
+  z-index: 1;
 `;
 
 export default function TindawgState() {
   return (
     <Container>
       <BannerImage src="/icons/tindawg_banner.png" />
-      <Message />
+      <TindawgSwiper onSuccess={() => alert("success")} />
     </Container>
   );
 }

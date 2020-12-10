@@ -47,7 +47,7 @@ export default function HomeScreen(props) {
           label="Lock Device"
         />
         <AppIcon
-          src="https://a.slack-edge.com/80588/marketing/img/meta/slack_hash_256.png"
+          src="./icons/slack_icon.png"
           appState="SLACK"
           label="Slack"
           notificationNumber="1"
@@ -57,6 +57,11 @@ export default function HomeScreen(props) {
           appState="PLAYER"
           label="YouTube"
           notificationNumber="2"
+        />
+        <AppIcon
+          src="./icons/phone_icon.png"
+          appState="PHONE"
+          label="Phone"
         />
       </AppGrid>
     </Container>

@@ -4,6 +4,7 @@ import LockScreen from "./lock-screen";
 import HomeScreen from "./home-screen";
 import MapView from "./map-view/";
 import SlackView from "./slack-view";
+import PhoneView from "./phone-view";
 import Player from "./player";
 import { AnimatePresence } from "framer-motion";
 import { StateContext } from "../hooks/useApplicationState";
@@ -25,6 +26,9 @@ export default function Routes() {
       </AnimatePresence>
       <AnimatePresence>
         {appState === "MAP" && <MapView key="map-view-outer" />}
+      </AnimatePresence>
+      <AnimatePresence>
+        {appState === "PHONE" && <PhoneView key="map-view-outer" />}
       </AnimatePresence>
       <AnimatePresence>
         {(appState === "LOCKSCREEN" || appState === "LOCKSCREEN.UNLOCK") && (

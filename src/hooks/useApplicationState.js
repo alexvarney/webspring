@@ -13,7 +13,7 @@ export const StateContext = React.createContext();
 const useApplicationState = () => {
   const initialState = {
     unlocked: false,
-    appState: "TINDAWG",
+    appState: "HOME",
     completedPuzzles: [],
   };
 

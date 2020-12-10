@@ -20,6 +20,7 @@ const Container = styled.div`
     border-radius: 1.5vh;
     max-width: 50px;
     max-height: 50px;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
   }
 
   & > p {
@@ -32,11 +33,11 @@ const Container = styled.div`
     position: absolute;
     top: 0;
     right: 15%;
-    color: #FFF;
+    color: #fff;
     background-color: red;
     border-radius: 50%;
     padding: 4px 5px;
-    border: 2px solid #FFF;
+    border: 2px solid #fff;
     font-size: 8px;
   }
 `;
@@ -52,7 +53,7 @@ export default function AppIcon({ src, appState, label, notificationNumber }) {
     >
       <img src={src} />
       <p>{label}</p>
-      { notificationNumber &&  <div className="badge">{notificationNumber}</div> }
+      {notificationNumber && <div className="badge">{notificationNumber}</div>}
     </Container>
   );
 }

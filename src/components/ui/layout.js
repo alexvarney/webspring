@@ -9,8 +9,12 @@ const PageContainer = styled.div`
   grid-template-columns: minmax(275px, 35%) 1fr;
   grid-template-rows: auto 1fr;
   height: 100vh;
-  background-color: #fee140;
-  background-image: linear-gradient(90deg, #fee140 0%, #fa709a 100%);
+  /*background-color: #fee140;
+  background-image: linear-gradient(90deg, #fee140 0%, #fa709a 100%);*/
+
+  background-image: url("/ui/wood_01.jpg");
+  background-size: cover;
+  background-position: center;
 `;
 
 const DeviceOuterContainer = styled.div`
@@ -28,7 +32,9 @@ const DeviceOuterContainer = styled.div`
   display: flex;
   flex-direction: column;
   border: 16px solid #000;
-  border-radius: 5px;
+  background-color: #000;
+  border-radius: 24px;
+  box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.5);
 `;
 
 const DeviceContainer = styled.div`
@@ -37,6 +43,7 @@ const DeviceContainer = styled.div`
 
   background-color: #2e2e2e;
   overflow: hidden;
+  border-radius: 8px;
 
   display: grid;
 
@@ -106,10 +113,13 @@ const Header = styled.div`
 const RightPanel = styled.div`
   width: 100%;
   height: 100%;
-  background-color: rgba(100, 100, 100, 0.5);
+
   padding: 8px;
   display: grid;
   place-items: center;
+  background-color: #ffffff;
+  background-image: url("https://www.transparenttextures.com/patterns/brick-wall.png");
+  border-left: 6px solid #000;
 `;
 
 function App({ children }) {

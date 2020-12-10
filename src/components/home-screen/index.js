@@ -3,16 +3,17 @@ import styled from "styled-components";
 import StatusBar from "../ui/statusbar";
 import AppIcon from "./app-icon";
 import { motion } from "framer-motion";
-import Layout from "../ui/layout";
 
 const Container = styled(motion.div)`
   height: 100%;
+  background: url("/icons/tindawg_legend_dark.png");
+  background-size: cover;
+  background-position: center;
 
   color: #fff;
-  background: rgb(50, 50, 50);
+
   display: flex;
   flex-direction: column;
-  z-index: 10;
 `;
 
 const AppGrid = styled.div`
@@ -31,8 +32,12 @@ export default function HomeScreen(props) {
     <Container
       key="home-screen"
       initial={{ scale: 1, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
-      exit={{ scale: 0, opacity: 0 }}
+      animate={{
+        scale: 1,
+        opacity: 1,
+        transition: { duration: 0.3, delay: 0.1 },
+      }}
+      exit={{ scale: 1, opacity: 0, transition: { delay: 0.2, duration: 0.5 } }}
     >
       <StatusBar />
       <AppGrid>
@@ -47,7 +52,7 @@ export default function HomeScreen(props) {
           label="Lock Device"
         />
         <AppIcon
-          src="./icons/slack_icon.png"
+          src="/icons/slack_icon.png"
           appState="SLACK"
           label="Slack"
           notificationNumber="1"
@@ -58,11 +63,8 @@ export default function HomeScreen(props) {
           label="YouTube"
           notificationNumber="2"
         />
-        <AppIcon
-          src="./icons/phone_icon.png"
-          appState="PHONE"
-          label="Phone"
-        />
+        <AppIcon src="/icons/phone_icon.png" appState="PHONE" label="Phone" />
+        <AppIcon src="/icons/tindawg.png" appState="TINDAWG" label="Tindawg" />
       </AppGrid>
     </Container>
   );

@@ -3,9 +3,10 @@ import React, { useReducer } from "react";
 export const ActionTypes = {
   unlocked: "UNLOCKED",
   setState: "SET_STATE",
+  completePuzzle: "COMPLETE_PUZZLE",
 };
 
-//States: ['HIDDEN', 'MAP', 'LOCKSCREEN', 'LOCKSCREEN.UNLOCK', 'HOME', 'PLAYER']
+//States: ['HIDDEN', 'MAP', 'LOCKSCREEN', 'LOCKSCREEN.UNLOCK', 'HOME', 'PLAYER', 'TINDAWG']
 
 export const StateContext = React.createContext();
 
@@ -13,6 +14,7 @@ const useApplicationState = () => {
   const initialState = {
     unlocked: false,
     appState: "HOME",
+    completedPuzzles: [],
   };
 
   const reducer = (state, action) => {
@@ -28,6 +30,11 @@ const useApplicationState = () => {
         return {
           ...state,
           appState: action.payload,
+        };
+      case ActionTypes.completePuzzle:
+        return {
+          ...state,
+          completedPuzzles: [...state.completedPuzzles, action.payload],
         };
       default:
         return state;

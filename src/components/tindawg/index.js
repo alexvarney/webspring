@@ -30,9 +30,6 @@ const db = [
   },
 ];
 
-const alreadyRemoved = [];
-let charactersState = db;
-
 const Container = styled(StateContainer)`
   background-color: #fff;
   border: 1px solid red;
@@ -82,42 +79,57 @@ const ButtonsContainer = styled.div`
 `;
 
 export default function TindawgState() {
-  const [characters, setCharacters] = useState(db);
+  const [characters, setCharacters] = useState([]);
+  const [removedCharacters, setRemovedCharacters] = useState([]);
   const [lastDirection, setLastDirection] = useState();
+
+  React.useEffect(() => {
+    setCharacters(db);
+    setRemovedCharacters([]);
+  }, []);
 
   const childRefs = useMemo(
     () =>
       Array(db.length)
         .fill(0)
         .map((i) => React.createRef()),
-    []
+    [characters]
   );
 
-  const swiped = (direction, nameToDelete) => {
-    console.log("removing: " + nameToDelete);
-    setLastDirection(direction);
-    alreadyRemoved.push(nameToDelete);
-  };
+  const swiped = React.useCallback(
+    (direction, nameToDelete) => {
+      console.log("removing: " + nameToDelete);
+      setLastDirection(direction);
+      setRemovedCharacters((prevState) => [...prevState, nameToDelete]);
+    },
+    [setRemovedCharacters, setLastDirection, characters]
+  );
 
-  const outOfFrame = (name) => {
-    console.log(name + " left the screen!");
-    charactersState = charactersState.filter(
-      (character) => character.name !== name
-    );
-    setCharacters(charactersState);
-  };
+  const outOfFrame = React.useCallback(
+    (name) => {
+      console.log(name + " left the screen!");
+      setCharacters((prevState) =>
+        prevState.filter((character) => character.name !== name)
+      );
+    },
+    [setCharacters, characters]
+  );
 
-  const swipe = (dir) => {
-    const cardsLeft = characters.filter(
-      (person) => !alreadyRemoved.includes(person.name)
-    );
-    if (cardsLeft.length) {
-      const toBeRemoved = cardsLeft[cardsLeft.length - 1].name; // Find the card object to be removed
-      const index = db.map((person) => person.name).indexOf(toBeRemoved); // Find the index of which to make the reference to
-      alreadyRemoved.push(toBeRemoved); // Make sure the next card gets removed next time if this card do not have time to exit the screen
-      childRefs[index].current.swipe(dir); // Swipe the card!
-    }
-  };
+  const swipe = React.useCallback(
+    (dir) => {
+      const cardsLeft = characters.filter(
+        (person) => !removedCharacters.includes(person.name)
+      );
+      if (cardsLeft.length) {
+        const toBeRemoved = cardsLeft[cardsLeft.length - 1].name; // Find the card object to be removed
+        const index = db.map((person) => person.name).indexOf(toBeRemoved); // Find the index of which to make the reference to
+        setRemovedCharacters((prevState) => [...prevState, toBeRemoved]);
+        // Make sure the next card gets removed next time if this card do not have time to exit the screen
+        childRefs[index].current.swipe(dir); // Swipe the card!
+      }
+    },
+    [characters, setRemovedCharacters, removedCharacters, db]
+  );
 
   return (
     <Container>

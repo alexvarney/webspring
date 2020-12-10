@@ -1,19 +1,24 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import styled from "styled-components";
 import ReactPlayer from "react-player/youtube";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import StateContainer from "./ui/state-container";
+import { StateContext, ActionTypes } from "../hooks/useApplicationState";
 
 const Container = styled(StateContainer)`
   background-color: #fff;
-  overflow: scroll !important;
+  display: grid;
+  grid-template: 40% auto 1fr / 1fr;
 `;
 
 const VideoContainer = styled.div`
   width: 100%;
+  overflow: hidden;
+  max-height: 100%;
 
   & > * {
     max-width: 100%;
+    max-height: 100%;
   }
 `;
 
@@ -35,11 +40,12 @@ const VideoDescriptionContainer = styled.div`
 
 const DummyContentContainer = styled.div`
   padding: 8px;
+  overflow-y: scroll;
 `;
 
-const Card = styled.div`
+const Card = styled(motion.div)`
   width: 90%;
-  background-color:lightgrey;
+  background-color: lightgrey;
   margin: 16px auto;
   border-radius: 5px;
   padding: 5%;
@@ -59,19 +65,48 @@ const textHintVariants = {
 };
 
 const comments = [
-{ text: "Ugh seriously", author: "ragefilledpriscilla"}, 
-{ text: "This is the internet’s theme song can we all agree", author: "hinityspurious"},
-{ text: "My professor sent us this link as the final exam key........", author: "antleeding"},
-{ text: "Jokes on you, I love this song.", author: "sluffenportkey"},
-{ text: "Who else clicked on this video because they genuinely like the song?", author: "proportionshine"},
-{ text: "Wait a minute, this is not the darude sandstorm song someone link me to.", author: "fallaciousorderly"},
-{ text: "How tf did this get in my recommended \n Did I just got rickrolled by Youtube", author: "elaborateboromir"},
-]
+  { text: "Ugh seriously", author: "ragefilledpriscilla" },
+  {
+    text: "This is the internet’s theme song can we all agree",
+    author: "hinityspurious",
+  },
+  {
+    text: "My professor sent us this link as the final exam key........",
+    author: "antleeding",
+  },
+  { text: "Jokes on you, I love this song.", author: "sluffenportkey" },
+  {
+    text:
+      "Who else clicked on this video because they genuinely like the song?",
+    author: "proportionshine",
+  },
+  {
+    text:
+      "Wait a minute, this is not the darude sandstorm song someone link me to.",
+    author: "fallaciousorderly",
+  },
+  {
+    text:
+      "How tf did this get in my recommended \n Did I just got rickrolled by Youtube",
+    author: "elaborateboromir",
+  },
+];
 
-var finalComment = {text: "The passcode is the initials of a book by Andrew S. Grove, it's so good that you should get 2 copies!", author: "realhumanbean"}
+var finalComment = {
+  text:
+    "The passcode is the initials of a book by Andrew S. Grove, it's so good that you should get 2 copies!",
+  author: "realhumanbean",
+};
 
 export default function Component(props) {
-  const [isHintVisible, setHintVisible] = React.useState(false);
+  const {
+    state: { completedPuzzles },
+    dispatch,
+  } = useContext(StateContext);
+
+  const setComplete = () =>
+    dispatch({ type: ActionTypes.completePuzzle, payload: "PLAYER" });
+  const isComplete = completedPuzzles.includes("PLAYER");
 
   return (
     <Container>
@@ -79,10 +114,8 @@ export default function Component(props) {
         <ReactPlayer
           url="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
           playsinline
-          onEnded={()=>{
-            setHintVisible(true)
-          }}
-          playing={false}
+          onEnded={setComplete}
+          playing
         />
       </VideoContainer>
       <VideoDescriptionContainer>
@@ -90,29 +123,30 @@ export default function Component(props) {
         <h3>342,561,000 Views • 9 Years Ago</h3>
       </VideoDescriptionContainer>
       <DummyContentContainer>
-        {isHintVisible&&<Card
-          style={{
-            background: "linear-gradient(90deg, #e3ffe7 0%, #d9e7ff 100%)",
-          }}
-        >
-          <TextHint
-            initial="visible"
-            variants={textHintVariants}>
-            {finalComment.text}
-             <Author>- {finalComment.author}</Author>
-          </TextHint>
-        </Card>
-        }
-        {
-
-          comments.map((c)=> (
-            <Card>
-              {c.text}
-               <Author>- {c.author}</Author>
+        <AnimatePresence>
+          {isComplete && (
+            <Card
+              style={{
+                background: "linear-gradient(90deg, #e3ffe7 0%, #d9e7ff 100%)",
+              }}
+              initial={{ opacity: 0, scale: 0.3 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0 }}
+              transition={{ duration: 0.7, type: "tween" }}
+            >
+              <TextHint initial="visible" variants={textHintVariants}>
+                {finalComment.text}
+                <Author>- {finalComment.author}</Author>
+              </TextHint>
             </Card>
-          ))
-        }
-
+          )}
+        </AnimatePresence>
+        {comments.map((c) => (
+          <Card>
+            {c.text}
+            <Author>- {c.author}</Author>
+          </Card>
+        ))}
       </DummyContentContainer>
     </Container>
   );

@@ -18,17 +18,16 @@ const InputContainer = styled.div`
 export default function KioskScreen() {
   const history = useHistory();
   const { state, dispatch } = useContext(StateContext);
-  const [costInput, setCostInput] = useState("");
   const [dataInput, setDataInput] = useState("");
 
   useEffect(() => {
-    if (costInput == "6" && dataInput == "55") {
+    if (dataInput == "1935") {
       setTimeout(() => {
         dispatch({ type: "SET_STATE", payload: "LOCKSCREEN" });
         history.push("/outside_office")
       }, 150);
     }
-  }, [costInput, dataInput]);
+  }, [dataInput]);
 
   const ClickableRegions = [
     {
@@ -43,20 +42,14 @@ export default function KioskScreen() {
   ];
 
   return (
-    <InteractiveImage areas={ClickableRegions} src="./office/FidoDirectory.png">
+    <InteractiveImage areas={ClickableRegions} src="./office/MappinsDirectory.png">
+      <img src="./office/MappinsHint.png" height="70"/>
       <InputContainer>
-        <p>$$:</p>
-        <input
-          value={costInput}
-          onChange={(e) => {
-            setCostInput(e.target.value);
-          }}
-        />
-        <p>GB:</p>
+        <p>Answer:</p>
         <input
           value={dataInput}
           onChange={(e) => {
-            setDataInput(e.target.value);
+            setDataInput(e.target.value); 
           }}
         />
       </InputContainer>

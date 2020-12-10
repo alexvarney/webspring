@@ -5,12 +5,14 @@ import { ImCross } from "react-icons/im";
 import { IoHeartSharp } from "react-icons/io5";
 import { FaUndoAlt } from "react-icons/fa";
 import { IconContext } from "react-icons";
+import { AnimatePresence } from "framer-motion";
 import {
   CardContainer,
   Card,
   ButtonsContainer,
   ActionButton,
   SwiperContainer,
+  EmptyCard,
 } from "./swiper.styles";
 
 const db = [
@@ -42,13 +44,9 @@ const db = [
 
 const expectedSequence = ["left", "right", "left", "left", "right", "right"];
 
-export default function TindawgSwiper({
-  onSuccess = () => null,
-  onEmpty = () => null,
-}) {
+export default function TindawgSwiper({ onSuccess = () => null }) {
   const [characters, setCharacters] = useState([]);
   const [removedCharacters, setRemovedCharacters] = useState([]);
-  const [lastDirection, setLastDirection] = useState();
   const [sequence, addToSequence] = useSequentialSelections(expectedSequence);
 
   const reset = () => {
@@ -72,11 +70,9 @@ export default function TindawgSwiper({
 
   const swiped = React.useCallback(
     (direction, nameToDelete) => {
-      console.log("removing: " + nameToDelete);
-      setLastDirection(direction);
       setRemovedCharacters((prevState) => [...prevState, nameToDelete]);
     },
-    [setRemovedCharacters, setLastDirection, characters]
+    [setRemovedCharacters, characters]
   );
 
   const outOfFrame = React.useCallback(
@@ -118,28 +114,47 @@ export default function TindawgSwiper({
   return (
     <SwiperContainer>
       <CardContainer isEmpty={characters.length > 0}>
-        {characters.map((character, index) => (
-          <TinderCard
-            ref={childRefs[character.name]}
-            className="swipe"
-            key={character.name}
-            onSwipe={(dir) => swiped(dir, character.name)}
-            onCardLeftScreen={() => outOfFrame(character.name)}
-          >
-            <Card
-              style={{
-                backgroundImage: "url(" + character.url + ")",
-              }}
-              className="card"
+        {characters.length > 0 ? (
+          characters.map((character, index) => (
+            <TinderCard
+              ref={childRefs[character.name]}
+              className="swipe"
+              key={character.name}
+              onSwipe={(dir) => swiped(dir, character.name)}
+              onCardLeftScreen={() => outOfFrame(character.name)}
             >
-              <h3>{character.name}</h3>
-            </Card>
-          </TinderCard>
-        ))}
+              <Card
+                style={{
+                  backgroundImage: "url(" + character.url + ")",
+                }}
+                className="card"
+              >
+                <h3>{character.name}</h3>
+              </Card>
+            </TinderCard>
+          ))
+        ) : (
+          <AnimatePresence>
+            <EmptyCard
+              initial={{ opacity: 0, scale: 0.3 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0 }}
+            >
+              <img src="/icons/tindawg_alpha.png" />
+              <p>
+                Can't sniff out any matches? Try standing out from the
+                background!
+              </p>
+            </EmptyCard>
+          </AnimatePresence>
+        )}
       </CardContainer>
       <ButtonsContainer>
         <IconContext.Provider value={{ color: "#F63654" }}>
-          <ActionButton onClick={() => swipe("left")}>
+          <ActionButton
+            onClick={() => swipe("left")}
+            disabled={characters.length === 0}
+          >
             <ImCross />
           </ActionButton>
         </IconContext.Provider>
@@ -149,7 +164,10 @@ export default function TindawgSwiper({
           </ActionButton>
         </IconContext.Provider>
         <IconContext.Provider value={{ color: "#30E5A5" }}>
-          <ActionButton onClick={() => swipe("right")}>
+          <ActionButton
+            onClick={() => swipe("right")}
+            disabled={characters.length === 0}
+          >
             <IoHeartSharp />
           </ActionButton>
         </IconContext.Provider>

@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import StateContainer from "../ui/state-container";
 import TindawgSwiper from "./swiper";
 import Message from "./message";
+import { StateContext, ActionTypes } from "../../hooks/useApplicationState";
 
 const Container = styled(StateContainer)`
   background-color: #f0f0f0;
@@ -21,10 +22,26 @@ const BannerImage = styled.img`
 `;
 
 export default function TindawgState() {
+  const {
+    state: { completedPuzzles },
+    dispatch,
+  } = useContext(StateContext);
+
+  const isPuzzleComplete = completedPuzzles.includes("TINDAWG");
+  const markComplete = () =>
+    setTimeout(
+      dispatch({ type: ActionTypes.completePuzzle, payload: "TINDAWG" }),
+      1000
+    );
+
   return (
     <Container>
       <BannerImage src="/icons/tindawg_banner.png" />
-      <TindawgSwiper onSuccess={() => alert("success")} />
+      {isPuzzleComplete ? (
+        <Message />
+      ) : (
+        <TindawgSwiper onSuccess={markComplete} />
+      )}
     </Container>
   );
 }

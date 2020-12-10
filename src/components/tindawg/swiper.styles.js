@@ -1,4 +1,23 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
+import { motion } from "framer-motion";
+
+export const EmptyCard = styled(motion.div)`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: #fff;
+  text-align: center;
+  padding: 16px;
+  align-items: center;
+  color: #212121;
+  font-size: 14px;
+
+  & > img {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 16px;
+  }
+`;
 
 export const SwiperContainer = styled.div`
   display: grid;
@@ -61,4 +80,23 @@ export const ActionButton = styled.button`
   display: grid;
   align-content: center;
   justify-content: center;
+
+  transition: filter 0.1s ease-in;
+
+  :focus {
+    outline: none;
+  }
+
+  :active {
+    outline: none;
+    filter: brightness(80%) drop-shadow(0px 0px 8px rgba(0, 0, 0, 0.33));
+  }
+
+  ${(props) =>
+    props.disabled &&
+    css`
+      filter: grayscale(75%);
+      opacity: 66%;
+      cursor: unset;
+    `}
 `;

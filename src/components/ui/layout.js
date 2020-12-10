@@ -28,7 +28,9 @@ const DeviceOuterContainer = styled.div`
   display: flex;
   flex-direction: column;
   border: 16px solid #000;
-  border-radius: 5px;
+  background-color: #000;
+  border-radius: 24px;
+  box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.5);
 `;
 
 const DeviceContainer = styled.div`
@@ -37,6 +39,7 @@ const DeviceContainer = styled.div`
 
   background-color: #2e2e2e;
   overflow: hidden;
+  border-radius: 8px;
 
   display: grid;
 

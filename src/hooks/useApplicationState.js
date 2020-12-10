@@ -6,7 +6,7 @@ export const ActionTypes = {
   completePuzzle: "COMPLETE_PUZZLE",
 };
 
-//States: ['HIDDEN', 'MAP', 'LOCKSCREEN', 'LOCKSCREEN.UNLOCK', 'HOME', 'PLAYER', 'TINDOG']
+//States: ['HIDDEN', 'MAP', 'LOCKSCREEN', 'LOCKSCREEN.UNLOCK', 'HOME', 'PLAYER', 'TINDAWG']
 
 export const StateContext = React.createContext();
 

@@ -63,11 +63,8 @@ export default function HomeScreen(props) {
           label="YouTube"
           notificationNumber="2"
         />
-        <AppIcon
-          src={"/icons/tindawg.png"}
-          appState="TINDAWG"
-          label="Tindawg"
-        />
+        <AppIcon src="/icons/phone_icon.png" appState="PHONE" label="Phone" />
+        <AppIcon src="/icons/tindawg.png" appState="TINDAWG" label="Tindawg" />
       </AppGrid>
     </Container>
   );

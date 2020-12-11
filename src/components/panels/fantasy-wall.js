@@ -18,14 +18,20 @@ const InputContainer = styled.div`
 export default function FantasyWall() {
   const history = useHistory();
   const { state, dispatch } = useContext(StateContext);
-  const [codeInput, setCodeInput] = useState("");
-  const [input, setInput] = useState("");
+  const [codeInput1, setCodeInput1] = useState("");
+  const [input1, setInput1] = useState("");
+  const [codeInput2, setCodeInput2] = useState("");
+  const [input2, setInput2] = useState("");
+  const [codeInput3, setCodeInput3] = useState("");
+  const [input3, setInput3] = useState("");
   const [colorState, setColorState] = useState("white");
   const [backgroundPath, setBackgroundPath] = useState(
     "./office/FantasyMap.png"
   );
   useEffect(() => {
-    if (codeInput == "n3i6u5" || codeInput == "N3I6U5") {
+    if ((codeInput1 == "n3" || codeInput1 == "N3") ||
+      (codeInput2 == "i6" || codeInput2 == "I6") ||
+      (codeInput3 == "u5" || codeInput3 == "U5") ){
       setTimeout(() => {
         //dispatch({ type: "SET_STATE", payload: "LOCKSCREEN" });
         // history.push("/pet_wall_answer");
@@ -37,7 +43,7 @@ export default function FantasyWall() {
           "https://cdn.dribbble.com/users/2143961/screenshots/4248258/evr-crypto00.jpg"
         );
       }, 150);
-    } else if (codeInput > " ") {
+    } else if (codeInput1 > " " || codeInput2 > " " || codeInput3 > " ") {
       setTimeout(() => {
         setBackgroundPath(
           "https://media.giphy.com/media/fADmG2Wc1EYGqgUbE8/giphy.gif"
@@ -48,7 +54,7 @@ export default function FantasyWall() {
         setBackgroundPath("./office/FantasyMap.png");
       }, 2000);
     }
-  }, [codeInput]);
+  }, [codeInput1]);
 
   return (
     <>
@@ -56,17 +62,37 @@ export default function FantasyWall() {
         <InputContainer>
           <p>Grid Code:</p>
           <input
-            value={input}
+            value={input1}
             onChange={(e) => {
-              setInput(e.target.value);
+              setInput1(e.target.value);
               setColorState("white");
             }}
             style={{ backgroundColor: colorState }}
-            placeholder="A1B2C3"
+            placeholder="A1"
+          />
+          <input
+            value={input2}
+            onChange={(e) => {
+              setInput2(e.target.value);
+              setColorState("white");
+            }}
+            style={{ backgroundColor: colorState }}
+            placeholder="A1"
+          />
+          <input
+            value={input3}
+            onChange={(e) => {
+              setInput3(e.target.value);
+              setColorState("white");
+            }}
+            style={{ backgroundColor: colorState }}
+            placeholder="A1"
           />
           <button
             onClick={() => {
-              setCodeInput(input);
+              setCodeInput1(input1);
+              setCodeInput2(input2);
+              setCodeInput3(input3);
             }}
           >
             Enter Code

@@ -26,6 +26,8 @@ const InputWrapper = styled.div`
   }
 `;
 
+const unlockCode = ["stay", "hom", "fur", "evr"];
+
 export default function BombRoom() {
   const [dataInput, _setDataInput] = useState(["", "", "", ""]);
 
@@ -38,12 +40,12 @@ export default function BombRoom() {
   };
 
   useEffect(() => {
-    const fullCode = dataInput
-      .reduce((acc, curr) => acc + curr, "")
-      .toLowerCase();
+    const isValid = dataInput.every(
+      (value, index) => unlockCode[index] === value
+    );
 
-    if (fullCode === "stayhomefurevr") {
-      alert("success");
+    if (isValid) {
+      alert("Puzzle unlocked");
     }
   }, [dataInput]);
 

@@ -10,6 +10,7 @@ import MainOffice from "../panels/MainOffice";
 import FantasyWall from "../panels/fantasy-wall";
 import DoorPuzzle from "../panels/door-lock";
 import SphinxCode from "../panels/sphinx-code";
+import BombRoom from "../panels/BombRoom";
 
 export default function PanelRouter() {
   return (
@@ -50,6 +51,9 @@ export default function PanelRouter() {
       </Route>
       <Route exact path="/sphinx_code">
         <SphinxCode />
+      </Route>
+      <Route exact path="/bomb_room">
+        <BombRoom />
       </Route>
     </Switch>
   );

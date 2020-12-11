@@ -308,37 +308,6 @@ export default function MapScreen() {
         </LoadingScreen>
       )}
 
-      <InterfaceContainer>
-        <Row>
-          <p>Floor: </p>
-          <select
-            key={selectedMap}
-            value={selectedMap}
-            onChange={onLevelChange}
-          >
-            {levels?.map((level) => (
-              <option value={level.id} key={level.id}>
-                {level.shortName}
-              </option>
-            ))}
-          </select>
-        </Row>
-        <Row>
-          <p>Location: </p>
-          <select
-            key={selectedLocation || ""}
-            value={selectedLocation || ""}
-            onChange={onLocationChange}
-          >
-            {locations?.map((location) => (
-              <option value={location.id} key={location.id}>
-                {location.name}
-              </option>
-            ))}
-          </select>
-        </Row>
-      </InterfaceContainer>
-
       <MappedinMap
         selectedMap={selectedMap}
         options={options}

@@ -6,14 +6,14 @@ export const ActionTypes = {
   completePuzzle: "COMPLETE_PUZZLE",
 };
 
-//States: ['HIDDEN', 'MAP', 'LOCKSCREEN', 'LOCKSCREEN.UNLOCK', 'HOME', 'PLAYER', 'TINDAWG', 'SLACK', 'PHONE']
+//States: ['INTRO', 'HIDDEN', 'MAP', 'LOCKSCREEN', 'LOCKSCREEN.UNLOCK', 'HOME', 'PLAYER', 'TINDAWG', 'SLACK', 'PHONE']
 
 export const StateContext = React.createContext();
 
 const useApplicationState = () => {
   const initialState = {
     unlocked: false,
-    appState: "HOME",
+    appState: "INTRO",
     completedPuzzles: [],
   };
 

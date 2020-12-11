@@ -3,11 +3,13 @@ import styled from "styled-components";
 import { StateContext, ActionTypes } from "../util/useApplicationState";
 import PhoneRouter from "./app-router";
 import LocationRouter from "./panel-router";
+import { motion, AnimatePresence } from "framer-motion";
 
 const PageContainer = styled.div`
   display: grid;
   grid-template-columns: minmax(275px, 35%) 1fr;
   grid-template-rows: 64px 1fr;
+  max-height: 100vh;
   height: 100vh;
   /*background-color: #fee140;
   background-image: linear-gradient(90deg, #fee140 0%, #fa709a 100%);*/
@@ -15,6 +17,7 @@ const PageContainer = styled.div`
   background-image: url("/ui/wood_01.jpg");
   background-size: cover;
   background-position: center;
+  overflow: hidden;
 `;
 
 const DeviceOuterContainer = styled.div`
@@ -35,6 +38,9 @@ const DeviceOuterContainer = styled.div`
   background-color: #000;
   border-radius: 24px;
   box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.5);
+
+  grid-row: 2;
+  grid-column: 1;
 `;
 
 const DeviceContainer = styled.div`
@@ -110,6 +116,9 @@ const Header = styled.div`
   align-items: stretch;
   max-height: 100%;
 
+  grid-row: 1;
+  grid-column: 1 / -1;
+
   & > img {
     object-fit: contain;
     object-position: left;
@@ -126,6 +135,27 @@ const RightPanel = styled.div`
   background-color: #ffffff;
   background-image: url("https://www.transparenttextures.com/patterns/brick-wall.png");
   border-left: 6px solid #000;
+  grid-column: 2;
+  grid-row: 2;
+`;
+
+const SplashScreenContainer = styled(motion.div)`
+  grid-column: 1 / -1;
+  grid-row: 1 / -1;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  z-index: 1000;
+  overflow: hidden;
+  position: relative;
+
+  & img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
 `;
 
 function App({ children }) {
@@ -147,9 +177,28 @@ function App({ children }) {
 
   return (
     <PageContainer>
+      <AnimatePresence>
+        {appState === "INTRO" ? (
+          <SplashScreenContainer
+            initial={{ opacity: 1, y: "0" }}
+            animate={{ opacity: 1, y: "0" }}
+            exit={{ opacity: 0, y: "100%" }}
+            transition={{ type: "tween", duration: 0.5 }}
+            onClick={() =>
+              dispatch({ type: ActionTypes.setState, payload: "LOCKSCREEN" })
+            }
+          >
+            <img src="/ui/splash_screen.jpg" />
+          </SplashScreenContainer>
+        ) : (
+          ""
+        )}
+      </AnimatePresence>
+
       <Header>
         <img src="/ui/logo_white.svg" />
       </Header>
+
       <DeviceOuterContainer hidden={appState === "HIDDEN"}>
         <DeviceContainer>
           <PhoneRouter />

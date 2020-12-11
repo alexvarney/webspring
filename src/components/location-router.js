@@ -8,6 +8,7 @@ import ServerRoom from "./location-screens/ServerRoom";
 import HongWeiOffice from "./location-screens/HongWeiOffice";
 import OutsideOffice from "./location-screens/OutsideOffice";
 import MainOffice from "./location-screens/MainOffice";
+import FantasyWall from "./location-screens/fantasy-wall"
 
 export default function LocationRouter() {
   return (
@@ -39,6 +40,9 @@ export default function LocationRouter() {
       </Route>
       <Route exact path="/pet_wall_answer">
         <PetWallAnswer />
+      </Route>
+      <Route exact path="/fantasy_wall">
+        <FantasyWall />
       </Route>
     </Switch>
   );

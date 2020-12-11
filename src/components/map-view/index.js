@@ -49,6 +49,17 @@ export default function MapScreen() {
   const history = useHistory();
 
   const markers = [
+    // {
+    //   key: "fantasy-wall",
+    //   location: "5fd2799106d5276c37000000",
+    //   component: (
+    //     <Markers.LocationRedirectMarker
+    //       onActivate={() => {
+    //         history.push("fantasy_wall");
+    //       }}
+    //     />
+    //   ),
+    // },
     {
       key: "values-wall",
       location: "5f529bb1b20a327b7a000001",

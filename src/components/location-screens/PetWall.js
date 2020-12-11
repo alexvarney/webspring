@@ -46,14 +46,15 @@ export default function PetWall() {
             setColorState("white");
           }}
           style={{ backgroundColor: colorState }}
+          type="number"
+          placeholder="0000"
         />
         <button
           onClick={() => {
             setCodeInput(input);
           }}
         >
-          {" "}
-          Enter Code{" "}
+          Enter Code
         </button>
       </InputContainer>
     </InteractiveImage>

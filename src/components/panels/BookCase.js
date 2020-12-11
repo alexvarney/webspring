@@ -8,9 +8,9 @@ const Image = styled.img`
   width: 700px;
 `;
 
-export default function HongWeiOffice() {
+export default function BookCase() {
   const history = useHistory();
   const { state, dispatch } = useContext(StateContext);
 
-  return <Image src="./office/values_wall.png"></Image>;
+  return <Image src="./office/bookcase.png"></Image>;
 }

@@ -6,12 +6,11 @@ import { motion } from "framer-motion";
 
 const Container = styled(motion.div)`
   height: 100%;
-  background: url("/icons/tindawg_legend_dark.png");
+  background: url("/icons/tindawg_legend_morse.png");
   background-size: cover;
   background-position: center;
 
   color: #fff;
-
   display: flex;
   flex-direction: column;
 `;

@@ -1,6 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
+export { default as useSequentialSelections } from "../../util/useSequentialSelections";
+
 export const getLocationForPolygon = (polygonId, mapview) => {
   return mapview.venue.locations.find((location) =>
     location.polygons.some((polygon) => polygon.id === polygonId)
@@ -11,32 +13,6 @@ export const getPolygonForLocation = (locationId, mapview) => {
   const polygons = mapview.venue.locations.find((location) => location.id === locationId).polygons;
   const desiredPolygon = polygons.find(polygon => polygon.layer == "Polygon")
   return desiredPolygon !== undefined ? desiredPolygon : polygons[0]
-};
-
-export const useSequentialSelections = (order) => {
-  /*
-    Hook for validating a sequence of polygon clicks in a certain desired order. Returns an array containing the valid sequence of IDs that have been selected. Any attempt to add an ID that is not the next item in the sequence of IDs defined in `order` will result in the list of selected IDs being cleared.
-
-    order: an array of Location IDs
-  */
-
-  const [selectedLocations, setSelectedLocations] = React.useState([]);
-
-  const handlePolygonClick = (polygonID) => {
-    setSelectedLocations((prevLocations) => {
-      const index = prevLocations.length;
-
-      if (order[index] === polygonID) {
-        return [...prevLocations, polygonID];
-      } else if (polygonID === order[0]) {
-        return [polygonID];
-      }
-
-      return [];
-    });
-  };
-
-  return [selectedLocations, handlePolygonClick];
 };
 
 export const useMarkerManager = (

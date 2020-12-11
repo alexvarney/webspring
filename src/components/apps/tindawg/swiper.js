@@ -70,6 +70,8 @@ export default function TindawgSwiper({ onSuccess = () => null }) {
 
   const swiped = React.useCallback(
     (direction, nameToDelete) => {
+      addToSequence(direction);
+
       setRemovedCharacters((prevState) => [...prevState, nameToDelete]);
     },
     [setRemovedCharacters, characters]
@@ -87,8 +89,6 @@ export default function TindawgSwiper({ onSuccess = () => null }) {
 
   const swipe = React.useCallback(
     (dir) => {
-      addToSequence(dir);
-
       const cardsLeft = characters.filter(
         (person) => !removedCharacters.includes(person.name)
       );

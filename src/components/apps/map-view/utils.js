@@ -10,8 +10,9 @@ export const getLocationForPolygon = (polygonId, mapview) => {
 };
 
 export const getPolygonForLocation = (locationId, mapview) => {
-  return mapview.venue.locations.find((location) => location.id === locationId)
-    .polygons[0];
+  const polygons = mapview.venue.locations.find((location) => location.id === locationId).polygons;
+  const desiredPolygon = polygons.find(polygon => polygon.layer == "Polygon")
+  return desiredPolygon !== undefined ? desiredPolygon : polygons[0]
 };
 
 export const useMarkerManager = (

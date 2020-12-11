@@ -104,17 +104,6 @@ export default function MapScreen() {
         />
       ),
     },
-    {
-      key: "fantasy-wall",
-      location: "5fd2799106d5276c37000000",
-      component: (
-        <Markers.LocationRedirectMarker
-          onActivate={() => {
-            history.push("fantasy_wall");
-          }}
-        />
-      ),
-    },
   ];
 
   const { resetMarkers, addMarker, deleteMarker } = useMarkerManager(

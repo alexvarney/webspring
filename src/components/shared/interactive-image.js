@@ -22,7 +22,7 @@ const Container = styled.div`
   background-repeat: no-repeat;
   background-size: cover;
   position: relative;
-  animation: ${(props) => (props.animationPlay ? fadeIn : "")} ease 10s;
+  animation: ${(props) => (props.animationPlay ? fadeIn : "")} ease 1.5s;
   background-size: contain;
   background-position: center;
 `;

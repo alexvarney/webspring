@@ -2,11 +2,12 @@ import React from "react";
 import { Route, Switch, Link } from "react-router-dom";
 import KioskScreen from "../panels/KioskScreen";
 import ValuesWall from "../panels/ValuesWall";
-import PetWall from "../panels/PetWall";
+import PetWall, { PetWallAnswer } from "../panels/PetWall";
 import ServerRoom from "../panels/ServerRoom";
 import HongWeiOffice from "../panels/HongWeiOffice";
 import OutsideOffice from "../panels/OutsideOffice";
 import MainOffice from "../panels/MainOffice";
+import FantasyWall from "../panels/fantasy-wall";
 import DoorPuzzle from "../panels/door-lock";
 
 export default function PanelRouter() {
@@ -39,6 +40,12 @@ export default function PanelRouter() {
       </Route>
       <Route exact path="/pet_wall">
         <PetWall />
+      </Route>
+      <Route exact path="/pet_wall_answer">
+        <PetWallAnswer />
+      </Route>
+      <Route exact path="/fantasy_wall">
+        <FantasyWall />
       </Route>
     </Switch>
   );

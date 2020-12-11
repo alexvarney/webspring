@@ -1,15 +1,30 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+
+const fadeIn = keyframes`
+  0%{
+    opacity:0;
+    //transform: rotate(0deg);
+  }
+
+  100% {
+    opacity:1;
+    //transform: rotate(360deg);
+  }
+`;
 
 const Container = styled.div`
   width: 50vw;
   height: 50vw;
-  background-color: aqua;
+  background-color: transparent;
   box-shadow: 0px 3px 12px rgba(0, 0, 0, 0.3);
   background-image: url(${(props) => props.backgroundSrc});
   background-repeat: no-repeat;
   background-size: cover;
   position: relative;
+  animation: ${(props) => (props.animationPlay ? fadeIn : "")} ease 10s;
+  background-size: contain;
+  background-position: center;
 `;
 
 const Clickable = styled.div`

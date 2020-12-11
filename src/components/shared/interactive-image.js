@@ -13,7 +13,7 @@ const fadeIn = keyframes`
   }
 `;
 
-const Container = styled.div`
+export const Container = styled.div`
   width: 50vw;
   height: 50vw;
   background-color: transparent;

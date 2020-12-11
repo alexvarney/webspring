@@ -74,8 +74,3 @@ export default function BombRoom() {
     </Container>
   );
 }
-
-export function InputImage() {
-  // return (
-  // );
-}

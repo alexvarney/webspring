@@ -57,7 +57,7 @@ export default function HomeScreen(props) {
           notificationNumber="1"
         />
         <AppIcon
-          src="http://placekitten.com/g/200/200"
+          src="/icons/youtube_icon.jpg"
           appState="PLAYER"
           label="YouTube"
           notificationNumber="2"

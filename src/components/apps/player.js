@@ -67,7 +67,7 @@ const textHintVariants = {
 const comments = [
   { text: "Ugh seriously", author: "ragefilledpriscilla" },
   {
-    text: "This is the internet’s theme song can we all agree",
+    text: "I'm here after the legend Sebastian Vettel brought this masterpiece up",
     author: "hinityspurious",
   },
   {
@@ -87,7 +87,7 @@ const comments = [
   },
   {
     text:
-      "How tf did this get in my recommended \n Did I just got rickrolled by Youtube",
+      "Who else was watching the F1 Bahrain FP2 and came here after Vettel's radio?",
     author: "elaborateboromir",
   },
 ];
@@ -112,7 +112,7 @@ export default function Component(props) {
     <Container>
       <VideoContainer>
         <ReactPlayer
-          url="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+          url="https://www.youtube.com/watch?v=Qkuu0Lwb5EM"
           playsinline
           onEnded={setComplete}
           playing

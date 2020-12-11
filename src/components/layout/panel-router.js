@@ -4,11 +4,12 @@ import KioskScreen from "../panels/KioskScreen";
 import ValuesWall from "../panels/ValuesWall";
 import PetWall, { PetWallAnswer } from "../panels/PetWall";
 import ServerRoom from "../panels/ServerRoom";
-import HongWeiOffice from "../panels/HongWeiOffice";
+import BookCase from "../panels/BookCase";
 import OutsideOffice from "../panels/OutsideOffice";
 import MainOffice from "../panels/MainOffice";
 import FantasyWall from "../panels/fantasy-wall";
 import DoorPuzzle from "../panels/door-lock";
+import SphinxCode from "../panels/sphinx-code";
 import BombRoom from "../panels/BombRoom";
 
 export default function PanelRouter() {
@@ -36,14 +37,17 @@ export default function PanelRouter() {
       <Route exact path="/server_room">
         <ServerRoom />
       </Route>
-      <Route exact path="/hongwei_office">
-        <HongWeiOffice />
+      <Route exact path="/bookcase">
+        <BookCase />
       </Route>
       <Route exact path="/pet_wall">
         <PetWall />
       </Route>
       <Route exact path="/fantasy_wall">
         <FantasyWall />
+      </Route>
+      <Route exact path="/sphinx_code">
+        <SphinxCode />
       </Route>
       <Route exact path="/bomb_room">
         <BombRoom />

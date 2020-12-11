@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useRef, useEffect } from "react";
 import InteractiveImage from "../shared/interactive-image";
 import { StateContext, ActionTypes } from "../util/useApplicationState";
 import styled from "styled-components";
@@ -7,7 +7,7 @@ const InputContainer = styled.div`
   width: 100%;
   display: grid;
   grid-template: 1fr / max-content repeat(3, 1fr) max-content;
-  grid-gap: 2.5%;
+  grid-gap: clamp(4px, 2.5%, 16px);
   input {
     background-color: ${(props) => props.bgColor};
     width: 100%;
@@ -16,6 +16,8 @@ const InputContainer = styled.div`
 
 export default function PetWall() {
   const [inputs, _setInput] = useState(["", "", ""]);
+
+  const timeoutRef = useRef();
 
   const setInput = (index, value) => {
     _setInput((prevVals) => {
@@ -35,10 +37,15 @@ export default function PetWall() {
   const isPuzzleComplete = completedPuzzles.includes("PETWALL");
 
   const markComplete = () =>
-    setTimeout(
+    (timeoutRef.current = setTimeout(
       () => dispatch({ type: ActionTypes.completePuzzle, payload: "PETWALL" }),
       1000
-    );
+    ));
+
+  useEffect(
+    () => () => timeoutRef.current && clearTimeout(timeoutRef.current),
+    []
+  );
 
   const validate = () => {
     if (inputs[0] === "6" && inputs[1] === "5" && inputs[2] === "10") {

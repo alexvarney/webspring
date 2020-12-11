@@ -1,135 +1,164 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, useRef } from "react";
 import InteractiveImage from "../shared/interactive-image";
-import { Link, useHistory } from "react-router-dom";
+import { AiOutlineInfoCircle, AiOutlineCloseCircle } from "react-icons/ai";
 import { StateContext, ActionTypes } from "../util/useApplicationState";
 import styled from "styled-components";
 
-const InputContainer = styled.div`
-  display: flex;
+const InputContainer = styled.form`
+  width: 100%;
+  display: grid;
+  grid-template: 1fr / max-content repeat(3, 1fr) max-content max-content;
+  grid-gap: clamp(0px, 2.5%, 16px);
+
   input {
-    margin-right: 24px;
+    width: 100%;
+    text-transform: uppercase;
+    background-color: ${(props) => props.inputBg ?? "#fff"};
   }
 
   p {
-    margin-right: 12px;
+    display: inline-flex;
+    align-items: center;
   }
 `;
 
-export default function FantasyWall() {
-  const history = useHistory();
-  const [codeInput1, setCodeInput1] = useState("");
-  const [input1, setInput1] = useState("");
-  const [codeInput2, setCodeInput2] = useState("");
-  const [input2, setInput2] = useState("");
-  const [codeInput3, setCodeInput3] = useState("");
-  const [input3, setInput3] = useState("");
-  const [colorState, setColorState] = useState("white");
-  const [backgroundPath, setBackgroundPath] = useState(
-    "./office/FantasyMap.png"
-  );
+const InfoButton = styled.button`
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  font-size: 24px;
 
+  :focus {
+    outline: none;
+  }
+
+  svg {
+    color: #fff;
+  }
+`;
+
+const images = {
+  SUCCESS: "/office/evr_square.jpg",
+  FAILURE: "/ui/dog_shake.gif",
+  INITIAL: "/office/FantasyMap.png",
+  HINT: "/office/morse_scroll_minimal.png",
+};
+
+const colors = {
+  SUCCESS: "#30E5A5",
+  FAILURE: "#F63654",
+};
+
+export default function FantasyWall() {
   const {
     state: { completedPuzzles },
     dispatch,
   } = useContext(StateContext);
 
   const isPuzzleComplete = completedPuzzles.includes("FANTASYWALL");
-  const markComplete = () =>
-    setTimeout(
-      dispatch({ type: ActionTypes.completePuzzle, payload: "FANTASYWALL" }),
-      1000
-    );
 
-  useEffect(() => {
+  const [state, setState] = useState(isPuzzleComplete ? "SUCCESS" : "INITIAL"); //INITIAL, SUCCESS, FAILURE, HINT
+
+  const toggleHint = (e) => {
+    e.preventDefault();
+    setState((prevVal) => {
+      if (prevVal === "HINT") {
+        return isPuzzleComplete ? "SUCCESS" : "INITIAL";
+      }
+      return "HINT";
+    });
+  };
+
+  const [inputs, _setInput] = useState(["", "", ""]);
+
+  const timeoutRef = useRef();
+
+  const setInput = (index, value) => {
+    _setInput((prevVals) => {
+      const newArr = [...prevVals];
+      newArr[index] = value;
+      return newArr;
+    });
+  };
+
+  const markComplete = () => {
+    dispatch({ type: ActionTypes.completePuzzle, payload: "FANTASYWALL" });
+  };
+
+  const validate = (e) => {
+    e.preventDefault();
+
     if (
-      codeInput1 == "n3" ||
-      codeInput1 == "N3" ||
-      codeInput2 == "i6" ||
-      codeInput2 == "I6" ||
-      codeInput3 == "u5" ||
-      codeInput3 == "U5"
+      inputs[0].toLowerCase() === "n3" &&
+      inputs[1].toLowerCase() === "i6" &&
+      inputs[2].toLowerCase() === "u5"
     ) {
-      setTimeout(() => {
-        //dispatch({ type: "SET_STATE", payload: "LOCKSCREEN" });
-        // history.push("/pet_wall_answer");
-        //   setBackgroundPath(
-        //     "https://media.giphy.com/media/yXBqba0Zx8S4/giphy.gif"
-        //   );
-        markComplete();
-        setBackgroundPath(
-          "https://cdn.dribbble.com/users/2143961/screenshots/4248258/evr-crypto00.jpg"
-        );
-      }, 150);
-    } else if (codeInput1 > " " || codeInput2 > " " || codeInput3 > " ") {
-      setTimeout(() => {
-        setBackgroundPath(
-          "https://media.giphy.com/media/fADmG2Wc1EYGqgUbE8/giphy.gif"
-        );
-        setColorState("red");
-      }, 0);
-      setTimeout(() => {
-        setBackgroundPath("./office/FantasyMap.png");
-      }, 2000);
+      setState("SUCCESS");
+      markComplete();
+    } else {
+      setState("FAILURE");
+      timeoutRef.current = setTimeout(() => {
+        setState("INITIAL");
+      }, 2500);
     }
-  }, [codeInput1]);
+  };
+
+  useEffect(
+    () => () => timeoutRef.current && clearTimeout(timeoutRef.current),
+    []
+  );
 
   return (
     <>
-      <InteractiveImage
-        animationPlay={true}
-        src={
-          !isPuzzleComplete
-            ? backgroundPath
-            : "https://cdn.dribbble.com/users/2143961/screenshots/4248258/evr-crypto00.jpg"
-        }
-      >
-        <InputContainer>
+      <InteractiveImage animationPlay={true} src={images[state]}>
+        <InputContainer
+          inputBg={
+            isPuzzleComplete
+              ? colors.SUCCESS
+              : state === "FAILURE"
+              ? colors.FAILURE
+              : "#fff"
+          }
+        >
           <p>Grid Code:</p>
           <input
-            value={input1}
+            value={inputs[0]}
             onChange={(e) => {
-              setInput1(e.target.value);
-              setColorState("white");
+              setInput(0, e.target.value);
             }}
-            style={{ backgroundColor: colorState }}
             placeholder="A1"
+            disabled={isPuzzleComplete}
           />
           <input
-            value={input2}
+            value={inputs[1]}
             onChange={(e) => {
-              setInput2(e.target.value);
-              setColorState("white");
+              setInput(1, e.target.value);
             }}
-            style={{ backgroundColor: colorState }}
             placeholder="A1"
+            disabled={isPuzzleComplete}
           />
           <input
-            value={input3}
+            value={inputs[2]}
             onChange={(e) => {
-              setInput3(e.target.value);
-              setColorState("white");
+              setInput(2, e.target.value);
             }}
-            style={{ backgroundColor: colorState }}
             placeholder="A1"
+            disabled={isPuzzleComplete}
           />
-          <button
-            onClick={() => {
-              setCodeInput1(input1);
-              setCodeInput2(input2);
-              setCodeInput3(input3);
-            }}
-          >
-            Enter Code
+
+          <button type="submit" onClick={validate} disabled={isPuzzleComplete}>
+            Submit
           </button>
-          <button
-            onClick={() => {
-              if (backgroundPath == "./office/FantasyMap.png")
-                setBackgroundPath("./office/morse_scroll_minimal.png");
-              else setBackgroundPath("./office/FantasyMap.png");
-            }}
-          >
-            Toogle Scroll
-          </button>
+          <InfoButton onClick={toggleHint}>
+            {state === "HINT" ? (
+              <AiOutlineCloseCircle />
+            ) : (
+              <AiOutlineInfoCircle />
+            )}
+          </InfoButton>
         </InputContainer>
       </InteractiveImage>
     </>

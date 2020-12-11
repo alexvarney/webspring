@@ -3,14 +3,16 @@ import InteractiveImage from "../shared/interactive-image";
 import { ImVolumeMedium, ImVolumeMute2 } from "react-icons/im";
 import useSequentialSelections from "../util/useSequentialSelections";
 import Sound from "react-sound";
+import { useHistory } from "react-router-dom";
 
-const expectedSequence = [0, 1, 2, 3];
+const expectedSequence = [4, 1, 0, 2, 0, 1, 8];
 
 export default function DoorLockPuzzle() {
   const [sequence, updateSequence] = useSequentialSelections(expectedSequence);
 
   const [isMuted, setMuted] = useState(false);
   const [hasInteracted, setInteracted] = useState(false);
+  const history = useHistory();
 
   const onInteract = () => {
     if (!hasInteracted) {
@@ -23,7 +25,7 @@ export default function DoorLockPuzzle() {
 
     if (sequence.length === expectedSequence.length) {
       //Victory condition
-      alert("success!");
+      history.push("bomb_room");
     }
   }, [sequence]);
 

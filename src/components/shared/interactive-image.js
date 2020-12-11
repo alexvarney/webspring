@@ -28,7 +28,8 @@ const Container = styled.div`
 `;
 
 const Clickable = styled.div`
-  border: 1px solid red;
+  border: ${(props) => (props.debug ? "1px solid red" : "none")};
+  cursor: ${(props) => (props.pointer ? "pointer" : "auto")};
   position: absolute;
   left: ${(props) => props.x[0]}%;
   width: ${(props) => props.x[1] - props.x[0]}%;
@@ -62,11 +63,16 @@ export default function InteractiveImage({
   src,
   areas,
   children,
-  animationPlay,
+  debug = false,
+  pointer = false,
+  ...rest
 }) {
   return (
-    <Container backgroundSrc={src} animationPlay>
-      {areas && areas.map((area) => <Clickable {...area} />)}
+    <Container backgroundSrc={src} {...rest}>
+      {areas &&
+        areas.map((area) => (
+          <Clickable {...area} debug={debug} pointer={pointer} />
+        ))}
       {children && <ControlsMenu>{children}</ControlsMenu>}
     </Container>
   );

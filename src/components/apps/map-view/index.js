@@ -31,7 +31,7 @@ const SelectionOrder = [
   "5b1a817c97e366793c000080", //da vinci
   "5b1a814f97e366793c00007f", //tomlinson
   "5b1a821c97e366793c000084", //massey
-  "5b1a81f097e366793c000082" //ortelius
+  "5b1a81f097e366793c000082", //ortelius
 ];
 
 //5f529bb1b20a327b7a000001 values wall
@@ -39,15 +39,12 @@ const SelectionOrder = [
 //5b1a84ed97e366793c000091 server room
 //5b196e3b97e366793c000007 hongwei's office
 
-const OfficePasscode = "034611";
-const HongweiOfficeID = "5b196e3b97e366793c000007";
-
 export default function MapScreen() {
   const [isFullyLoaded, setFullyLoaded] = React.useState(false);
   const [selectedMap, setSelectedMap] = React.useState(null);
   const [sdkData, setSdkData] = React.useState(null);
   const [selectedLocation, setSelectedLocation] = React.useState(null);
-  const [navigationNodes, setNavigationNodes] = React.useState([]);
+  //const [navigationNodes, setNavigationNodes] = React.useState([]);
 
   const history = useHistory();
 
@@ -80,7 +77,7 @@ export default function MapScreen() {
       component: (
         <Markers.LocationRedirectMarker
           onActivate={() => {
-            history.push("server_room");
+            history.push("door_puzzle");
           }}
         />
       ),
@@ -158,6 +155,7 @@ export default function MapScreen() {
     data.mapview.labelAllLocations();
   };
 
+  /*
   const addNavigationNode = (node) => {
     const { mapview: mapView } = sdkData;
 
@@ -203,6 +201,8 @@ export default function MapScreen() {
     });
   };
 
+  */
+
   const onPolygonClicked = React.useCallback(
     (polygonId) => {
       const location = getLocationForPolygon(polygonId, sdkData.mapview);
@@ -214,6 +214,10 @@ export default function MapScreen() {
     [sdkData, selectedMap]
   );
   //Respond to update of selected location
+
+  /* 
+
+  // Do stuff on specific polygon click
 
   React.useEffect(() => {
     console.log(selectedLocation);
@@ -244,6 +248,8 @@ export default function MapScreen() {
     }
   }, [selectedLocation, sdkData]);
 
+  */
+
   //Respond to update of sequential locations
   React.useEffect(() => {
     if (sdkData && sequentialLocations.length > 0) {
@@ -255,23 +261,7 @@ export default function MapScreen() {
       });
 
       if (sequentialLocations.length === SelectionOrder.length) {
-        addMarker({
-          key: "lock-marker",
-          location: HongweiOfficeID,
-          component: (
-            <Markers.LockMarker
-              passcode={OfficePasscode}
-              onCloseAction={() => {
-                deleteMarker("lock-marker");
-                resetMarkers();
-              }}
-              onSuccess={() => {
-                deleteMarker("lock-marker");
-                resetMarkers();
-              }}
-            />
-          ),
-        });
+        alert("puzzle complete condition");
       }
     }
   }, [sequentialLocations, sdkData, selectedMap]);

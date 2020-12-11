@@ -7,7 +7,7 @@ import LocationRouter from "./panel-router";
 const PageContainer = styled.div`
   display: grid;
   grid-template-columns: minmax(275px, 35%) 1fr;
-  grid-template-rows: auto 1fr;
+  grid-template-rows: 64px 1fr;
   height: 100vh;
   /*background-color: #fee140;
   background-image: linear-gradient(90deg, #fee140 0%, #fa709a 100%);*/
@@ -101,13 +101,19 @@ const HomeButton = styled.button`
 `;
 
 const Header = styled.div`
-  padding: 16px 8px;
+  padding: 12px 16px;
   color: #fff;
-  background: rgba(75, 75, 75);
+  background: rgba(0, 0, 0);
   grid-column: span 2;
   align-self: start;
   display: flex;
-  align-items: center;
+  align-items: stretch;
+  max-height: 100%;
+
+  & > img {
+    object-fit: contain;
+    object-position: left;
+  }
 `;
 
 const RightPanel = styled.div`
@@ -141,7 +147,9 @@ function App({ children }) {
 
   return (
     <PageContainer>
-      <Header>Mappedin Escape Room</Header>
+      <Header>
+        <img src="/ui/logo_white.svg" />
+      </Header>
       <DeviceOuterContainer hidden={appState === "HIDDEN"}>
         <DeviceContainer>
           <PhoneRouter />

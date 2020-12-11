@@ -56,7 +56,9 @@ export default function PetWall() {
     }
   };
 
-  return !isPuzzleComplete ? (
+  return isPuzzleComplete ? (
+    <InteractiveImage src="./office/pet_wall_answer.png" />
+  ) : (
     <InteractiveImage animationPlay={true} src="./office/pet_wall_original.png">
       <InputContainer bgColor={colorState}>
         <p>Dog Code:</p>
@@ -84,13 +86,5 @@ export default function PetWall() {
         <button onClick={validate}>Submit Code</button>
       </InputContainer>
     </InteractiveImage>
-  ) : (
-    <PetWallAnswer />
-  );
-}
-
-export function PetWallAnswer() {
-  return (
-    <InteractiveImage src="./office/pet_wall_answer.png"></InteractiveImage>
   );
 }

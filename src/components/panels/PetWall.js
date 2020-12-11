@@ -16,7 +16,6 @@ const InputContainer = styled.div`
 
 export default function PetWall() {
   const history = useHistory();
-  const { state, dispatch } = useContext(StateContext);
   const [codeInput1, setCodeInput1] = useState("");
   const [codeInput2, setCodeInput2] = useState("");
   const [codeInput3, setCodeInput3] = useState("");
@@ -24,11 +23,25 @@ export default function PetWall() {
   const [input2, setInput2] = useState("");
   const [input3, setInput3] = useState("");
   const [colorState, setColorState] = useState("white");
+
+  const {
+    state: { completedPuzzles },
+    dispatch,
+  } = useContext(StateContext);
+
+  const isPuzzleComplete = completedPuzzles.includes("PETWALL");
+  const markComplete = () =>
+    setTimeout(
+      dispatch({ type: ActionTypes.completePuzzle, payload: "PETWALL" }),
+      1000
+    );
+
+
   useEffect(() => {
     if (codeInput1 == "6" && codeInput2== "5" && codeInput3 == "10") {
       setTimeout(() => {
-        //dispatch({ type: "SET_STATE", payload: "LOCKSCREEN" });
-        history.push("/pet_wall_answer");
+        //dispatch({ type: "SET_STATE", payload: "PE" });
+        markComplete();
       }, 150);
     }
     else if (codeInput1 > " " ||  codeInput2 > " " || codeInput3 > " "){
@@ -39,6 +52,7 @@ export default function PetWall() {
   }, [codeInput1]);
 
   return (
+    !isPuzzleComplete ? (
     <InteractiveImage animationPlay={true} src="./office/pet_wall_original.png">
       <InputContainer>
         <p>Dog Code:</p>
@@ -82,7 +96,7 @@ export default function PetWall() {
           Enter Code
         </button>
       </InputContainer>
-    </InteractiveImage>
+    </InteractiveImage>) : <PetWallAnswer />
   );
 }
 

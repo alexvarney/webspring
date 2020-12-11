@@ -42,9 +42,6 @@ export default function PanelRouter() {
       <Route exact path="/pet_wall">
         <PetWall />
       </Route>
-      <Route exact path="/pet_wall_answer">
-        <PetWallAnswer />
-      </Route>
       <Route exact path="/fantasy_wall">
         <FantasyWall />
       </Route>

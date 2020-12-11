@@ -26,9 +26,12 @@ import {
 } from "./index.style";
 
 const SelectionOrder = [
-  "5f529bb1b20a327b7a000001",
-  "5b1a84ed97e366793c000091",
-  //"5f529c43b20a327b7a00000d",
+  "5b1a820697e366793c000083", //ptolemy
+  "5b1a81db97e366793c000081", //mercator
+  "5b1a817c97e366793c000080", //da vinci
+  "5b1a814f97e366793c00007f", //tomlinson
+  "5b1a821c97e366793c000084", //massey
+  "5b1a81f097e366793c000082" //ortelius
 ];
 
 //5f529bb1b20a327b7a000001 values wall
@@ -78,6 +81,28 @@ export default function MapScreen() {
         <Markers.LocationRedirectMarker
           onActivate={() => {
             history.push("server_room");
+          }}
+        />
+      ),
+    },
+    {
+      key: "bookcase",
+      location: "5b1a834697e366793c000087",
+      component: (
+        <Markers.LocationRedirectMarker
+          onActivate={() => {
+            history.push("bookcase");
+          }}
+        />
+      ),
+    },
+    {
+      key: "fantasy-wall",
+      location: "5fd2799106d5276c37000000",
+      component: (
+        <Markers.LocationRedirectMarker
+          onActivate={() => {
+            history.push("fantasy_wall");
           }}
         />
       ),
@@ -183,7 +208,6 @@ export default function MapScreen() {
       const location = getLocationForPolygon(polygonId, sdkData.mapview);
 
       sdkData.mapview.clearAllPolygonColors();
-      sdkData.mapview.setPolygonColor(polygonId, 0xbf4320);
       setSelectedLocation(location.id);
       setSequentialLocations(location.id);
     },
@@ -225,7 +249,6 @@ export default function MapScreen() {
     if (sdkData && sequentialLocations.length > 0) {
       sequentialLocations.forEach((locationID) => {
         const polygon = getPolygonForLocation(locationID, sdkData.mapview);
-
         if (polygon) {
           sdkData.mapview.setPolygonColor(polygon, 0xbf4320);
         }

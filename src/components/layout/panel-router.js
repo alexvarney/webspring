@@ -8,6 +8,7 @@ import HongWeiOffice from "../panels/HongWeiOffice";
 import OutsideOffice from "../panels/OutsideOffice";
 import MainOffice from "../panels/MainOffice";
 import DoorPuzzle from "../panels/door-lock";
+import BombRoom from "../panels/BombRoom";
 
 export default function PanelRouter() {
   return (
@@ -39,6 +40,9 @@ export default function PanelRouter() {
       </Route>
       <Route exact path="/pet_wall">
         <PetWall />
+      </Route>
+      <Route exact path="/bomb_room">
+        <BombRoom />
       </Route>
     </Switch>
   );

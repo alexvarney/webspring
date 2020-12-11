@@ -17,7 +17,6 @@ const InputContainer = styled.div`
 
 export default function FantasyWall() {
   const history = useHistory();
-  const { state, dispatch } = useContext(StateContext);
   const [codeInput1, setCodeInput1] = useState("");
   const [input1, setInput1] = useState("");
   const [codeInput2, setCodeInput2] = useState("");
@@ -28,17 +27,35 @@ export default function FantasyWall() {
   const [backgroundPath, setBackgroundPath] = useState(
     "./office/FantasyMap.png"
   );
+
+  const {
+    state: { completedPuzzles },
+    dispatch,
+  } = useContext(StateContext);
+
+  const isPuzzleComplete = completedPuzzles.includes("FANTASYWALL");
+  const markComplete = () =>
+    setTimeout(
+      dispatch({ type: ActionTypes.completePuzzle, payload: "FANTASYWALL" }),
+      1000
+    );
+
   useEffect(() => {
-    if ((codeInput1 == "n3" || codeInput1 == "N3") ||
-      (codeInput2 == "i6" || codeInput2 == "I6") ||
-      (codeInput3 == "u5" || codeInput3 == "U5") ){
+    if (
+      codeInput1 == "n3" ||
+      codeInput1 == "N3" ||
+      codeInput2 == "i6" ||
+      codeInput2 == "I6" ||
+      codeInput3 == "u5" ||
+      codeInput3 == "U5"
+    ) {
       setTimeout(() => {
         //dispatch({ type: "SET_STATE", payload: "LOCKSCREEN" });
         // history.push("/pet_wall_answer");
         //   setBackgroundPath(
         //     "https://media.giphy.com/media/yXBqba0Zx8S4/giphy.gif"
         //   );
-
+        markComplete();
         setBackgroundPath(
           "https://cdn.dribbble.com/users/2143961/screenshots/4248258/evr-crypto00.jpg"
         );
@@ -58,7 +75,14 @@ export default function FantasyWall() {
 
   return (
     <>
-      <InteractiveImage animationPlay={true} src={backgroundPath}>
+      <InteractiveImage
+        animationPlay={true}
+        src={
+          !isPuzzleComplete
+            ? backgroundPath
+            : "https://cdn.dribbble.com/users/2143961/screenshots/4248258/evr-crypto00.jpg"
+        }
+      >
         <InputContainer>
           <p>Grid Code:</p>
           <input

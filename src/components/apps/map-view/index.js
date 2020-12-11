@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import ReactDOM from "react-dom";
 import { useHistory } from "react-router-dom";
 
@@ -24,6 +24,7 @@ import {
   StyledStatusBar,
   InterfaceContainer,
 } from "./index.style";
+import { StateContext, ActionTypes } from "../../util/useApplicationState";
 
 const SelectionOrder = [
   "5b1a820697e366793c000083", //ptolemy
@@ -45,6 +46,9 @@ export default function MapScreen() {
   const [sdkData, setSdkData] = React.useState(null);
   const [selectedLocation, setSelectedLocation] = React.useState(null);
   //const [navigationNodes, setNavigationNodes] = React.useState([]);
+  const {
+    dispatch,
+  } = useContext(StateContext);
 
   const history = useHistory();
 
@@ -261,7 +265,8 @@ export default function MapScreen() {
       });
 
       if (sequentialLocations.length === SelectionOrder.length) {
-        alert("puzzle complete condition");
+        history.push("sphinx_code");
+        dispatch({ type: ActionTypes.completePuzzle, payload: "MEETING_ROOM" });
       }
     }
   }, [sequentialLocations, sdkData, selectedMap]);

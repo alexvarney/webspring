@@ -1,93 +1,90 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useRef, useEffect } from "react";
 import InteractiveImage from "../shared/interactive-image";
-import { Link, useHistory } from "react-router-dom";
 import { StateContext, ActionTypes } from "../util/useApplicationState";
 import styled from "styled-components";
 
 const InputContainer = styled.div`
-  display: flex;
+  width: 100%;
+  display: grid;
+  grid-template: 1fr / max-content repeat(3, 1fr) max-content;
+  grid-gap: clamp(4px, 2.5%, 16px);
   input {
-    margin-right: 24px;
-  }
-  p {
-    margin-right: 12px;
+    background-color: ${(props) => props.bgColor};
+    width: 100%;
   }
 `;
 
 export default function PetWall() {
-  const history = useHistory();
-  const { state, dispatch } = useContext(StateContext);
-  const [codeInput1, setCodeInput1] = useState("");
-  const [codeInput2, setCodeInput2] = useState("");
-  const [codeInput3, setCodeInput3] = useState("");
-  const [input1, setInput1] = useState("");
-  const [input2, setInput2] = useState("");
-  const [input3, setInput3] = useState("");
-  const [colorState, setColorState] = useState("white");
-  useEffect(() => {
-    if (codeInput1 == "6" && codeInput2== "5" && codeInput3 == "10") {
-      setTimeout(() => {
-        //dispatch({ type: "SET_STATE", payload: "LOCKSCREEN" });
-        history.push("/pet_wall_answer");
-      }, 150);
-    }
-    else if (codeInput1 > " " ||  codeInput2 > " " || codeInput3 > " "){
-      setTimeout(() => {
-        setColorState("red");
-      }, 500);
-    }
-  }, [codeInput1]);
+  const [inputs, _setInput] = useState(["", "", ""]);
 
-  return (
+  const timeoutRef = useRef();
+
+  const setInput = (index, value) => {
+    _setInput((prevVals) => {
+      const newArr = [...prevVals];
+      newArr[index] = value;
+      return newArr;
+    });
+  };
+
+  const [colorState, setColorState] = useState("#fff");
+
+  const {
+    state: { completedPuzzles },
+    dispatch,
+  } = useContext(StateContext);
+
+  const isPuzzleComplete = completedPuzzles.includes("PETWALL");
+
+  const markComplete = () =>
+    (timeoutRef.current = setTimeout(
+      () => dispatch({ type: ActionTypes.completePuzzle, payload: "PETWALL" }),
+      1000
+    ));
+
+  useEffect(
+    () => () => timeoutRef.current && clearTimeout(timeoutRef.current),
+    []
+  );
+
+  const validate = () => {
+    if (inputs[0] === "6" && inputs[1] === "5" && inputs[2] === "10") {
+      setColorState("#30E5A5");
+      markComplete();
+    } else {
+      setColorState("#F63654");
+    }
+  };
+
+  return isPuzzleComplete ? (
+    <InteractiveImage src="./office/pet_wall_answer.png" />
+  ) : (
     <InteractiveImage animationPlay={true} src="./office/pet_wall_original.png">
-      <InputContainer>
+      <InputContainer bgColor={colorState}>
         <p>Dog Code:</p>
         <input
-          value={input1}
+          value={inputs[0]}
           onChange={(e) => {
-            setInput1(e.target.value);
-            setColorState("white");
+            setInput(0, e.target.value);
           }}
-          style={{ backgroundColor: colorState }}
           type="number"
-        
         />
         <input
-          value={input2}
+          value={inputs[1]}
           onChange={(e) => {
-            setInput2(e.target.value);
-            setColorState("white");
+            setInput(1, e.target.value);
           }}
-          style={{ backgroundColor: colorState }}
           type="number"
-        
         />
         <input
-          value={input3}
+          value={inputs[2]}
           onChange={(e) => {
-            setInput3(e.target.value);
-            setColorState("white");
+            setInput(2, e.target.value);
           }}
-          style={{ backgroundColor: colorState }}
           type="number"
-
         />
-        <button
-          onClick={() => {
-            setCodeInput1(input1);
-            setCodeInput2(input2);
-            setCodeInput3(input3);
-          }}
-        >
-          Enter Code
-        </button>
+        <button onClick={validate}>Submit Code</button>
       </InputContainer>
     </InteractiveImage>
-  );
-}
-
-export function PetWallAnswer() {
-  return (
-    <InteractiveImage src="./office/pet_wall_answer.png"></InteractiveImage>
   );
 }

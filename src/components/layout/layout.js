@@ -185,7 +185,7 @@ function App({ children }) {
             exit={{ opacity: 0, y: "100%" }}
             transition={{ type: "tween", duration: 0.5 }}
             onClick={() =>
-              dispatch({ type: ActionTypes.setState, payload: "LOCKSCREEN" })
+              dispatch({ type: ActionTypes.setState, payload: "HIDDEN" })
             }
           >
             <img src="/ui/splash_screen.jpg" />

@@ -41,7 +41,7 @@ export default function BombRoom() {
 
   useEffect(() => {
     const isValid = dataInput.every(
-      (value, index) => unlockCode[index] === value
+      (value, index) => unlockCode[index].toLowerCase() === value.toLowerCase()
     );
 
     if (isValid) {

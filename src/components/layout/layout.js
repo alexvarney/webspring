@@ -6,6 +6,7 @@ import LocationRouter from "./panel-router";
 import { motion, AnimatePresence } from "framer-motion";
 import { IoMdRefresh } from "react-icons/io";
 import Button from "../shared/button";
+import { useHistory } from "react-router-dom";
 
 const PageContainer = styled.div`
   display: grid;
@@ -167,6 +168,8 @@ function App({ children }) {
     dispatch,
   } = React.useContext(StateContext);
 
+  const history = useHistory();
+
   const goHome = () => {
     const destination =
       appState === "LOCKSCREEN"
@@ -182,6 +185,7 @@ function App({ children }) {
     if (
       window.confirm("Are you sure you want to clear all progress and reset?")
     ) {
+      history.push("/");
       dispatch({ type: ActionTypes.reset });
     }
   };

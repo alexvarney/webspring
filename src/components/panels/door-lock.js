@@ -1,9 +1,10 @@
-import React, { useMemo, useEffect, useState } from "react";
+import React, { useMemo, useEffect, useState, useContext } from "react";
 import InteractiveImage from "../shared/interactive-image";
 import { ImVolumeMedium, ImVolumeMute2 } from "react-icons/im";
 import useSequentialSelections from "../util/useSequentialSelections";
 import Sound from "react-sound";
 import { useHistory } from "react-router-dom";
+import { StateContext, ActionTypes } from "../util/useApplicationState";
 
 const expectedSequence = [4, 1, 0, 2, 0, 1, 8];
 
@@ -13,6 +14,15 @@ export default function DoorLockPuzzle() {
   const [isMuted, setMuted] = useState(false);
   const [hasInteracted, setInteracted] = useState(false);
   const history = useHistory();
+
+  const {
+    state: { completedPuzzles },
+    dispatch,
+  } = useContext(StateContext);
+
+  if (completedPuzzles.includes("DOOR_PUZZLE")) {
+    history.push("/bomb_room");
+  }
 
   const onInteract = () => {
     if (!hasInteracted) {
@@ -25,7 +35,7 @@ export default function DoorLockPuzzle() {
 
     if (sequence.length === expectedSequence.length) {
       //Victory condition
-      history.push("bomb_room");
+      dispatch({ type: ActionTypes.completePuzzle, payload: "DOOR_PUZZLE" });
     }
   }, [sequence]);
 

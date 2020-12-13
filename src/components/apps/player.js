@@ -67,7 +67,8 @@ const textHintVariants = {
 const comments = [
   { text: "Ugh seriously", author: "ragefilledpriscilla" },
   {
-    text: "I'm here after the legend Sebastian Vettel brought this masterpiece up",
+    text:
+      "I'm here after the legend Sebastian Vettel brought this masterpiece up",
     author: "hinityspurious",
   },
   {
@@ -112,7 +113,7 @@ export default function Component(props) {
     <Container>
       <VideoContainer>
         <ReactPlayer
-          url="https://www.youtube.com/watch?v=Qkuu0Lwb5EM"
+          url="https://youtu.be/Qkuu0Lwb5EM?t=16"
           playsinline
           onEnded={setComplete}
           playing

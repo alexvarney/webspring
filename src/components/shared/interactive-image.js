@@ -1,5 +1,6 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
+import Magnifier from "react-magnifier";
 
 const fadeIn = keyframes`
   0%{
@@ -15,7 +16,9 @@ const fadeIn = keyframes`
 
 export const Container = styled.div`
   width: 50vw;
+  max-width: 700px;
   height: 50vw;
+  max-height: 700px;
   background-color: transparent;
   box-shadow: 0px 3px 12px rgba(0, 0, 0, 0.3);
   background-image: url(${(props) => props.backgroundSrc});
@@ -25,6 +28,7 @@ export const Container = styled.div`
   animation: ${(props) => (props.animationPlay ? fadeIn : "")} ease 1.5s;
   background-size: contain;
   background-position: center;
+  overflow: hidden;
 `;
 
 const Clickable = styled.div`
@@ -59,16 +63,31 @@ const ControlsMenu = styled.div`
   }
 `;
 
+const MagnifierContainer = styled.div`
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+`;
+
 export default function InteractiveImage({
   src,
   areas,
   children,
   debug = false,
   pointer = false,
+  magnifier = false,
+  zoomFactor = 1.5,
   ...rest
 }) {
   return (
-    <Container backgroundSrc={src} {...rest}>
+    <Container backgroundSrc={!magnifier && src} {...rest}>
+      {magnifier && (
+        <MagnifierContainer>
+          <Magnifier src={src} zoomFactor={zoomFactor} />
+        </MagnifierContainer>
+      )}
       {areas &&
         areas.map((area) => (
           <Clickable {...area} debug={debug} pointer={pointer} />

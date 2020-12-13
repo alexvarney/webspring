@@ -43,7 +43,7 @@ const InfoButton = styled.button`
 const images = {
   SUCCESS: "/office/evr_square.jpg",
   FAILURE: "/ui/dog_shake.gif",
-  INITIAL: "/office/FantasyMap.png",
+  INITIAL: "/office/FantasyMapEdited.jpg",
   HINT: "/office/morse_scroll_minimal.png",
 };
 
@@ -113,7 +113,7 @@ export default function FantasyWall() {
 
   return (
     <>
-      <InteractiveImage animationPlay={true} src={images[state]}>
+      <InteractiveImage magnifier animationPlay={true} src={images[state]}>
         <InputContainer
           inputBg={
             isPuzzleComplete

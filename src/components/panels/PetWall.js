@@ -57,9 +57,14 @@ export default function PetWall() {
   };
 
   return isPuzzleComplete ? (
-    <InteractiveImage src="./office/pet_wall_answer.png" />
+    <InteractiveImage src="./office/PetWallAnswerEdit.jpg">
+      <> </>
+    </InteractiveImage>
   ) : (
-    <InteractiveImage animationPlay={true} src="./office/pet_wall_original.png">
+    <InteractiveImage
+      animationPlay={true}
+      src="./office/PetWallOriginalEdit.jpg"
+    >
       <InputContainer bgColor={colorState}>
         <p>Dog Code:</p>
         <input

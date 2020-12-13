@@ -4,6 +4,8 @@ import { StateContext, ActionTypes } from "../util/useApplicationState";
 import PhoneRouter from "./app-router";
 import LocationRouter from "./panel-router";
 import { motion, AnimatePresence } from "framer-motion";
+import { IoMdRefresh } from "react-icons/io";
+import Button from "../shared/button";
 
 const PageContainer = styled.div`
   display: grid;
@@ -115,6 +117,7 @@ const Header = styled.div`
   display: flex;
   align-items: stretch;
   max-height: 100%;
+  justify-content: space-between;
 
   grid-row: 1;
   grid-column: 1 / -1;
@@ -175,6 +178,14 @@ function App({ children }) {
     dispatch({ type: ActionTypes.setState, payload: destination });
   };
 
+  const reset = () => {
+    if (
+      window.confirm("Are you sure you want to clear all progress and reset?")
+    ) {
+      dispatch({ type: ActionTypes.reset });
+    }
+  };
+
   return (
     <PageContainer>
       <AnimatePresence>
@@ -197,6 +208,10 @@ function App({ children }) {
 
       <Header>
         <img src="/ui/logo_white.svg" />
+        <Button onClick={reset}>
+          <IoMdRefresh />
+          <span>Reset Game</span>
+        </Button>
       </Header>
 
       <DeviceOuterContainer hidden={appState === "HIDDEN"}>

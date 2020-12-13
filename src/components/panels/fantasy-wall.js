@@ -12,9 +12,9 @@ const InputContainer = styled.form`
   grid-gap: clamp(0px, 2.5%, 16px);
 
   input {
-    width: 100%;
     text-transform: uppercase;
     background-color: ${(props) => props.inputBg ?? "#fff"};
+    color: #000;
   }
 
   p {

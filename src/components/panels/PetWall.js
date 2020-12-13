@@ -12,11 +12,6 @@ const InputContainer = styled.div`
   grid-gap: clamp(4px, 2.5%, 16px);
   input {
     background-color: ${(props) => props.bgColor};
-    width: 100%;
-    height: 100%;
-    border: 2px solid #fff;
-    border-radius: 4px;
-    color: #fff;
   }
 `;
 

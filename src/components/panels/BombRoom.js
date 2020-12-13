@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, useRef } from "react";
 import { Container as InteractiveImageContainer } from "../shared/interactive-image";
 import { Link, useHistory } from "react-router-dom";
 import { StateContext, ActionTypes } from "../util/useApplicationState";
@@ -20,9 +20,9 @@ const InputWrapper = styled.div`
   grid-gap: 3.5%;
 
   & > input {
-    width: 100%;
-    background-color: transparent;
+    color: #000;
     border: none;
+    text-transform: uppercase;
   }
 `;
 
@@ -30,6 +30,7 @@ const unlockCode = ["stay", "hom", "fur", "evr"];
 
 export default function BombRoom() {
   const [dataInput, _setDataInput] = useState(["", "", "", ""]);
+  const timeoutRef = useRef();
 
   const setData = (index, value) => {
     _setDataInput((prevVal) => {
@@ -45,9 +46,16 @@ export default function BombRoom() {
     );
 
     if (isValid) {
-      alert("Puzzle unlocked");
+      timeoutRef.current = setTimeout(() => {
+        alert("Puzzle unlocked");
+      }, 250);
     }
   }, [dataInput]);
+
+  useEffect(
+    () => () => timeoutRef.current && clearTimeout(timeoutRef.current),
+    []
+  );
 
   return (
     <Container>

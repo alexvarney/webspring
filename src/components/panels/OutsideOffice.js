@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import InteractiveImage from "../shared/interactive-image";
+import Button from "../shared/button";
 import { Link, useHistory } from "react-router-dom";
 import { StateContext, ActionTypes } from "../util/useApplicationState";
 
@@ -13,7 +14,7 @@ export default function OutsideOffice() {
 
   return (
     <InteractiveImage src="./office/outside_office.png">
-      <button onClick={enterOffice}>Enter the office</button>
+      <Button onClick={enterOffice}>Enter the office</Button>
     </InteractiveImage>
   );
 }

@@ -1,16 +1,22 @@
 import React, { useContext, useState, useRef, useEffect } from "react";
 import InteractiveImage from "../shared/interactive-image";
+import Button from "../shared/button";
 import { StateContext, ActionTypes } from "../util/useApplicationState";
 import styled from "styled-components";
 
 const InputContainer = styled.div`
   width: 100%;
   display: grid;
+  align-items: center;
   grid-template: 1fr / max-content repeat(3, 1fr) max-content;
   grid-gap: clamp(4px, 2.5%, 16px);
   input {
     background-color: ${(props) => props.bgColor};
     width: 100%;
+    height: 100%;
+    border: 2px solid #fff;
+    border-radius: 4px;
+    color: #fff;
   }
 `;
 
@@ -27,7 +33,7 @@ export default function PetWall() {
     });
   };
 
-  const [colorState, setColorState] = useState("#fff");
+  const [colorState, setColorState] = useState("rgba(0, 0, 0, 0.85)");
 
   const {
     state: { completedPuzzles },
@@ -88,7 +94,7 @@ export default function PetWall() {
           }}
           type="number"
         />
-        <button onClick={validate}>Submit Code</button>
+        <Button onClick={validate}>Submit Code</Button>
       </InputContainer>
     </InteractiveImage>
   );

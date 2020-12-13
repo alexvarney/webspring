@@ -3,6 +3,7 @@ import InteractiveImage from "../shared/interactive-image";
 import { AiOutlineInfoCircle, AiOutlineCloseCircle } from "react-icons/ai";
 import { StateContext, ActionTypes } from "../util/useApplicationState";
 import styled from "styled-components";
+import Button from "../shared/button";
 
 const InputContainer = styled.form`
   width: 100%;
@@ -19,24 +20,6 @@ const InputContainer = styled.form`
   p {
     display: inline-flex;
     align-items: center;
-  }
-`;
-
-const InfoButton = styled.button`
-  border: none;
-  background-color: transparent;
-  cursor: pointer;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  font-size: 24px;
-
-  :focus {
-    outline: none;
-  }
-
-  svg {
-    color: #fff;
   }
 `;
 
@@ -149,16 +132,16 @@ export default function FantasyWall() {
             disabled={isPuzzleComplete}
           />
 
-          <button type="submit" onClick={validate} disabled={isPuzzleComplete}>
+          <Button type="submit" onClick={validate} disabled={isPuzzleComplete}>
             Submit
-          </button>
-          <InfoButton onClick={toggleHint}>
+          </Button>
+          <Button.IconButton onClick={toggleHint}>
             {state === "HINT" ? (
               <AiOutlineCloseCircle />
             ) : (
               <AiOutlineInfoCircle />
             )}
-          </InfoButton>
+          </Button.IconButton>
         </InputContainer>
       </InteractiveImage>
     </>

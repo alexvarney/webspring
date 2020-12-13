@@ -3,15 +3,16 @@ import InteractiveImage from "../shared/interactive-image";
 import { Link, useHistory } from "react-router-dom";
 import { StateContext, ActionTypes } from "../util/useApplicationState";
 import styled from "styled-components";
+import Button from "../shared/button";
+import { AiOutlineInfoCircle } from "react-icons/ai";
 
 const InputContainer = styled.div`
-  display: flex;
-  input {
-    margin-right: 24px;
-  }
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  grid-gap: 16px;
 
   p {
-    margin-right: 12px;
+    align-self: center;
   }
 `;
 
@@ -55,6 +56,15 @@ export default function KioskScreen() {
             setDataInput(e.target.value);
           }}
         />
+        <Button.IconButton
+          onClick={() =>
+            window.open(
+              "https://www.conestogamall.com/map/#/directions/from/198/to/163/map"
+            )
+          }
+        >
+          <AiOutlineInfoCircle />
+        </Button.IconButton>
       </InputContainer>
     </InteractiveImage>
   );

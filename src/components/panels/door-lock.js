@@ -5,6 +5,7 @@ import useSequentialSelections from "../util/useSequentialSelections";
 import Sound from "react-sound";
 import { useHistory } from "react-router-dom";
 import { StateContext, ActionTypes } from "../util/useApplicationState";
+import Button from "../shared/button";
 
 const expectedSequence = [4, 1, 0, 2, 0, 1, 8];
 
@@ -120,9 +121,9 @@ export default function DoorLockPuzzle() {
         onMouseMove={onInteract}
       >
         <p>Unlock the door to proceed.</p>
-        <div onClick={() => setMuted((x) => !x)}>
+        <Button.IconButton onClick={() => setMuted((x) => !x)}>
           {isMuted ? <ImVolumeMute2 /> : <ImVolumeMedium />}
-        </div>
+        </Button.IconButton>
       </InteractiveImage>
     </>
   );

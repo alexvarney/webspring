@@ -45,7 +45,8 @@ const Clickable = styled.div`
 const ControlsMenu = styled.div`
   width: 100%;
   height: 10%;
-  background-color: #1c2542;
+  background-color: #000;
+
   z-index: 50;
   position: absolute;
   bottom: 0;

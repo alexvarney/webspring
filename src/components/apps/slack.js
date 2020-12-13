@@ -37,7 +37,7 @@ export default function SlackView(props) {
     <Container
       onClick={() =>
         window.open(
-          "slack://channel?hint=ask-bot-for-riddle&team=T024SHDN6&id=G75G7NB53"
+          "slack://channel?hint=ask-bot-for-riddle&team=T024SHDN6&id=C01GCKX6YLF"
         )
       }
     >

@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import StatusBar from "../../shared/statusbar";
 import AppIcon from "./app-icon";
 import { motion } from "framer-motion";
+import { StateContext } from "../../util/useApplicationState";
 
 const Container = styled(motion.div)`
   height: 100%;
@@ -27,6 +28,10 @@ const AppGrid = styled.div`
 `;
 
 export default function HomeScreen(props) {
+  const {
+    state: { completedPuzzles },
+  } = useContext(StateContext);
+
   return (
     <Container
       key="home-screen"
@@ -54,16 +59,23 @@ export default function HomeScreen(props) {
           src="/icons/slack_icon.png"
           appState="SLACK"
           label="Slack"
-          notificationNumber="1"
+          notificationNumber={
+            completedPuzzles.includes("MEETING_ROOM") ? null : "1"
+          }
         />
         <AppIcon
           src="/icons/youtube_icon.jpg"
           appState="PLAYER"
           label="YouTube"
-          notificationNumber="2"
+          notificationNumber={completedPuzzles.includes("PLAYER") ? null : "1"}
         />
         <AppIcon src="/icons/phone_icon.png" appState="PHONE" label="Phone" />
-        <AppIcon src="/icons/tindawg.png" appState="TINDAWG" label="Tindawg" />
+        <AppIcon
+          src="/icons/tindawg.png"
+          appState="TINDAWG"
+          label="Tindawg"
+          notificationNumber={completedPuzzles.includes("TINDAWG") ? null : "1"}
+        />
       </AppGrid>
     </Container>
   );

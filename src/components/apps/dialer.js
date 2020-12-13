@@ -173,7 +173,7 @@ export default function PhoneView(props) {
         onFinishedPlaying={() => setCallState("INPUT")}
       />
       <Sound
-        url="/audio/morse_code.wav"
+        url="/audio/morse_code_edit.mp3"
         playStatus={callState === "SUCCESS" ? "PLAYING" : "STOPPED"}
         onFinishedPlaying={() => setCallState("INPUT")}
       />

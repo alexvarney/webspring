@@ -46,9 +46,7 @@ export default function MapScreen() {
   const [sdkData, setSdkData] = React.useState(null);
   const [selectedLocation, setSelectedLocation] = React.useState(null);
   //const [navigationNodes, setNavigationNodes] = React.useState([]);
-  const {
-    dispatch,
-  } = useContext(StateContext);
+  const { dispatch } = useContext(StateContext);
 
   const history = useHistory();
 
@@ -110,7 +108,7 @@ export default function MapScreen() {
     },
   ];
 
-  const { resetMarkers, addMarker, deleteMarker } = useMarkerManager(
+  const markerManager = useMarkerManager(
     sdkData?.mapview,
     selectedMap,
     markers,
@@ -143,14 +141,6 @@ export default function MapScreen() {
     },
   };
 
-  const levels = sdkData?.mapview?.venue?.maps.sort(
-    (a, b) => b.elevation - a.elevation
-  );
-
-  const locations = sdkData?.mapview.venue.locations
-    .filter((item) => item.polygons && item.polygons.length > 0)
-    .sort((a, b) => (a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1));
-
   const loadingCallback = (data) => {
     setSdkData(data);
     setSelectedMap(data.mapview.currentMap);
@@ -158,54 +148,6 @@ export default function MapScreen() {
     data.mapview.addInteractivePolygonsForAllLocations();
     data.mapview.labelAllLocations();
   };
-
-  /*
-  const addNavigationNode = (node) => {
-    const { mapview: mapView } = sdkData;
-
-    setNavigationNodes((prevVal) => {
-      if (prevVal[0]) {
-        prevVal[0].directionsTo(
-          node,
-          { accessible: false, directionsProvider: "offline" },
-          function (error, directions) {
-            if (error || directions.path.length == 0) {
-              // Some kind of network error, or those two points aren't connected, or are invalid
-              return;
-            }
-
-            mapView.clearAllPolygonColors();
-
-            if (node?.polygons) {
-              mapView.setPolygonColor(node.polygons[0], 0xbf4320);
-            } else {
-              mapView.setPolygonColor(node, 0xbf4320);
-            }
-
-            if (prevVal[0].polygons) {
-              mapView.setPolygonColor(prevVal[0].polygons[0], 0xbf4320);
-            } else {
-              mapView.setPolygonColor(prevVal[0], 0xbf4320);
-            }
-
-            mapView.removeAllPaths();
-            mapView.drawPath(directions.path);
-            mapView.focusOnPath(
-              directions.path,
-              [node, prevVal[0]],
-              true,
-              2000
-            );
-          }
-        );
-
-        return [node, prevVal[0]];
-      }
-      return [node];
-    });
-  };
-
-  */
 
   const onPolygonClicked = React.useCallback(
     (polygonId) => {
@@ -217,42 +159,6 @@ export default function MapScreen() {
     },
     [sdkData, selectedMap]
   );
-  //Respond to update of selected location
-
-  /* 
-
-  // Do stuff on specific polygon click
-
-  React.useEffect(() => {
-    console.log(selectedLocation);
-
-    if (sdkData && sdkData.mapview && selectedLocation) {
-      const polygon = getPolygonForLocation(selectedLocation, sdkData.mapview);
-
-      switch (selectedLocation) {
-        case "5b1a817c97e366793c000080":
-          //Da Vinci
-
-          const markerComponent = (
-            <Markers.LocationRedirectMarker
-              text="Hello DaVinci"
-              onActivate={() => {
-                history.push("/2");
-                deleteMarker("da-vinci-marker");
-              }}
-            />
-          );
-
-          addMarker({
-            key: "da-vinci-marker",
-            location: "5b1a817c97e366793c000080",
-            component: markerComponent,
-          });
-      }
-    }
-  }, [selectedLocation, sdkData]);
-
-  */
 
   //Respond to update of sequential locations
   React.useEffect(() => {
@@ -277,32 +183,6 @@ export default function MapScreen() {
       sdkData.mapview.onPolygonClicked = onPolygonClicked;
     }
   }, [sdkData, onPolygonClicked]);
-
-  const onLevelChange = (e) => {
-    setSelectedMap(e.target.value);
-  };
-
-  const onLocationChange = (e) => {
-    const polygon = getPolygonForLocation(e.target.value, sdkData.mapview);
-
-    if (polygon) {
-      //setNavigationNodes([polygon]);
-      sdkData.mapview.removeAllPaths();
-      sdkData.mapview.clearAllPolygonColors();
-      sdkData.mapview.setPolygonColor(polygon, 0xbf4320);
-
-      if (polygon.map !== selectedMap) {
-        setSelectedMap(polygon.map);
-        setTimeout(() => {
-          sdkData.mapview.focusOnPolygon(polygon);
-        }, 100);
-      } else {
-        sdkData.mapview.focusOnPolygon(polygon);
-      }
-    }
-
-    setSelectedLocation(e.target.value);
-  };
 
   return (
     <Wrapper key="map-container">

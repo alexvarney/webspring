@@ -1,5 +1,4 @@
 import React from "react";
-import { BrowserRouter } from "react-router-dom";
 import useApplicationState, { StateContext } from "./util/useApplicationState";
 import Layout from "./layout/layout";
 
@@ -8,9 +7,7 @@ function App() {
 
   return (
     <StateContext.Provider value={applicationState}>
-      <BrowserRouter>
-        <Layout />
-      </BrowserRouter>
+      <Layout />
     </StateContext.Provider>
   );
 }

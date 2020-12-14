@@ -24,7 +24,8 @@ export default function KioskScreen() {
   useEffect(() => {
     if (dataInput == "1935") {
       setTimeout(() => {
-        dispatch({ type: "SET_STATE", payload: "LOCKSCREEN" });
+        dispatch({ type: ActionTypes.setState, payload: "LOCKSCREEN" });
+        dispatch({ type: ActionTypes.completePuzzle, payload: "KIOSK" });
         history.push("/outside_office");
       }, 150);
     }

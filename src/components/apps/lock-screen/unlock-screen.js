@@ -91,7 +91,6 @@ export default function Component({
   const handlePasscodeInput = (event, char) => {
     event.stopPropagation();
     event.preventDefault();
-    console.log("called");
 
     setInputValue((prevVal) => {
       if (prevVal.length < passcode.length) {

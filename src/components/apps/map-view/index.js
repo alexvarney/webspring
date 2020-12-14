@@ -112,10 +112,9 @@ export default function MapScreen() {
     mapview: {
       antialias: "AUTO", //auto apply antialiasing
       mode: Mappedin.modes.TEST, //automatically test for 3d or 2d mode
-      onDataLoaded: () => console.log("Data loaded"),
+
       onFirstMapLoaded: () => {
         setFullyLoaded(true);
-        console.log("fully loaded");
       },
     },
     venue: {

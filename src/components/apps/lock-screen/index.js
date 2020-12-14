@@ -36,7 +36,6 @@ export default function LockScreenIndex({ ...rest }) {
         {appState === "LOCKSCREEN.UNLOCK" && (
           <UnlockScreen
             onSuccess={() => {
-              console.log("unlocked");
               dispatch({ type: ActionTypes.unlocked });
               dispatch({ type: ActionTypes.setState, payload: "HOME" });
             }}

@@ -72,8 +72,6 @@ export const useMarkerManager = (
     if (marker && marker?.markerData) {
       removeMarker(marker);
     }
-
-    console.log(allMarkers);
   };
 
   const createMarker = React.useCallback(

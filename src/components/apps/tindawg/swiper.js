@@ -81,7 +81,6 @@ export default function TindawgSwiper({ onSuccess = () => null }) {
 
   const outOfFrame = React.useCallback(
     (name) => {
-      console.log(name + " left the screen!");
       setCharacters((prevState) =>
         prevState.filter((character) => character.name !== name)
       );

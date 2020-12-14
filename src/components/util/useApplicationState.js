@@ -27,8 +27,6 @@ const reducer = (state, action) => {
         unlocked: true,
       };
     case ActionTypes.setState:
-      console.log(`State change: ${action.payload}`);
-
       return {
         ...state,
         appState: action.payload,

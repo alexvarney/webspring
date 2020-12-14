@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import InteractiveImage from "../shared/interactive-image";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { StateContext, ActionTypes } from "../util/useApplicationState";
 import styled from "styled-components";
 import Button from "../shared/button";
@@ -18,17 +18,18 @@ const InputContainer = styled.div`
 
 export default function KioskScreen() {
   const history = useHistory();
-  const { state, dispatch } = useContext(StateContext);
+  const { dispatch } = useContext(StateContext);
   const [dataInput, setDataInput] = useState("");
 
   useEffect(() => {
-    if (dataInput == "1935") {
+    if (dataInput === "1935") {
       setTimeout(() => {
         dispatch({ type: ActionTypes.setState, payload: "LOCKSCREEN" });
         dispatch({ type: ActionTypes.completePuzzle, payload: "KIOSK" });
         history.push("/outside_office");
       }, 150);
     }
+    // eslint-disable-next-line
   }, [dataInput]);
 
   const ClickableRegions = [
@@ -48,7 +49,11 @@ export default function KioskScreen() {
       areas={ClickableRegions}
       src="./office/MappinsDirectory.png"
     >
-      <img src="./office/MappinsHint.png" height="70" />
+      <img
+        src="./office/MappinsHint.png"
+        alt="a kiosk at conestoga mall"
+        height="70"
+      />
       <InputContainer>
         <p>Answer:</p>
         <input

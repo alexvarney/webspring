@@ -52,7 +52,7 @@ export default function Message(props) {
         You matched with <strong>Duke</strong> 1m Ago
       </Heading>
       <MessageRow>
-        <img src="/tindawg_pets/06_dog.jpg"></img>
+        <img src="/tindawg_pets/06_dog.jpg" alt="match profile"></img>
         <p>Call me at 519-745-2222</p>
       </MessageRow>
     </Container>

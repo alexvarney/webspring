@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { motion } from "framer-motion";
 import StatusBar from "../../shared/statusbar";
 import StateContainer from "../../shared/state-container";
 
@@ -23,13 +22,6 @@ export const Wrapper = styled(StateContainer)`
   }
 `;
 
-export const Row = styled.div`
-  display: flex;
-  & > *:not(:last-child) {
-    margin-right: 8px;
-  }
-`;
-
 export const LoadingScreen = styled.div`
   position: absolute;
   display: flex;
@@ -49,19 +41,4 @@ export const StyledStatusBar = styled(StatusBar)`
   box-shadow: 2px 0px 4px rgba(40, 40, 40, 0.75);
   color: white;
   z-index: 1000;
-`;
-
-export const InterfaceContainer = styled.div`
-  height: 10%;
-  max-height: 10%;
-  width: 100%;
-  max-width: 100%;
-  overflow: hidden;
-  z-index: 10;
-  padding: 4px;
-  background-color: #1f4e6e;
-  align-self: end;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
 `;

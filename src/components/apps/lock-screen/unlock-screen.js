@@ -106,7 +106,6 @@ export default function Component({
   const dotAnimation = useAnimation();
 
   useEffect(() => {
-    console.log(inputValue);
     if (inputValue.length === passcode.length) {
       if (inputValue === passcode) {
         setIsUnlocked(true);
@@ -126,7 +125,7 @@ export default function Component({
         });
       }
     }
-  }, [inputValue]);
+  }, [inputValue, passcode, onSuccess, dotAnimation]);
 
   return (
     <Wrapper

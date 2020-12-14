@@ -18,13 +18,14 @@ export default function MapManager({
         setSdkData(data);
       })
       .catch((error) => console.error(error));
+    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
     if (selectedMap && sdkData) {
       sdkData.mapview.setMap(selectedMap);
     }
-  }, [selectedMap]);
+  }, [selectedMap, sdkData]);
 
   return (
     <div

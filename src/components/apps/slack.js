@@ -30,7 +30,7 @@ const hints = [
 
 export default function SlackView(props) {
   useEffect(() => {
-    console.log(hints);
+    hints.forEach((hint, i) => console.log(`${i}) ${hint}`));
   }, []);
 
   return (
@@ -42,7 +42,7 @@ export default function SlackView(props) {
       }
     >
       <StyledStatusBar />
-      <img src="/office/sphinx.png" />
+      <img src="/office/sphinx.png" alt="check the console for some hints" />
     </Container>
   );
 }

@@ -1,7 +1,6 @@
-import React, { useContext, useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Container as InteractiveImageContainer } from "../shared/interactive-image";
-import { Link, useHistory } from "react-router-dom";
-import { StateContext, ActionTypes } from "../util/useApplicationState";
+
 import styled from "styled-components";
 
 const Container = styled(InteractiveImageContainer)`

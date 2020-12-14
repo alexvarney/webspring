@@ -57,6 +57,7 @@ export default function TindawgSwiper({ onSuccess = () => null }) {
 
   React.useEffect(() => {
     reset();
+    // eslint-disable-next-line
   }, []);
 
   const childRefs = useMemo(
@@ -74,6 +75,7 @@ export default function TindawgSwiper({ onSuccess = () => null }) {
 
       setRemovedCharacters((prevState) => [...prevState, nameToDelete]);
     },
+    // eslint-disable-next-line
     [setRemovedCharacters, characters]
   );
 
@@ -84,6 +86,7 @@ export default function TindawgSwiper({ onSuccess = () => null }) {
         prevState.filter((character) => character.name !== name)
       );
     },
+    // eslint-disable-next-line
     [setCharacters, characters]
   );
 
@@ -102,6 +105,7 @@ export default function TindawgSwiper({ onSuccess = () => null }) {
         }
       }
     },
+    // eslint-disable-next-line
     [characters, setRemovedCharacters, removedCharacters, db]
   );
 
@@ -109,6 +113,7 @@ export default function TindawgSwiper({ onSuccess = () => null }) {
     if (sequence.length === expectedSequence.length) {
       onSuccess();
     }
+    // eslint-disable-next-line
   }, [sequence]);
 
   return (
@@ -140,7 +145,7 @@ export default function TindawgSwiper({ onSuccess = () => null }) {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0 }}
             >
-              <img src="/icons/tindawg_alpha.png" />
+              <img src="/icons/tindawg_alpha.png" alt="logo" />
               <p>
                 Can't sniff out any matches? Try standing out from the
                 background!

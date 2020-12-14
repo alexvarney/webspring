@@ -10,9 +10,13 @@ export const getLocationForPolygon = (polygonId, mapview) => {
 };
 
 export const getPolygonForLocation = (locationId, mapview) => {
-  const polygons = mapview.venue.locations.find((location) => location.id === locationId).polygons;
-  const desiredPolygon = polygons.find(polygon => polygon.layer == "Polygon")
-  return desiredPolygon !== undefined ? desiredPolygon : polygons[0]
+  const polygons = mapview.venue.locations.find(
+    (location) => location.id === locationId
+  ).polygons;
+  const desiredPolygon = polygons.find(
+    (polygon) => polygon.layer === "Polygon"
+  );
+  return desiredPolygon ? desiredPolygon : polygons[0];
 };
 
 export const useMarkerManager = (
@@ -75,7 +79,7 @@ export const useMarkerManager = (
   const createMarker = React.useCallback(
     (markerData) => {
       if (activeMarkers[markerData.key]) {
-        throw "marker key already exists";
+        throw new Error("marker key already exists");
       }
 
       let polygon =
@@ -120,6 +124,7 @@ export const useMarkerManager = (
         return prevState;
       });
     },
+    // eslint-disable-next-line
     [mapview, setActiveMarkers, resetMarkers]
   );
 

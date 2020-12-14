@@ -203,7 +203,7 @@ function App({ children }) {
               dispatch({ type: ActionTypes.setState, payload: "HIDDEN" })
             }
           >
-            <img src="/ui/splash_screen.jpg" />
+            <img src="/ui/splash_screen.jpg" alt="Splash Screen" />
           </SplashScreenContainer>
         ) : (
           ""
@@ -211,7 +211,7 @@ function App({ children }) {
       </AnimatePresence>
 
       <Header>
-        <img src="/ui/logo_white.svg" />
+        <img src="/ui/logo_white.svg" alt="Escapedin Logo" />
         <Button onClick={reset}>
           <IoMdRefresh />
           <span>Reset Game</span>

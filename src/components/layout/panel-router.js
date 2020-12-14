@@ -1,9 +1,8 @@
 import React from "react";
-import { Route, Switch, Link } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import KioskScreen from "../panels/kiosk";
 import ValuesWall from "../panels/values-wall";
 import PetWall from "../panels/pet-wall";
-import ServerRoom from "../panels/server-room";
 import BookCase from "../panels/books";
 import OutsideOffice from "../panels/outside-office";
 import MainOffice from "../panels/main-office";
@@ -38,9 +37,6 @@ export default function PanelRouter() {
       </Route>
       <Route exact path="/pet_wall">
         <PetWall />
-      </Route>
-      <Route exact path="/server_room">
-        <ServerRoom />
       </Route>
       <Route exact path="/sphinx_code">
         <SphinxCode />

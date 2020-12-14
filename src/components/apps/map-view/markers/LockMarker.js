@@ -52,7 +52,7 @@ export default function LockMarker({ passcode, onCloseAction, onSuccess }) {
         setInputVal("");
       }
     }
-  }, [inputVal]);
+  }, [inputVal, onSuccess, passcode]);
 
   return (
     <Container>

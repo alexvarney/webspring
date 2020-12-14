@@ -91,7 +91,6 @@ const PhoneInputView = styled.div`
 export default function PhoneView(props) {
   const [inputValue, setInputValue] = useState("");
   const [callState, setCallState] = useState("INPUT"); // INPUT, DIALING, TRANSITION, FAILURE, SUCCESS
-  const isCalling = callState !== "INPUT";
   const { seconds, start, reset } = useStopwatch();
   const formattedTime = seconds < 10 ? `00:0${seconds}` : `00:${seconds}`;
 
@@ -112,6 +111,7 @@ export default function PhoneView(props) {
       default:
         break;
     }
+    // eslint-disable-next-line
   }, [callState]);
 
   const handlePhoneInput = (event, char) => {

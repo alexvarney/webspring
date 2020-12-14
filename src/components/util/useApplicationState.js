@@ -61,11 +61,11 @@ const useApplicationState = () => {
   const [state, dispatch] = useReducer(statefulReducer, initialState);
   const history = useHistory();
 
-  useEffect(async () => {
+  useEffect(() => {
     const savedState = localStorage.getItem("escapedin-state");
     if (savedState) {
       try {
-        const parsedState = await JSON.parse(savedState);
+        const parsedState = JSON.parse(savedState);
 
         if (
           parsedState.completedPuzzles.includes("KIOSK") &&
@@ -82,6 +82,7 @@ const useApplicationState = () => {
         console.error("error parsing game state");
       }
     }
+    // eslint-disable-next-line
   }, []);
 
   return { state, dispatch };

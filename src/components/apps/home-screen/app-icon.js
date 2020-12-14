@@ -51,7 +51,7 @@ export default function AppIcon({ src, appState, label, notificationNumber }) {
         dispatch({ type: ActionTypes.setState, payload: appState });
       }}
     >
-      <img src={src} />
+      <img src={src} alt={`${label} icon`} />
       <p>{label}</p>
       {notificationNumber && <div className="badge">{notificationNumber}</div>}
     </Container>

@@ -1,12 +1,10 @@
-import React, { useContext } from "react";
+import React from "react";
 import InteractiveImage from "../shared/interactive-image";
 import Button from "../shared/button";
-import { Link, useHistory } from "react-router-dom";
-import { StateContext, ActionTypes } from "../util/useApplicationState";
+import { useHistory } from "react-router-dom";
 
 export default function OutsideOffice() {
   const history = useHistory();
-  const { state, dispatch } = useContext(StateContext);
 
   const enterOffice = () => {
     history.push("/main_office");

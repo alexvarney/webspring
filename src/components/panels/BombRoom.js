@@ -3,9 +3,31 @@ import { Container as InteractiveImageContainer } from "../shared/interactive-im
 import { Link, useHistory } from "react-router-dom";
 import { StateContext, ActionTypes } from "../util/useApplicationState";
 import styled from "styled-components";
+import { useStopwatch, useTimer } from "react-timer-hook";
 
 const Container = styled(InteractiveImageContainer)`
   background-image: url("/office/bombdefusalUI.jpg");
+`;
+
+const TimerWrapper = styled.div`
+  position: absolute;
+  left: 30%;
+  right: 40%;
+  top: 53%;
+  bottom: auto;
+
+  display: grid;
+  grid-template: 1fr / repeat(3, 1fr);
+  grid-gap: 20%;
+
+  & > input {
+    font-size: 50px;
+    width: 60px;
+    color: red;
+    border: none;
+    text-transform: uppercase;
+    background-color: white;
+  }
 `;
 
 const InputWrapper = styled.div`
@@ -57,8 +79,50 @@ export default function BombRoom() {
     []
   );
 
+  // STOPWATCH
+  // const {
+  //   seconds,
+  //   minutes,
+  //   hours,
+  //   days,
+  //   isRunning,
+  //   start,
+  //   pause,
+  //   reset,
+  // } = useStopwatch({ autoStart: true });
+  // STOPWATCH END
+
+  const time = new Date();
+  time.setSeconds(time.getSeconds() + 3600); // 10 minutes timer
+  const expiryTimestamp = time;
+  const {
+    seconds,
+    minutes,
+    hours,
+    days,
+    isRunning,
+    start,
+    pause,
+    resume,
+    restart,
+  } = useTimer({
+    expiryTimestamp,
+    onExpire: () => console.warn("onExpire called"),
+  });
+
+  const formattedTime =
+    seconds < 10
+      ? `${hours}:${minutes}:0${seconds}`
+      : `${hours}:${minutes}:${seconds}`;
+
   return (
     <Container>
+      <TimerWrapper>
+        <input type="text" value={hours} />
+        <input type="text" value={minutes} />
+        <input type="text" value={seconds} />
+      </TimerWrapper>
+
       <InputWrapper>
         <input
           type="text"

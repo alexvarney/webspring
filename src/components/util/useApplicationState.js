@@ -1,4 +1,5 @@
 import React, { useReducer, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 
 export const ActionTypes = {
   unlocked: "UNLOCKED",
@@ -58,14 +59,28 @@ const statefulReducer = (state, action) => {
 
 const useApplicationState = () => {
   const [state, dispatch] = useReducer(statefulReducer, initialState);
+  const history = useHistory();
 
   useEffect(async () => {
     const savedState = localStorage.getItem("escapedin-state");
     if (savedState) {
-      dispatch({
-        type: ActionTypes.updateAll,
-        payload: await JSON.parse(savedState),
-      });
+      try {
+        const parsedState = await JSON.parse(savedState);
+
+        if (
+          parsedState.completedPuzzles.includes("KIOSK") &&
+          history.location.pathname === "/"
+        ) {
+          history.push("/outside_office");
+        }
+
+        dispatch({
+          type: ActionTypes.updateAll,
+          payload: parsedState,
+        });
+      } catch {
+        console.error("error parsing game state");
+      }
     }
   }, []);
 

@@ -17,9 +17,7 @@ const PageContainer = styled.div`
   /*background-color: #fee140;
   background-image: linear-gradient(90deg, #fee140 0%, #fa709a 100%);*/
 
-  background-image: url("/ui/wood_01.jpg");
-  background-size: cover;
-  background-position: center;
+  background-image: url("/ui/wood_repeating.jpg");
   overflow: hidden;
 `;
 

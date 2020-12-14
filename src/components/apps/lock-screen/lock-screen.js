@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { IoMdLock, IoMdUnlock } from "react-icons/io";
+import { IoMdLock } from "react-icons/io";
 import { FaPiedPiperSquare } from "react-icons/fa";
 import { motion } from "framer-motion";
 

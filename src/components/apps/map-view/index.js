@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-import ReactDOM from "react-dom";
 import { useHistory } from "react-router-dom";
 
 import Mappedin from "@mappedin/mappedin-js/builds/mappedin";
@@ -17,13 +16,7 @@ import {
   getPolygonForLocation,
 } from "./utils";
 
-import {
-  Wrapper,
-  Row,
-  LoadingScreen,
-  StyledStatusBar,
-  InterfaceContainer,
-} from "./index.style";
+import { Wrapper, LoadingScreen, StyledStatusBar } from "./index.style";
 import { StateContext, ActionTypes } from "../../util/useApplicationState";
 
 const SelectionOrder = [
@@ -44,76 +37,72 @@ export default function MapScreen() {
   const [isFullyLoaded, setFullyLoaded] = React.useState(false);
   const [selectedMap, setSelectedMap] = React.useState(null);
   const [sdkData, setSdkData] = React.useState(null);
-  const [selectedLocation, setSelectedLocation] = React.useState(null);
-  //const [navigationNodes, setNavigationNodes] = React.useState([]);
   const { dispatch } = useContext(StateContext);
 
   const history = useHistory();
 
-  const markers = [
-    {
-      key: "fantasy-wall",
-      location: "5fd2799106d5276c37000000",
-      component: (
-        <Markers.LocationRedirectMarker
-          onActivate={() => {
-            history.push("fantasy_wall");
-          }}
-        />
-      ),
-    },
-    {
-      key: "values-wall",
-      location: "5f529bb1b20a327b7a000001",
-      component: (
-        <Markers.LocationRedirectMarker
-          onActivate={() => {
-            history.push("values_wall");
-          }}
-        />
-      ),
-    },
-    {
-      key: "pet-wall",
-      location: "5f529c43b20a327b7a00000d",
-      component: (
-        <Markers.LocationRedirectMarker
-          onActivate={() => {
-            history.push("pet_wall");
-          }}
-        />
-      ),
-    },
-    {
-      key: "server-room",
-      location: "5b1a84ed97e366793c000091",
-      component: (
-        <Markers.LocationRedirectMarker
-          onActivate={() => {
-            history.push("door_puzzle");
-          }}
-        />
-      ),
-    },
-    {
-      key: "bookcase",
-      location: "5b1a834697e366793c000087",
-      component: (
-        <Markers.LocationRedirectMarker
-          onActivate={() => {
-            history.push("bookcase");
-          }}
-        />
-      ),
-    },
-  ];
-
-  const markerManager = useMarkerManager(
-    sdkData?.mapview,
-    selectedMap,
-    markers,
-    isFullyLoaded
+  const markers = React.useMemo(
+    () => [
+      {
+        key: "fantasy-wall",
+        location: "5fd2799106d5276c37000000",
+        component: (
+          <Markers.LocationRedirectMarker
+            onActivate={() => {
+              history.push("fantasy_wall");
+            }}
+          />
+        ),
+      },
+      {
+        key: "values-wall",
+        location: "5f529bb1b20a327b7a000001",
+        component: (
+          <Markers.LocationRedirectMarker
+            onActivate={() => {
+              history.push("values_wall");
+            }}
+          />
+        ),
+      },
+      {
+        key: "pet-wall",
+        location: "5f529c43b20a327b7a00000d",
+        component: (
+          <Markers.LocationRedirectMarker
+            onActivate={() => {
+              history.push("pet_wall");
+            }}
+          />
+        ),
+      },
+      {
+        key: "server-room",
+        location: "5b1a84ed97e366793c000091",
+        component: (
+          <Markers.LocationRedirectMarker
+            onActivate={() => {
+              history.push("door_puzzle");
+            }}
+          />
+        ),
+      },
+      {
+        key: "bookcase",
+        location: "5b1a834697e366793c000087",
+        component: (
+          <Markers.LocationRedirectMarker
+            onActivate={() => {
+              history.push("bookcase");
+            }}
+          />
+        ),
+      },
+    ],
+    [history]
   );
+
+  useMarkerManager(sdkData?.mapview, selectedMap, markers, isFullyLoaded);
 
   const [sequentialLocations, setSequentialLocations] = useSequentialSelections(
     SelectionOrder
@@ -123,10 +112,9 @@ export default function MapScreen() {
     mapview: {
       antialias: "AUTO", //auto apply antialiasing
       mode: Mappedin.modes.TEST, //automatically test for 3d or 2d mode
-      onDataLoaded: () => console.log("Data loaded"),
+
       onFirstMapLoaded: () => {
         setFullyLoaded(true);
-        console.log("fully loaded");
       },
     },
     venue: {
@@ -154,9 +142,9 @@ export default function MapScreen() {
       const location = getLocationForPolygon(polygonId, sdkData.mapview);
 
       sdkData.mapview.clearAllPolygonColors();
-      setSelectedLocation(location.id);
       setSequentialLocations(location.id);
     },
+    // eslint-disable-next-line
     [sdkData, selectedMap]
   );
 
@@ -175,7 +163,8 @@ export default function MapScreen() {
         dispatch({ type: ActionTypes.completePuzzle, payload: "MEETING_ROOM" });
       }
     }
-  }, [sequentialLocations, sdkData, selectedMap]);
+    // eslint-disable-next-line
+  }, [sequentialLocations, sdkData, selectedMap, dispatch]);
 
   //Avoid a stale closure by wrapping the function assignment in a useEffect and callback function in useCallback
   React.useEffect(() => {

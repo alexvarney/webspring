@@ -91,7 +91,6 @@ export default function Component({
   const handlePasscodeInput = (event, char) => {
     event.stopPropagation();
     event.preventDefault();
-    console.log("called");
 
     setInputValue((prevVal) => {
       if (prevVal.length < passcode.length) {
@@ -106,7 +105,6 @@ export default function Component({
   const dotAnimation = useAnimation();
 
   useEffect(() => {
-    console.log(inputValue);
     if (inputValue.length === passcode.length) {
       if (inputValue === passcode) {
         setIsUnlocked(true);
@@ -126,7 +124,7 @@ export default function Component({
         });
       }
     }
-  }, [inputValue]);
+  }, [inputValue, passcode, onSuccess, dotAnimation]);
 
   return (
     <Wrapper

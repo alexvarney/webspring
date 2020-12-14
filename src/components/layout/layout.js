@@ -17,9 +17,7 @@ const PageContainer = styled.div`
   /*background-color: #fee140;
   background-image: linear-gradient(90deg, #fee140 0%, #fa709a 100%);*/
 
-  background-image: url("/ui/wood_01.jpg");
-  background-size: cover;
-  background-position: center;
+  background-image: url("/ui/wood_repeating.jpg");
   overflow: hidden;
 `;
 
@@ -203,7 +201,7 @@ function App({ children }) {
               dispatch({ type: ActionTypes.setState, payload: "HIDDEN" })
             }
           >
-            <img src="/ui/splash_screen.jpg" />
+            <img src="/ui/splash_screen.jpg" alt="Splash Screen" />
           </SplashScreenContainer>
         ) : (
           ""
@@ -211,7 +209,7 @@ function App({ children }) {
       </AnimatePresence>
 
       <Header>
-        <img src="/ui/logo_white.svg" />
+        <img src="/ui/logo_white.svg" alt="Escapedin Logo" />
         <Button onClick={reset}>
           <IoMdRefresh />
           <span>Reset Game</span>

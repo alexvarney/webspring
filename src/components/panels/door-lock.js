@@ -32,13 +32,11 @@ export default function DoorLockPuzzle() {
   };
 
   useEffect(() => {
-    console.log(sequence);
-
     if (sequence.length === expectedSequence.length) {
       //Victory condition
       dispatch({ type: ActionTypes.completePuzzle, payload: "DOOR_PUZZLE" });
     }
-  }, [sequence]);
+  }, [sequence, dispatch]);
 
   const ClickableRegions = useMemo(
     () => [

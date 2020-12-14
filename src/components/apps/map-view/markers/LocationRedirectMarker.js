@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { FaMapMarkerAlt, FaTemperatureLow } from "react-icons/fa";
+import { FaMapMarkerAlt } from "react-icons/fa";
 
 const MarkerContainer = styled.div`
   color: #ba2106;

@@ -15,8 +15,6 @@ export default function AppRouter() {
     state: { appState },
   } = React.useContext(StateContext);
 
-  console.log(appState);
-
   return (
     <AnimatePresence>
       {appState === "TINDAWG" && <Tindawg key="tindawg-view-outer" />}

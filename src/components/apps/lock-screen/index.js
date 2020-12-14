@@ -1,6 +1,5 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
-import { useHistory, useLocation } from "react-router-dom";
 
 import LockScreen from "./lock-screen";
 import UnlockScreen from "./unlock-screen";
@@ -37,7 +36,6 @@ export default function LockScreenIndex({ ...rest }) {
         {appState === "LOCKSCREEN.UNLOCK" && (
           <UnlockScreen
             onSuccess={() => {
-              console.log("unlocked");
               dispatch({ type: ActionTypes.unlocked });
               dispatch({ type: ActionTypes.setState, payload: "HOME" });
             }}
